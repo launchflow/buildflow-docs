@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbuildflow_docs=self.webpackChunkbuildflow_docs||[]).push([[535],{5641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"BuildFlow v0.1","permalink":"/blog/welcome"}]}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbuildflow_docs=self.webpackChunkbuildflow_docs||[]).push([[713],{3457:l=>{l.exports=JSON.parse('[{"label":"buildflow","permalink":"/blog/tags/buildflow","count":1},{"label":"launch","permalink":"/blog/tags/launch","count":1}]')}}]);
