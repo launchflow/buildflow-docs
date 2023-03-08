@@ -1,0 +1,23 @@
+{
+  "unversionedId": "quickstart",
+  "id": "quickstart",
+  "title": "BuildFlow Docs",
+  "description": "BuildFlow is an open source framework that transforms any python function into a scalable data pipeline.",
+  "source": "@site/docs/quickstart.md",
+  "sourceDirName": ".",
+  "slug": "/quickstart",
+  "permalink": "/docs/quickstart",
+  "draft": false,
+  "editUrl": "https://github.com/launchflow/buildflow-docs/tree/main/docs/quickstart.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "API & Concepts",
+    "permalink": "/docs/category/api--concepts"
+  }
+}

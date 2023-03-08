@@ -1,0 +1,48 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "quickstart",
+          "docs": [
+            {
+              "id": "processor/io-connectors",
+              "path": "/docs/processor/io-connectors",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "processor/processor-api",
+              "path": "/docs/processor/processor-api",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "quickstart",
+              "path": "/docs/quickstart",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/api--concepts",
+              "path": "/docs/category/api--concepts",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/quickstart",
+                "label": "quickstart"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

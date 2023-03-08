@@ -11,13 +11,13 @@ import HomepageFeatures from "../components/HomepageFeatures";
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <div className="hero w-screen overflow-hidden">
+    <div className="hero w-screen overflow-hidden p-10">
       <div className="z-10 relative blur-[8em]">
         <div className="absolute left-[10vw] top-[-10vh] h-[30vw] w-[30vw] bg-[#7056f5] rounded-full animate-scale-md"></div>
         <div className="absolute left-[50vw] top-[-20vh] h-[30vw] w-[30vw] bg-[#9f45b0] rounded-full animate-scale-md-delay"></div>
         {/* <div className="absolute left-[30vw] h-[30vw] w-[30vw] bg-[#375394] rounded-full animate-scale-lg"></div> */}
       </div>
-      <div className="z-20 container mx-auto flex flex-row text-center gap-4">
+      <div className="z-20 mx-auto flex lg:flex-row sm:flex-col sm:gap-4 text-center">
         <div className="container flex flex-col text-center justify-center content-center gap-4">
           <div className="flex flex-row justify-center gap-4">
             <div className="flex flex-row">
