@@ -17,8 +17,8 @@ function HomepageHeader() {
         <div className="absolute left-[50vw] top-[-20vh] h-[30vw] w-[30vw] bg-[#9f45b0] rounded-full animate-scale-md-delay"></div>
         {/* <div className="absolute left-[30vw] h-[30vw] w-[30vw] bg-[#375394] rounded-full animate-scale-lg"></div> */}
       </div>
-      <div className="z-20 mx-auto flex flex-col lg:flex-row md:flex-row sm:flex-col sm:gap-4 text-center max-w-[90vw]">
-        <div className="container flex flex-col text-center justify-center content-center gap-4">
+      <div className="z-20 mx-auto flex flex-col lg:flex-row md:flex-row sm:flex-col gap-4 text-center max-w-[90vw]">
+        <div className="container flex flex-col text-center justify-center content-center">
           <div className="flex flex-row justify-center gap-4">
             <div className="flex flex-row">
               <h1
