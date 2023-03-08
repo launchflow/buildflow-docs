@@ -1,29 +1,37 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # IO Connectors
 
-IO Connectors provide effecient I/O between popular services & storage systems.
+**IO Connectors** provide effecient I/O between popular cloud services & storage systems.
 
 ## Overview
 
-All Connectors can work in both **streaming** and **batch** runtimes.
+All connectors can work as **streaming** and **batch** output ***sinks***.
 
-The Processor's **source** Connector determines if the **sink** Connector should run in streaming or batch mode.
+The Processor's input ***source*** connector determines if the ***sink*** connector should run in streaming or batch mode.
 
 For Example:
 
 ```python
-# The BigQuery Streaming API will be used in this case
-@flow.processor(source=PubSub(...), sink=BigQuery(...))
+@flow.processor(
+    # PubSub is a streaming source
+    source=PubSub(...),
+    # The BigQuery Streaming API will be used in this case
+    sink=BigQuery(...),
+)
 def process(payload: Any):
     return payload
 ```
 
 ```python
-# The BigQuery LoadJobs API will be used in this case
-@flow.processor(source=BigQuery(...), sink=BigQuery(...))
+@flow.processor(
+    # BigQuery is a batch source
+    source=BigQuery(...),
+    # The BigQuery LoadJobs API will be used in this case
+    sink=BigQuery(...),
+)
 def process(payload: Any):
     return payload
 ```
