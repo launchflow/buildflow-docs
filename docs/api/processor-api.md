@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Processor API
 
-The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic.
+The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Connectors](io-connectors.md).
 
 :::note
 
@@ -86,7 +86,17 @@ class MyProcessor:
 
 ### setup
 
-This **setup** method contains any dependencies that need to be initialized *for each worker*. There are many python objects that are not serializable (eg: bigquery.Client) and thus need to be created after **\_\_init\_\_**.
+This **setup** method contains any *non-serializable* dependencies that need to be initialized *for each worker*.
+
+The **\_\_init\_\_** method is called before the Processor is sent to the runtime. The runtime invokes the **setup** method on each Processor replica after it is created.
+
+:::note
+
+The most commonly used non-serializable objects are clients & loaded models.
+
+**bigquery.Client, keras.Model, etc...**
+
+:::
 
 ```python
 import buildflow
@@ -97,9 +107,11 @@ class MyProcessor:
   def __init__(self):
     # Serializable fields can go in the __init__ method
     self.model_path = 'path/to/location'
+    self.bucket_uri = 'gs://bucket_id'
 
   def setup(self) -> buildflow.IO:
     # Non-serializable fields go in the setup method
     self.my_model = keras.models.load_model(self.model_path)
+    self.storage_client = storage.Client(self.bucket_uri)
 
 ```
