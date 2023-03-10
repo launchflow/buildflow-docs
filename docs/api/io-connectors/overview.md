@@ -1,16 +1,16 @@
 ---
-sidebar_position: 3
+sidebar_position: 1
 ---
 
-# IO Connectors
+# Overview
 
 **IO Connectors** provide effecient I/O between popular cloud services & storage systems.
 
-## Overview
+## Streaming vs Batch Connectors
 
-All connectors can work as **streaming** and **batch** output ***sinks***.
+All connectors can work as **streaming** and **batch** output **_sinks_**.
 
-The Processor's input ***source*** connector determines if the ***sink*** connector should run in streaming or batch mode.
+The Processor's input **_source_** connector determines if the **_sink_** connector should run in streaming or batch mode.
 
 For Example:
 
