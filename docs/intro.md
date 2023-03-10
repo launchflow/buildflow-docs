@@ -9,7 +9,7 @@ sidebar_position: 1
 Key Features:
 
 - Unified **batch** and **streaming** [Processor API](api/processor-api.md)
-- Production-grade [IO connectors](api/io-connectors.md) for popular cloud services & storage systems
+- Production-grade [IO connectors](api/io-connectors/overview.md) for popular cloud services & storage systems
 - Automatic parallelism powered by [Ray](https://ray.io)
 
 ## Quickstart
