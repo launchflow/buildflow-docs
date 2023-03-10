@@ -4,11 +4,11 @@ sidebar_position: 2
 
 # Processor API
 
-The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Connectors](io-connectors.md).
+The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Connectors](io-connectors/overview.md).
 
 :::note
 
-There should be *little to no* I/O logic in the processor.
+There should be _little to no_ I/O logic in the processor.
 
 :::
 
@@ -17,6 +17,7 @@ There should be *little to no* I/O logic in the processor.
 A processor can be created using either the **processor** decorator, or **Processor** class.
 
 ### processor decorator
+
 ```python
 from buildflow import Flow
 from ray.data import Dataset
@@ -32,6 +33,7 @@ flow.run(num_replicas=1)
 ```
 
 ### Processor class
+
 ```python
 import buildflow
 from buildflow import Flow
@@ -52,7 +54,7 @@ flow.run(MyProcessor, num_replicas=1)
 
 ## Lifecycle Methods
 
-The **Processor API** contains 3 lifecycle methods that are executed by the runtime: ***source***, ***sink***, & ***setup***
+The **Processor API** contains 3 lifecycle methods that are executed by the runtime: **_source_**, **_sink_**, & **_setup_**
 
 ### source
 
@@ -86,7 +88,7 @@ class MyProcessor:
 
 ### setup
 
-This **setup** method contains any *non-serializable* dependencies that need to be initialized *for each worker*.
+This **setup** method contains any _non-serializable_ dependencies that need to be initialized _for each worker_.
 
 The **\_\_init\_\_** method is called before the Processor is sent to the runtime. The runtime invokes the **setup** method on each Processor replica after it is created.
 
@@ -103,7 +105,7 @@ import buildflow
 from tensorflow import keras
 
 class MyProcessor:
-  
+
   def __init__(self):
     # Serializable fields can go in the __init__ method
     self.model_path = 'path/to/location'
