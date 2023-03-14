@@ -38,6 +38,10 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+a {
+  color: #bf8a65;
+}
+
 /* .hero {
   background-image: url("/static/img/stars.png");
 } */

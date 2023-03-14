@@ -1,8 +1,0 @@
-{
-  "label": "IO Connectors",
-  "position": 3,
-  "link": {
-    "type": "generated-index",
-    "description": "IO Connectors provide effecient I/O between popular cloud services & storage systems."
-  }
-}

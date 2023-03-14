@@ -1,8 +1,0 @@
-{
-  "label": "API & Concepts",
-  "position": 2,
-  "link": {
-    "type": "generated-index",
-    "description": "BuildFlow is composed of a Processor API and a set of IO Connectors. "
-  }
-}
