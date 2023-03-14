@@ -45,7 +45,7 @@ To run the pipeline:
 
 :::note
 
-You will need to set GCP_PROJECT
+You will need to set GCP_PROJECT to a GCP project you can create the resources in.
 :::
 
 ```

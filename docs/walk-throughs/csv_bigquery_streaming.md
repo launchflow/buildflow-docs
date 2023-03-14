@@ -4,13 +4,6 @@ In this walkthrough we will run a BuildFlow pipeline that listens for CSV file u
 
 You'll notice that with BuildFlow all you need to worry about is your transformation logic all the IO for setting up, listening for files, and writing to BigQuery is handled by Buildflow. 
 
-
-:::note
-
-Google Cloud Storage names must be globally unique, so make sure you pick something unique.
-
-:::
-
 ## Getting Started
 
 In order to follow this guide you must have a GCP project set up where Google Cloud Storage, Pub/Sub, and BigQuery can be used / created. You will also need to have the gcloud CLI installed setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). 
@@ -55,7 +48,7 @@ To run the pipeline run:
 
 :::note
 
-You will need to set the GCP_PROJECT and BUCKET_NAME. Google Cloud Storage bucket names must be globally unique so make sure you pick something unique.
+You will need to set the GCP_PROJECT to a GCP project you can create the resources in, and BUCKET_NAME to a unique bucket name.
 
 :::
 
@@ -66,7 +59,7 @@ python -m buildflow.sample.pubsub_streaming --gcp_project=$GCP_PROJECT --bucket_
 Once the pipeline is running. Download the Wiki page view CSVs [here](./assets/wiki_page_views.csv), and upload it to the GCS bucket using:
 
 ```
-gsutil cp <PATH_TO_LOCAL_CSV>_views.csv gs://$BUCKET_NAME
+gsutil cp <PATH_TO_LOCAL_CSV> gs://$BUCKET_NAME
 ```
 
 That will take a couple seconds to process and then you should be able to checkout the BigQuery table to view the aggregate data.
