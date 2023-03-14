@@ -4,12 +4,18 @@ sidebar_position: 1
 
 # BuildFlow Docs
 
-**BuildFlow** is an open source framework that transforms any python function into a scalable data pipeline.
+**BuildFlow**, is an open source framework that lets you build a data pipeline by simply attaching a decorator to a Python function. All you need to do is describe where your input is coming from and where your output should be written, and BuildFlow handles the rest. No configuration outside of the code is required.
+
+**Source Code**: https://github.com/launchflow/buildflow
+
 
 Key Features:
 
-- Unified **batch** and **streaming** [Processor API](api/processor-api.md)
-- Production-grade [IO connectors](api/io-connectors/overview.md) for popular cloud services & storage systems
+- Unified **batch** and **streaming** [Processor API](processors/overview)
+- Production-grade [IO connectors](io-connectors/overview) for popular cloud services & storage systems
+- IO templates for common data pipelines (e.g. [file upload notifications](io-connectors/gcs_notifications))
+- Automatic [resource creation / management](resource-creation) for popular cloud resources
+- [Schema validation](schema-validation) powered by Python dataclasses and type hints
 - Automatic parallelism powered by [Ray](https://ray.io)
 
 ## Quickstart
@@ -32,8 +38,8 @@ flow = Flow()
 
 # Define your input / output
 @flow.processor(
-   source=buildflow.PubSub(subscription='my_subscription'),
-   sink=buildflow.BigQuery(table_id='project.dataset.table'),
+   source=buildflow.PubSubSource(subscription='my_subscription'),
+   sink=buildflow.BigQuerySink(table_id='project.dataset.table'),
 )
 def stream_processor(pubsub_message):
   # TODO(developer): Implement processing logic
@@ -44,6 +50,8 @@ def stream_processor(pubsub_message):
 # Start the processor(s)
 flow.run(num_replicas=4)
 ```
+
+For a more in depth tutorial see our [walkthroughs](category/walk-throughs).
 
 ## Windows Users
 

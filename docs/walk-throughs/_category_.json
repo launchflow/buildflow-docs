@@ -1,0 +1,9 @@
+{
+  "label": "Walk Throughs",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "title": "BuildFlow Walk Throughs.",
+    "description": "Walk throughs for setting up and using BuildFlow." 
+  }
+}
