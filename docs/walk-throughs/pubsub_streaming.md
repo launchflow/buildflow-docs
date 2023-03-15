@@ -49,7 +49,7 @@ You will need to set GCP_PROJECT to a GCP project you can create the resources i
 :::
 
 ```
-python -m buildflow.sample.pubsub_streaming --gcp_project=$GCP_PROJECT
+python -m buildflow.samples.pubsub_walkthrough --gcp_project=$GCP_PROJECT
 ```
 
 ### Pipeline Code
@@ -109,11 +109,11 @@ Make sure to clean up the resources you created to avoid extra GCP costs.
 Delete the Pub/Sub subscription:
 
 ```
-gcloud pubsub subscriptions delete projects/$GCP_PROJECT/subscriptions/taxirides-realtime
+gcloud pubsub subscriptions delete projects/$GCP_PROJECT/subscriptions/taxiride-sub
 ```
 
 Delete the BigQuery table:
 
 ```
-bq rm --project=$GCP_PROJECT buildflow_walkthrough.taxi_ride_data
+bq rm --project_id=$GCP_PROJECT buildflow_walkthrough.taxi_ride_data
 ```
