@@ -19,7 +19,7 @@ Currently we support the following types:
 
 ## Examples
 
-In the below example we define a dataclass `MySchema` and use type hints to tell BuildFlow what our processor is returning. Before your pipeline launches we'll validate that the dataclass definition matches your output BigQuer table, and if the table doens't exist we'll create it for you!
+In the below example we define a dataclass `MySchema` and use type hints to tell BuildFlow what our processor is returning. Before your pipeline launches we'll validate that the dataclass definition matches your output BigQuery table, and if the table doens't exist we'll create it for you!
 
 The below example also highlights how you can use `List` and `Optional` to specify whether your field is repeated or optional, and you can also nest dataclasses for a nested field.
 
@@ -38,7 +38,7 @@ class MySchema:
     num_field: int
     optional_field: Optional[str]
     repeated_field: List[str]
-    nested_field: float
+    nested_field: NestedSchema
 
 @flow.processor(source=input_sub, sink=output_table)
 def process(element: Dict[str, Any]) -> MySchema:
