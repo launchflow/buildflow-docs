@@ -53,7 +53,7 @@ You will need to set the GCP_PROJECT to a GCP project you can create the resourc
 :::
 
 ```
-python -m buildflow.sample.pubsub_streaming --gcp_project=$GCP_PROJECT --bucket_name=$BUCKET_NAME
+python -m buildflow.samples.csv_bigquery_walkthrough --gcp_project=$GCP_PROJECT --bucket_name=$BUCKET_NAME
 ```
 
 Once the pipeline is running. Download the Wiki page view CSVs [here](./assets/wiki_page_views.csv), and upload it to the GCS bucket using:
@@ -177,5 +177,11 @@ gcloud pubsub topics delete projects/$GCP_PROJECT/topics/${BUCKET_NAME}_notifica
 Delete the BigQuery table:
 
 ```
-bq rm --project=$GCP_PROJECT buildflow_walkthrough.csv_bigquery
+bq rm --project_id=$GCP_PROJECT buildflow_walkthrough.csv_bigquery
+```
+
+Delete the GCS Bucket:
+
+```
+gcloud storage rm --recursive gs://$BUCKET_NAME/
 ```
