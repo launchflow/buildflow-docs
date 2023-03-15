@@ -83,8 +83,8 @@ import buildflow
 class MyProcessor:
   ...
 
-  def source() -> buildflow.IO:
-    return buildflow.BigQuerySource(table_id='...')
+  def sink() -> buildflow.IO:
+    return buildflow.BigQuerySink(table_id='...')
 
 ```
 
