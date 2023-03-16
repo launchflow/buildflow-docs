@@ -1,10 +1,16 @@
 # Pub/Sub Streaming
 
-In this walkthrough we will run a BuildFlow pipeline that reads from a Pub/Sub topic containing publically available taxi data and write the data to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/pubsub_walkthrough.py)
+In this walkthrough we will run a BuildFlow pipeline that reads from a Pub/Sub topic containing publically available taxi data and write the data to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/pubsub_walkthrough.py).
 
 ## Getting Started
 
 In order to follow this guide you must have a GCP project set up where a Pub/Sub subscription and BigQuery table can be created. You will also need to have the gcloud CLI installed to setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). 
+
+:::tip
+
+If you don't have a GCP project setup you can try out our [local walkthrough](./local_pubsub_streaming.md) which will run everything local.
+
+:::
 
 ### Setting up your environment
 
@@ -30,7 +36,7 @@ pip install buildflow
 
 ## Run Pipeline
 
-Below is a copy of the code. When running the pipeline the following resources will be created.
+When running the pipeline the following resources will be created.
 
 - Pub/Sub subscriber that subscribers to the taxi data Pub/Sub topic
 - BigQuery dataset and BigQuery table where the data is written.

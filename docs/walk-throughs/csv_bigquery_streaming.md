@@ -1,12 +1,18 @@
 # CSV to BigQuery Streaming
 
-In this walkthrough we will run a BuildFlow pipeline that listens for CSV file uploads to a Google Cloud Storage bucket. When an upload occurs the BuildFlow pipeline will read the corresponding file, perform any necessary transformations on it, and upload the results to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/csv_bigquery_walkthrough.py)
+In this walkthrough we will run a BuildFlow pipeline that listens for CSV file uploads to a Google Cloud Storage bucket. When an upload occurs the BuildFlow pipeline will read the corresponding file, perform any necessary transformations on it, and upload the results to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/csv_bigquery_walkthrough.py).
 
-You'll notice that with BuildFlow all you need to worry about is your transformation logic all the IO for setting up, listening for files, and writing to BigQuery is handled by Buildflow. 
+You'll notice that with BuildFlow all you need to worry about is your transformation logic all the IO for setting up, listening for files, and writing to BigQuery is handled by Buildflow.
+
+:::tip
+
+If you don't have a GCP project setup you can try out our [local walkthrough](./local_pubsub_streaming.md) which will run everything local.
+
+:::
 
 ## Getting Started
 
-In order to follow this guide you must have a GCP project set up where Google Cloud Storage, Pub/Sub, and BigQuery can be used / created. You will also need to have the gcloud CLI installed setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). 
+In order to follow this guide you must have a GCP project set up where Google Cloud Storage, Pub/Sub, and BigQuery can be used / created. You will also need to have the gcloud CLI installed to setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). 
 
 ### Setting up your environment
 
