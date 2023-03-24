@@ -2,7 +2,13 @@
 
 In this walkthrough we will run a BuildFlow pipeline that listens for CSV file uploads to a Google Cloud Storage bucket. When an upload occurs the BuildFlow pipeline will read the corresponding file, perform any necessary transformations on it, and upload the results to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/csv_bigquery_walkthrough.py).
 
-You'll notice that with BuildFlow all you need to worry about is your transformation logic all the IO for setting up, listening for files, and writing to BigQuery is handled by Buildflow.
+You'll notice that with BuildFlow all you need to worry about is your transformation logic. All of the IO configuration, listening for files, and writing to BigQuery is handled by Buildflow.
+
+:::caution
+
+There is a known edge case with the automatic GCS setup. This will be fixed in the next major release (coming March 31, 2023). It is recommended that you manually set up your GCS notifications for now.
+
+:::
 
 :::tip
 
@@ -12,7 +18,7 @@ If you don't have a GCP project setup you can try out our [local walkthrough](./
 
 ## Getting Started
 
-In order to follow this guide you must have a GCP project set up where Google Cloud Storage, Pub/Sub, and BigQuery can be used / created. You will also need to have the gcloud CLI installed to setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). 
+In order to follow this guide you must have a GCP project set up where Google Cloud Storage, Pub/Sub, and BigQuery can be used / created. You will also need to have the gcloud CLI installed to setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install).
 
 ### Setting up your environment
 
@@ -46,6 +52,7 @@ When running the pipeline the following resources will be created.
 - BigQuery dataset and BigQuery table where the data is written.
 
 The pipeline does the following:
+
 1. Listens for uploaded CSV files containing hourly view counts of Wikipedia pages
 2. Aggreates the view counts into daily metrics.
 3. Outputs the daily aggregations to BigQuery.
