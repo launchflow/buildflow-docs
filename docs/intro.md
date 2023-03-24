@@ -8,7 +8,6 @@ sidebar_position: 1
 
 **Source Code**: https://github.com/launchflow/buildflow
 
-
 Key Features:
 
 - Unified **batch** and **streaming** [Processor API](processors/overview)
@@ -17,6 +16,12 @@ Key Features:
 - Automatic [resource creation / management](resource-creation) for popular cloud resources
 - [Schema validation](schema-validation) powered by Python dataclasses and type hints
 - Automatic parallelism powered by [Ray](https://ray.io)
+
+:::note
+
+**BuildFlow** is currently in beta. The first stable version will be released in April 2023. Please join our [Discord](https://discordapp.com/invite/wz7fjHyrCA) if you have any questions or feedback.
+
+:::
 
 ## Quickstart
 

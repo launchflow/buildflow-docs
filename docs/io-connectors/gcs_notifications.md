@@ -6,6 +6,12 @@ sidebar_position: 4
 
 The GCS Notification source subscribes to changes to a Google Cloud Storage bucket. This source is a streaming source. You provide the source with the GCP project and the GCS bucket you would like to listen to and BuildFlow will configure your pipeline to listen to changes. It does this by setting up a Pub/Sub topic and subscriber that will listen to changes on the bucket. If you have already configured a topic and subscriber for this you can also manually pass those.
 
+:::caution
+
+There is a known edge case with the automatic GCS setup. This will be fixed in the next major release (coming March 31, 2023). It is recommended that you manually set up your GCS notifications for now.
+
+:::
+
 ## Source Output Type
 
 The GCS notification source will return a `GCSFileEvent` object with the following fields:
