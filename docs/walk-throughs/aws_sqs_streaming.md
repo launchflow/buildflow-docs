@@ -6,15 +6,15 @@ AWS SQS support is currenty in prototype mode, and only SQS as a source is suppo
 
 :::
 
-In this walkthrough we will run a BuildFlow pipeline that reads from an AQS SQS queue and write to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/sqs_walkthrough.py).
+In this walkthrough we will run a BuildFlow pipeline that reads from an AQS SQS queue and writes to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/sqs_walkthrough.py).
 
 ## Getting Started
 
-In order to follow this guide you must have an AWS account set up where a SQS queue can be created. You will also need to have the [AWS CLI installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) to setup authentication.
+In order to follow this guide you must have an AWS account set up where a SQS queue can be created. You will also need to have the [AWS CLI installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) to setup authentication and clean up resources.
 
 ### Setting up your environment
 
-To interact with AWS resources BuildFlow will use the credentials on your machine will be used. To set those up you can follow the instruction [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html).
+To interact with AWS resources BuildFlow will use the credentials on your machine. To set those up you can follow the instructions [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html).
 
 Install BuildFlow
 
@@ -48,7 +48,7 @@ aws sqs send-message --queue-url=$QUEUE_URL --message-body='{"field": 1}'
 
 Once SQS has sent your message to your pipeline it will write the output to a local parquest file (defaults to: `/tmp/buildflow/local_pubsub.parquet` and can be changed by adding the `file_path` flag when running your pipeline).
 
-You can read the file using any of the parquet libraries. Below is an example
+You can read the file using any parquet library. Below is an example
 in python:
 
 ```python
