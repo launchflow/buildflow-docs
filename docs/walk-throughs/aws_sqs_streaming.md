@@ -1,5 +1,11 @@
 # AWS SQS Streaming
 
+:::note
+
+AWS SQS support is currenty in prototype mode, and only SQS as a source is supported.
+
+:::
+
 In this walkthrough we will run a BuildFlow pipeline that reads from an AQS SQS queue and write to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/sqs_walkthrough.py).
 
 ## Getting Started
