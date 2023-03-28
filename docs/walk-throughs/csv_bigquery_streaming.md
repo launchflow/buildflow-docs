@@ -1,4 +1,4 @@
-# CSV to BigQuery Streaming
+# GCS CSV to GCP BigQuery Streaming
 
 In this walkthrough we will run a BuildFlow pipeline that listens for CSV file uploads to a Google Cloud Storage bucket. When an upload occurs the BuildFlow pipeline will read the corresponding file, perform any necessary transformations on it, and upload the results to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/csv_bigquery_walkthrough.py).
 

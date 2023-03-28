@@ -1,8 +1,4 @@
----
-sidebar_position: 3
----
-
-# BigQuery
+# Google Cloud BigQuery
 
 **BigQuery** refers to Google's BigQuery data warehouse. It is a **batch** source connector, and can be used in both **streaming** and **batch** as a sink connector.
 

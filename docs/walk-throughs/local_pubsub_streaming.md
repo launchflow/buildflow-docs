@@ -1,8 +1,4 @@
----
-sidebar_position: 1
----
-
-# Local Pub/Sub to Parquet
+# Local GCP Pub/Sub to Parquet
 
 In this walkthrough we will run a BuildFlow pipeline that reads from a local Pub/Sub topic and writes the data to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/local_pubsub_walkthrough.py).
 

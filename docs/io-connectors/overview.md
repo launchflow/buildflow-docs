@@ -1,7 +1,3 @@
----
-sidebar_position: 2
----
-
 # Overview
 
 **IO Connectors** provide effecient I/O between popular cloud services & storage systems.
@@ -40,6 +36,7 @@ def process(payload: Any):
 
 ## All Available Connectors
 
-- [Google Cloud Pub/Sub - Streaming Source](./pubsub.md)
+- [AWS SQS - Streaming Source](./aws_sqs.md)
+- [Google Cloud Pub/Sub - Streaming Source](./gcp_pubsub.md)
 - [Google Cloud Storage Notifications - Streaming Source](./gcs_notifications.md)
-- [BigQuery - Batch Source](./bigquery.md)
+- [Google Cloud BigQuery - Batch Source](./gcp_bigquery.md)
