@@ -1,8 +1,4 @@
----
-sidebar_position: 2
----
-
-# PubSub
+# Google Cloud PubSub
 
 **PubSub** refers to Google's Pub/Sub service. It is a **streaming** source connector.
 
@@ -21,7 +17,7 @@ class PubsubMessage:
 ## Source Class Definition
 
 ```python
-class PubSubSource(io.Source):
+class PubSubSource(io.StreamingSource):
     # The pubsub subscription to read data from.
     subscription: str
     # The topic to connect to for the subscription. If this is provided and
