@@ -22,7 +22,7 @@ To determine if we need to scale up we look at the total backlog that exists on 
 
 :::note
 
-We will never request more replicas that are currently available on your cluster, so if you only have one 8 core machine we will scale up to get the maximum throughput possible on those 8 cores.
+We will never request more replicas than are currently available on your cluster, so if you only have one 8 core machine we will scale up to get the maximum throughput possible on those 8 cores.
 
 :::
 
