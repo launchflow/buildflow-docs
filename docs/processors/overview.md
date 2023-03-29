@@ -30,7 +30,7 @@ flow = Flow()
 def process_dataset(bigquery_dataset: Dataset):
     ...
 
-flow.run(num_replicas=1)
+flow.run().output()
 
 ```
 
@@ -50,7 +50,7 @@ class MyProcessor(buildflow.Processor):
     def process(self, message_data: Dict[str, Any]):
         ...
 
-flow.run(MyProcessor, num_replicas=1)
+flow.run(MyProcessor()).output()
 
 ```
 

@@ -52,7 +52,7 @@ def process(dataset: ray.data.Dataset):
     # TODO: process dataset
     return dataset
 
-output = flow.run()
+output = flow.run().output()
 ```
 
 In this example, the table is read in and sent to the processor.
