@@ -42,7 +42,7 @@ python -m buildflow.samples.sqs_walkthrough --queue_name=buildflow-sqs-walkthrou
 Once this pipeline is running you can use the AWS CLI to publish messages to the queue. First get the queue url by calling `get-queue-url`, then use queue url and the `send-message` command to publish a message to the queue.
 
 ```
-aws sqs get-queue-url --queue-name 
+aws sqs get-queue-url --queue-name=buildflow-sqs-walkthrough
 aws sqs send-message --queue-url=$QUEUE_URL --message-body='{"field": 1}'
 ```
 
@@ -111,5 +111,5 @@ flow.run().output()
 Make sure to clean up the resources you created to avoid extra AWS costs.
 
 ```
-aws sqs delete-queue $QUEUE_URL
+aws sqs delete-queue --queue-url=$QUEUE_URL
 ```
