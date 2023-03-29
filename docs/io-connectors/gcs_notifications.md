@@ -55,5 +55,5 @@ flow = Flow()
 def process(element: GCSFileEvent):
     return process_bytes(elemet.blob)
 
-flow.run()
+flow.run().output()
 ```

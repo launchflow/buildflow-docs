@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# BuildFlow Docs
+# Overview
 
 **BuildFlow**, is an open source framework that lets you build a data pipeline by simply attaching a decorator to a Python function. All you need to do is describe where your input is coming from and where your output should be written, and BuildFlow handles the rest. No configuration outside of the code is required.
 
@@ -11,6 +11,7 @@ sidebar_position: 1
 Key Features:
 
 - Unified **batch** and **streaming** [Processor API](processors/overview)
+- [Dynamic autoscaling](autoscaling.md): scale up during high traffic / reduce costs during low traffic 
 - Production-grade [IO connectors](io-connectors/overview) for popular cloud services & storage systems
 - IO templates for common data pipelines (e.g. [file upload notifications](io-connectors/gcs_notifications))
 - Automatic [resource creation / management](resource-creation) for popular cloud resources
@@ -53,7 +54,8 @@ def stream_processor(pubsub_message):
   return pubsub_message
 
 # Start the processor(s)
-flow.run(num_replicas=4)
+# Run starts the process and output will block.
+flow.run().output()
 ```
 
 For a more in depth tutorial see our [walkthroughs](category/walk-throughs).
