@@ -11,7 +11,7 @@ sidebar_position: 1
 Key Features:
 
 - Unified **batch** and **streaming** [Processor API](processors/overview)
-- [Dynamic autoscaling](autoscaling.md): scale up during high traffic / reduce costs during low traffic 
+- [Dynamic autoscaling](autoscaling.md): scale up during high traffic / reduce costs during low traffic
 - Production-grade [IO connectors](io-connectors/overview) for popular cloud services & storage systems
 - IO templates for common data pipelines (e.g. [file upload notifications](io-connectors/gcs_notifications))
 - Automatic [resource creation / management](resource-creation) for popular cloud resources
@@ -20,7 +20,7 @@ Key Features:
 
 :::note
 
-**BuildFlow** is currently in beta. The first stable version will be released in April 2023. Please join our [Discord](https://discordapp.com/invite/wz7fjHyrCA) if you have any questions or feedback.
+**BuildFlow** is currently in beta. The first stable version will be released alongside our VSCode extension in summer 2023. Please join our [Discord](https://discordapp.com/invite/wz7fjHyrCA) if you have any questions or feedback.
 
 :::
 
