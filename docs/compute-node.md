@@ -18,7 +18,7 @@ def my_processor(element):
 app.run()
 ```
 
-A ComputeNode can contain multiple [Processors](./processors/overview.md) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/). Multiple ComputeNodes can be deployed together using a [DeploymentGrid](./deployment_grid/overview.md).
+A ComputeNode can contain multiple [Processors](./processors/overview.md) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/). Multiple ComputeNodes can be deployed together using a [DeploymentGrid](./deployment-grid).
 
 ## Create a new app
 
