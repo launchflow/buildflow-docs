@@ -1,10 +1,10 @@
 # GCP Pub/Sub Streaming
 
-In this walkthrough we will run a BuildFlow pipeline that reads from a Pub/Sub topic containing publically available taxi data and write the data to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/pubsub_walkthrough.py).
+In this walkthrough we will run a BuildFlow application that reads from a Pub/Sub topic containing publically available taxi data and write the data to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/pubsub_walkthrough.py).
 
 ## Getting Started
 
-In order to follow this guide you must have a GCP project set up where a Pub/Sub subscription and BigQuery table can be created. You will also need to have the gcloud CLI installed to setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). 
+In order to follow this guide you must have a GCP project set up where a Pub/Sub subscription and BigQuery table can be created. You will also need to have the gcloud CLI installed to setup authentication / clean up resources when you are finished. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install).
 
 :::tip
 
@@ -36,18 +36,18 @@ pip install buildflow
 
 ## Run Pipeline
 
-When running the pipeline the following resources will be created.
+When running the application the following resources will be created.
 
 - Pub/Sub subscriber that subscribers to the taxi data Pub/Sub topic
 - BigQuery dataset and BigQuery table where the data is written.
 
+The application does the following:
 
-The pipeline does the following:
 1. Listens to the public taxi ride Pub/Sub topic
 2. Converts data into a Python dataclass
 3. Writes output to BigQuery.
 
-To run the pipeline:
+To run the application:
 
 :::note
 
@@ -88,7 +88,7 @@ output_table = buildflow.BigQuerySink(
     table_id=f'{args.gcp_project}.buildflow_walkthrough.{args.bigquery_table}')
 
 
-# Define an output type for our pipeline.
+# Define an output type for our application.
 # By using a dataclass we can ensure our python type hints are validated
 # against the BigQuery table's schema.
 @dataclasses.dataclass
@@ -108,13 +108,13 @@ flow = Flow()
 
 
 # Define our processor.
-@flow.processor(source=input_sub, sink=output_table)
+@app.processor(source=input_sub, sink=output_table)
 def process(element: Dict[str, Any]) -> TaxiOutput:
     return element
 
 
 # Run our flow.
-flow.run().output()
+flow.run()()
 ```
 
 ## Cleaning Up

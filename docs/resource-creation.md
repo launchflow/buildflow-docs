@@ -4,20 +4,22 @@ sidebar_position: 4
 
 # Resource Creation
 
-BuildFlow helps to eliminate all the operational work of writing data pipelines by including resource management as part of your data pipeline.
+BuildFlow helps eliminate operational work by including an (optional) resource creation / management module. For most use cases, this can eliminate the need for a separate deployment tool like Terraform.
 
-When you define you flow you specify what resources you want to read from and write to. Then when you launch your pipeline BuildFlow will actually create the necessary resources (if they don't exist) and ensure that everything is set up correctly (authentication, schema matching, etc..)
+## How it works
+
+When your app is launched, BuildFlow will automatically create (if they don't exist) any resources that your Processor depends on and will ensure that everything is set up correctly (authentication checks, schema diff checks, etc..)
 
 ## Example
 
-In the below example we are reading from a pubsub topic and writing to a bigquery table. When you launch your pipeline for the first time. If the Pub/Sub subscription doesn't exist we will create it and point it at the correct topic. If it does exist we will validate the the user currently running the pipeline can read from the subscriber.
+In the below example we are reading from a pubsub topic and writing to a bigquery table. When you launch your application for the first time. If the Pub/Sub subscription doesn't exist, BuildFlow will create it and point it at the correct topic. If it does exist, BuildFlow will validate that you are allowed to read from the subscription.
 
-For the sink we will check if the table exists. If it doesn't we will create it with a schema that matches your output type defined by python type hints. If it does exist we will ensure your output type matches the already configured schema and will validate that you have access to write to the table. You can find more information about schema validation [here](schema-validation).
+For the sink, BuildFlow will check if the table exists. If it doesn't, BuildFlow will create it with a schema that matches your output's type as defined by python type hints. If it does exist, BuildFlow will ensure your output type matches the table's schema and will validate that you have access to write to the table. You can find more information about schema validation [here](schema-validation).
 
 ```python
-flow = Flow()
+app = ComputeNode()
 
-input_sub = buildflow.PubSubSource(
+input_sub = PubSubSource(
     subscription='projects/myproj/subscriptions/mysub',
     topic='projects/myproject/topics/mypub',
 )
@@ -34,7 +36,7 @@ class MySchema:
     repeated_field: List[str]
     nested_field: float
 
-@flow.processor(source=input_sub, sink=output_table)
+@app.processor(source=input_sub, sink=output_table)
 def process(element: Dict[str, Any]) -> MySchema:
     return element
 ```

@@ -1,6 +1,6 @@
 # Google Cloud BigQuery
 
-**BigQuery** refers to Google's BigQuery data warehouse. It is a **batch** source connector, and can be used in both **streaming** and **batch** as a sink connector.
+**BigQuery** refers to Google's BigQuery data warehouse. It is a **batch** source connector, and can be used in both **streaming** and **batch** runtimes as a sink connector.
 
 BigQuery also supports output schema validation. You can find more information about schema validation [here](../schema-validation.md).
 
@@ -45,26 +45,26 @@ class BigQuerySink(io.Sink):
 ### BigQuery to local process
 
 ```python
-@flow.processor(
+@app.processor(
     source=BigQuerySource(table_id='...'),
 )
 def process(dataset: ray.data.Dataset):
     # TODO: process dataset
     return dataset
 
-output = flow.run().output()
+output = app.run()
 ```
 
 In this example, the table is read in and sent to the processor.
 
-The dataset will be sent back to the process that launched the job (via output = flow.run(...))
+The dataset will be sent back to the process that launched the job (via output = app.run(...))
 
 ---
 
 ### BigQuery to BigQuery
 
 ```python
-@flow.processor(
+@app.processor(
     source=BigQuerySource(query='SELECT * FROM `...` GROUP BY 1'),
     sink=BigQuerySink(table_id='...'),
 )

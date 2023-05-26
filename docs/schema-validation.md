@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Schema Validation
 
-BuildFlow uses python type hits and dataclasses to ensure that that output of your processor matches the schema defintion of your sink (for supported sinks). This can be useful for catching schema mis-match errors before you even launch your pipeline.
+BuildFlow uses python type hits and dataclasses to ensure that that output of your Processor matches the schema defintion of your sink (for supported sinks). This can be useful for catching schema mis-match errors before you launch your application.
 
 ## Supported Types:
 
@@ -19,15 +19,15 @@ Currently we support the following types:
 
 ## Examples
 
-In the below example we define a dataclass `MySchema` and use type hints to tell BuildFlow what our processor is returning. Before your pipeline launches we'll validate that the dataclass definition matches your output BigQuery table, and if the table doens't exist we'll create it for you!
+In the below example we define a dataclass `MySchema` and use type hints to tell BuildFlow what our processor is returning. Before your application launches, BuildFlow will validate that the dataclass definition matches the schema of your output BigQuery table, and if the table doens't exist, BuildFlow will create it for you!
 
 The below example also highlights how you can use `List` and `Optional` to specify whether your field is repeated or optional, and you can also nest dataclasses for a nested field.
 
 ```python
-flow = Flow()
+app = ComputeNode()
 
-input_sub = buildflow.PubSubSource(...)
-output_table = buildflow.BigQuerySink(...)
+input_sub = PubSubSource(...)
+output_table = BigQuerySink(...)
 
 @dataclass
 class NestedSchema:
@@ -40,7 +40,7 @@ class MySchema:
     repeated_field: List[str]
     nested_field: NestedSchema
 
-@flow.processor(source=input_sub, sink=output_table)
+@app.processor(source=input_sub, sink=output_table)
 def process(element: Dict[str, Any]) -> MySchema:
     return element
 ```

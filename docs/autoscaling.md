@@ -4,39 +4,38 @@ sidebar_position: 3
 
 # Dynamic Autoscaling
 
-Buildflow provides horizontal autoscaling out of the box. This allows your pipeline to scale up to fit any workload, traffic spikes, or network disruptions without any intervention from an enngineer. It also will scale down your pipeline during low traffic periods ensuring your pipeline is as cost effective as possible.
+Buildflow provides horizontal autoscaling out of the box. This allows your Processors to scale up to fit any workload, traffic spikes, or network disruptions without any intervention from an engineer. It will also scale down your application during low traffic periods to help keep your system cost effective.
 
-Our autoscaling is powered by [Ray](https://www.ray.io) and [Ray clusters](https://docs.ray.io/en/latest/cluster/getting-started.html). When running on a single computer (such as your local computer) we will only scale up to use the available CPU on your machine, when running on a Ray Cluster you can configure how many machines you would like to use, and it will spin up and start machines as needed based on your workload.
+Our autoscaling is powered by [Ray](https://www.ray.io) and [Ray clusters](https://docs.ray.io/en/latest/cluster/). When running on a single machine (such as your local computer) the autoscaler will only scale up to use the available CPUs on your machine. When running in a cloud environement, the autoscaler will spin up/down VMs, **no Kubernetes required**!
 
-## Batch
+## Batch Runtimes
 
-For batch workflows we will simple scale based on the amount of data that is being read in. That means there is nothing to configure and we will give you max throughput possible based on your machine / cluster configuration.
+For Batch runtimes, the autoscaler will scale based on the amount of data that needs to be read in. That means there is nothing to configure and we will give you the max throughput possible based on your machine / cluster configuration.
 
 ## Streaming
 
-For streaming we have the concept of a `replica`, a replica is one process that is pulling down data from your streaming source. Based on the amount of work on your source, the throughput of your pipeline, and the current utilization we will decide if more or less replicas are needed.
+For Streaming runtimes, we have the concept of a `replica`, which represents one process that is pulling data from your streaming source. The autoscaler will scale your Processor based on the size of your source's backlog, the throughput of your application, and the current utilization of your cluster.
 
-**When do we scale up?**
+### When do we scale up?
 
-To determine if we need to scale up we look at the total backlog that exists on your streaming source and how fast we are processing data. From this information we determine how many replicas are needed to burn down the backlog in 60 seconds, and will attempt to scale up that number of replicas.
+To determine if it needs to scale up, the autoscaler will look at the total backlog that exists on your streaming source and how fast we are processing data. From this information it can determine how many replicas are needed to burn through the backlog in 60 seconds, and will attempt to scale up to that number of replicas.
 
 :::note
 
-We will never request more replicas than are currently available on your cluster, so if you only have one 8 core machine we will scale up to get the maximum throughput possible on those 8 cores.
+The autoscaler will never request more replicas than what your cluster can support. For example, if you are running on a single 4 core machine, and each replica of your Processor is configured to use 0.5 CPU, the autoscaler will scale up to 8 replicas.
 
 :::
 
+### When do we scale down?
 
-**When do we scale down?**
-
-To determine if we need to scale down we first look to make sure there is no backlog that needs to be processed, and our current throughput is keeping up with the input. Then we look at the utilization of each replica. If we determine that there are extra replicas that are not being utilized enough we will scale down; consolidating the work on to fewer replicas.
+To determine if it needs to scale down, the autoscaler will first look to make sure there is no backlog that needs to be processed, and ensure the Processor's current throughput is keeping up with the input. It then looks at the utilization of each replica and will start (gracefully) shutting them down if it determines they aren't being utilized enough.
 
 ### Configuring number of Replicas
 
-We do offer some more fine grained control over the number of replicas. These can be set by passing the `StreamingOptions` object to `flow.run()` like so:
+BuildFlow offers some more fine grained settings to control the number of replicas. These can be set by passing the `StreamingOptions` object to `app.run()` like so:
 
 ```python
-flow.run(streaming_options=buildflow.StreamingOptions(
+app.run(streaming_options=buildflow.StreamingOptions(
     min_replicas=10,
     max_replicas=20,
     num_replicas=12,
@@ -45,13 +44,14 @@ flow.run(streaming_options=buildflow.StreamingOptions(
 ```
 
 With these options you can specify four things:
+
 - **min_replicas**: This is the minimum number of replicas that should be kept alive at anytime. We will never attempt to scale below this. Defaults to 1. This can be useful if you need to keep a certain number of replicas up to ensure your desired latency.
-- **max_replicas**: This is the maximum number of replicas to scale up to. We will never attempt to scale beyond this. Defaults to 1000. This can be useful if you are running a pipeline locally and don't want it to use your entire CPU, or you want to cost control your pipeline.
-- **num_replicas**: This is the number of replicas to start your pipeline with. If unset we will default to `min_replicas`. This can be useful if you know you'll need a certain amount of replicas to start and don't want to wait for the autoscaler to scale up.
-- **autoscaling**: Boolean value to determine if we should autoscale or not. If false we will start your pipeline with `num_replicas` and not attempt to up or down scale the replicas.
+- **max_replicas**: This is the maximum number of replicas to scale up to. We will never attempt to scale beyond this. Defaults to 1000. This can be useful if you are running an application locally and don't want it to use your entire CPU, or you want to cost control your application.
+- **num_replicas**: This is the number of replicas to start your application with. If unset we will default to `min_replicas`. This can be useful if you know you'll need a certain amount of replicas to start and don't want to wait for the autoscaler to scale up.
+- **autoscaling**: Boolean value to determine if we should autoscale or not. If false we will start your application with `num_replicas` and not attempt to up or down scale the replicas.
 
 :::tip
 
-These configurations are only needed if you want more fine grained control over the number of replicas. If you don't care about this you can simply call `flow.run()` for autoscaling.
+These configurations are only needed if you want more fine grained control over the number of replicas. If you don't care about this you can simply call `app.run()` and let the autoscaler do its magic.
 
 :::

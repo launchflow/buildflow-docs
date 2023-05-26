@@ -6,7 +6,7 @@ sidebar_position: 1
 
 The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Connectors](io-connectors/overview.md). Processors come in two different flavors: [streaming](./streaming.md) and [batch](./batch.md). The main difference between the two is that in batch mode you operate on a [Ray DataSet](https://docs.ray.io/en/latest/data/dataset.html), and in streaming mode you operate on individual elements.
 
-The return type of your process determines what will be written to your sink. In batch mode you can return a Ray Dataset, python dictionaries, or python dataclasses. In streaming mode you can return python dictionaries or python dataclasses. If you return a python dataclass you can take advantage of our automatic [schema validation](../schema-validation.md).
+The return type of your process function determines what will be written to your sink. In batch mode you can return a Ray Dataset, python dictionaries, or python dataclasses. In streaming mode you can return python dictionaries or python dataclasses. If you return a python dataclass you can take advantage of BuildFlow's automatic [schema validation](../schema-validation.md).
 
 :::tip
 
@@ -16,43 +16,48 @@ There should be _little to no_ I/O logic in the processor.
 
 ## How to create a Processor
 
-A processor can be created using either the **processor** decorator, or **Processor** class.
+A Processor can be created using either the **processor** decorator, or the **Processor** class.
 
-### processor decorator
+### @processor decorator
 
 ```python
-from buildflow import Flow
+from buildflow import ComputeNode
+from buildflow.io import BigQuerySource
 from ray.data import Dataset
 
-flow = Flow()
+app = ComputeNode()
 
-@flow.processor(source=buildflow.BigQuerySource(query='...'))
+@app.processor(source=BigQuerySource(query='...'))
 def process_dataset(bigquery_dataset: Dataset):
     ...
 
-flow.run().output()
-
+app.run()
 ```
 
 ### Processor class
 
 ```python
-import buildflow
-from buildflow import Flow
+from buildflow import ComputeNode, Processor
+from buildflow.io import BigQuerySource
 
-flow = Flow()
+app = ComputeNode()
 
-class MyProcessor(buildflow.Processor):
+class MyProcessor(Processor):
 
     def source(self):
-        return buildflow.PubSubSource(subscription='...')
+        return PubSubSource(subscription='...')
 
     def process(self, message_data: Dict[str, Any]):
         ...
 
-flow.run(MyProcessor()).output()
-
+app.run(MyProcessor())()
 ```
+
+:::note
+
+The **processor** decorator and the **Processor** class are functionally equivalent. The **processor** decorator is just a convenience wrapper around the **Processor** class.
+
+:::
 
 ## Lifecycle Methods
 
@@ -64,12 +69,13 @@ This **source** method defines the input reference for the processor.
 
 ```python
 import buildflow
+from buildflow.io import PubSubSource
 
 class MyProcessor:
   ...
 
   def source(self) -> buildflow.IO:
-    return buildflow.PubSubSource(subscription='...')
+    return PubSubSource(subscription='...')
 
 ```
 
@@ -79,32 +85,34 @@ This **sink** method defines the output reference for the processor.
 
 ```python
 import buildflow
+from buildflow.io import BigQuerySink
 
 class MyProcessor:
   ...
 
   def sink() -> buildflow.IO:
-    return buildflow.BigQuerySink(table_id='...')
+    return BigQuerySink(table_id='...')
 
 ```
 
 ### setup
 
-This **setup** method contains any _non-serializable_ dependencies that need to be initialized _for each worker_.
+This **setup** method contains any _non-serializable_ dependencies that need to be initialized _for each replica_.
 
 The **\_\_init\_\_** method is called before the Processor is sent to the runtime. The runtime invokes the **setup** method on each Processor replica after it is created.
 
 :::note
 
-The most commonly used non-serializable objects are clients & loaded models.
+Most non-serializable objects are clients & loaded models.
 
-**bigquery.Client, keras.Model, etc...**
+**bigquery.Client(...), keras.Model(...), etc...**
 
 :::
 
 ```python
 import buildflow
 from tensorflow import keras
+from google.cloud import storage
 
 class MyProcessor:
 

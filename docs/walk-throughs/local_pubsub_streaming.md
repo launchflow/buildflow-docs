@@ -1,10 +1,10 @@
 # Local GCP Pub/Sub to Parquet
 
-In this walkthrough we will run a BuildFlow pipeline that reads from a local Pub/Sub topic and writes the data to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/local_pubsub_walkthrough.py).
+In this walkthrough we will run a BuildFlow application that reads from a local Pub/Sub topic and writes the data to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/local_pubsub_walkthrough.py).
 
 ## Getting Started
 
-In order to follow this guide you must have the `gcloud` CLI installed. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). You must also have the pubsub emulator component installed. You can install that with: 
+In order to follow this guide you must have the `gcloud` CLI installed. Instructions for that can be found [here](https://cloud.google.com/sdk/docs/install). You must also have the pubsub emulator component installed. You can install that with:
 
 ```
 gcloud components install beta pubsub-emulator
@@ -16,7 +16,6 @@ Even though we are using the `gcloud` CLI everything will be run locally so ther
 
 :::
 
-
 ### Setting up your environment
 
 Install BuildFlow
@@ -27,16 +26,15 @@ pip install buildflow
 
 ## Run Pipeline
 
-When running the pipeline the following resources will be created **locally**.
+When running the application the following resources will be created **locally**.
 
 - Pub/Sub topic to publish data to
 - Pub/Sub subscriber that subscribers to the taxi data Pub/Sub topic
 
+The application does the following:
 
-The pipeline does the following:
 1. Listens to the created pub/sub topic
 2. Dumps the output to a local parquet file.
-
 
 ### Run Pub/Sub Emulator
 
@@ -46,13 +44,13 @@ First we need to spin up a local Pub/Sub emulator with:
 gcloud beta emulators pubsub start --project=local-buildflow-example --host-port=localhost:8085
 ```
 
-This will run a local Pub/Sub emulator that your pipeline will talk to instead
+This will run a local Pub/Sub emulator that your application will talk to instead
 of remote Google Cloud Pub/Sub. You will need to keep this running while you
-have you pipeline running.
+have you application running.
 
 ### Execute the Pipeline
 
-Now run the pipeline:
+Now run the application:
 
 ```
 python -m buildflow.samples.local_pubsub_walkthrough
@@ -66,10 +64,9 @@ If you would like to change this you can add the `--file_path=PATH_TO_FILE` to t
 
 :::
 
-
 ### Publish Data
 
-Once the pipeline is running you can publish messages to it with:
+Once the application is running you can publish messages to it with:
 
 ```
 python -m buildflow.samples.local_pubsub_publish --value=2
@@ -140,13 +137,13 @@ flow = Flow()
 
 
 # Define our processor.
-@flow.processor(source=input_sub, sink=sink)
+@app.processor(source=input_sub, sink=sink)
 def process(element: Dict[str, Any]):
     return element
 
 
 # Run our flow.
-flow.run().output()
+flow.run()()
 ```
 
 ## Cleaning Up

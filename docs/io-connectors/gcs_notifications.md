@@ -1,10 +1,10 @@
 # Google Cloud Storage Notifications
 
-The GCS Notification source subscribes to changes to a Google Cloud Storage bucket. This source is a streaming source. You provide the source with the GCP project and the GCS bucket you would like to listen to and BuildFlow will configure your pipeline to listen to changes. It does this by setting up a Pub/Sub topic and subscriber that will listen to changes on the bucket. If you have already configured a topic and subscriber for this you can also manually pass those.
+The GCS Notification source subscribes to changes to a Google Cloud Storage bucket. This source is a streaming source. You provide the source with the GCP project and the GCS bucket you would like to listen to and BuildFlow will configure your application to listen to changes. It does this by setting up a Pub/Sub topic and subscriber that will listen to changes on the bucket. If you have already configured a topic and subscriber for this you can also manually pass those.
 
 :::caution
 
-There is a known edge case with the automatic GCS setup. This will be fixed in the next major release (coming March 31, 2023). It is recommended that you manually set up your GCS notifications for now.
+There is a known edge case with the automatic GCS setup. This will be in an upcoming major release (coming summer, 2023). It is recommended that you manually set up your GCS notifications for now.
 
 :::
 
@@ -44,16 +44,16 @@ class GCSFileNotifications(io.Source):
 ### GCS Notifications to BigQuery
 
 ```python
-input_sub = buildflow.GCSFileStream(
+input_sub = GCSFileNotifications(
     bucket_name='bucket-name',
     project_id='gcp-project')
-output_table = buildflow.BigQuerySink(table_id='project.dataset.ttable')
+output_table = buildflow.BigQuerySink(table_id='project.dataset.table')
 
-flow = Flow()
+app = ComputeNode()
 
-@flow.processor(source=input_sub, sink=output_table)
+@app.processor(source=input_sub, sink=output_table)
 def process(element: GCSFileEvent):
     return process_bytes(elemet.blob)
 
-flow.run().output()
+app.run()
 ```

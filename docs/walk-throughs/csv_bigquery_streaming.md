@@ -1,6 +1,6 @@
 # GCS CSV to GCP BigQuery Streaming
 
-In this walkthrough we will run a BuildFlow pipeline that listens for CSV file uploads to a Google Cloud Storage bucket. When an upload occurs the BuildFlow pipeline will read the corresponding file, perform any necessary transformations on it, and upload the results to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/csv_bigquery_walkthrough.py).
+In this walkthrough we will run a BuildFlow application that listens for CSV file uploads to a Google Cloud Storage bucket. When an upload occurs the BuildFlow application will read the corresponding file, perform any necessary transformations on it, and upload the results to BigQuery. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/csv_bigquery_walkthrough.py).
 
 You'll notice that with BuildFlow all you need to worry about is your transformation logic. All of the IO configuration, listening for files, and writing to BigQuery is handled by Buildflow.
 
@@ -44,20 +44,20 @@ pip install buildflow
 
 ## Run Pipeline
 
-When running the pipeline the following resources will be created.
+When running the application the following resources will be created.
 
 - Google Cloud Storage Bucket to upload files to
 - Pub/Sub topic that will recieve notifications from the Google Cloud Storage Bucket
 - Pub/Sub subscriber that subscribers to the Pub/Sub topic
 - BigQuery dataset and BigQuery table where the data is written.
 
-The pipeline does the following:
+The application does the following:
 
 1. Listens for uploaded CSV files containing hourly view counts of Wikipedia pages
 2. Aggreates the view counts into daily metrics.
 3. Outputs the daily aggregations to BigQuery.
 
-To run the pipeline run:
+To run the application run:
 
 :::note
 
@@ -69,7 +69,7 @@ You will need to set the GCP_PROJECT to a GCP project you can create the resourc
 python -m buildflow.samples.csv_bigquery_walkthrough --gcp_project=$GCP_PROJECT --bucket_name=$BUCKET_NAME
 ```
 
-Once the pipeline is running. Download the Wiki page view CSVs [here](./assets/wiki_page_views.csv), and upload it to the GCS bucket using:
+Once the application is running. Download the Wiki page view CSVs [here](./assets/wiki_page_views.csv), and upload it to the GCS bucket using:
 
 ```
 gsutil cp <PATH_TO_LOCAL_CSV> gs://$BUCKET_NAME
@@ -116,7 +116,7 @@ class HourAggregate:
     stat: int
 
 
-# Define an output type for our pipeline.
+# Define an output type for our application.
 # By using a dataclass we can ensure our python type hints are validated
 # against the BigQuery table's schema.
 @dataclasses.dataclass
@@ -133,7 +133,7 @@ flow = Flow()
 
 
 # Define our processor.
-@flow.processor(source=source, sink=sink)
+@app.processor(source=source, sink=sink)
 def process(
         gcs_file_event: buildflow.GCSFileEvent
 ) -> List[AggregateWikiPageViews]:
@@ -169,7 +169,7 @@ def process(
 
 
 # Run your flow.
-flow.run().output()
+flow.run()()
 ```
 
 ## Cleaning Up

@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Overview
 
-**BuildFlow**, is an open source framework that lets you build a data pipeline by simply attaching a decorator to a Python function. All you need to do is describe where your input is coming from and where your output should be written, and BuildFlow handles the rest. No configuration outside of the code is required.
+**BuildFlow**, is an open source framework that lets you process large amounts of data by simply attaching a decorator to a Python function. All you need to do is describe where your input is coming from and where your output should be written, and BuildFlow handles the rest. No configuration outside of the code is required.
 
 **Source Code**: https://github.com/launchflow/buildflow
 
@@ -12,15 +12,15 @@ Key Features:
 
 - Unified **batch** and **streaming** [Processor API](processors/overview)
 - [Dynamic autoscaling](autoscaling.md): scale up during high traffic / reduce costs during low traffic
-- Production-grade [IO connectors](io-connectors/overview) for popular cloud services & storage systems
-- IO templates for common data pipelines (e.g. [file upload notifications](io-connectors/gcs_notifications))
+- Production-grade [I/O Connectors](io-connectors/overview) for popular cloud services & storage systems
+- I/O Connectors for common use cases (e.g. [file upload notifications](io-connectors/gcs_notifications))
 - Automatic [resource creation / management](resource-creation) for popular cloud resources
 - [Schema validation](schema-validation) powered by Python dataclasses and type hints
 - Automatic parallelism powered by [Ray](https://ray.io)
 
 :::note
 
-**BuildFlow** is currently in beta. The first stable version will be released alongside our VSCode extension in summer 2023. Please join our [Discord](https://discordapp.com/invite/wz7fjHyrCA) if you have any questions or feedback.
+**BuildFlow** is currently in beta. The first stable version will be released alongside the [LaunchFlow VSCode Extension](https://www.launchflow.com/) in summer 2023. Please join our [Discord](https://discordapp.com/invite/wz7fjHyrCA) if you have any questions or feedback.
 
 :::
 
@@ -35,27 +35,26 @@ pip install buildflow
 ### Example Usage
 
 ```python
-# Import the buildflow package
-import buildflow
-from buildflow import Flow
+from buildflow import ComputeNode
+from buildflow.io import PubSubSource, BigQuerySink
 
-# Create the Flow object
-flow = Flow()
+# Create an app instance. 1 app == 1 cluster
+app = ComputeNode()
 
-# Define your input / output
-@flow.processor(
-   source=buildflow.PubSubSource(subscription='my_subscription'),
-   sink=buildflow.BigQuerySink(table_id='project.dataset.table'),
-)
-def stream_processor(pubsub_message):
+# Define your Input and Output (source & sink)
+source = PubSubSource(subscription='TODO')
+sink = BigQuerySink(table_id='TODO')
+
+# Create a processor
+@app.processor(source=source, sink=sink)
+def process_message(pubsub_message):
   # TODO(developer): Implement processing logic
   ...
-  # The output is sent to the sink provider
+  # The output is automatically sent to the sink provider
   return pubsub_message
 
 # Start the processor(s)
-# Run starts the process and output will block.
-flow.run().output()
+app.run()
 ```
 
 For a more in depth tutorial see our [walkthroughs](category/walk-throughs).

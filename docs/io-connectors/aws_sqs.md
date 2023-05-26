@@ -8,7 +8,7 @@ AWS SQS support is currenty in prototype mode, and only SQS as a source is suppo
 
 **SQS** refers to Amazon's SQS service. It is a **streaming** source connector.
 
-Messages are sent to the processor 1 at a time. If you need to emit mulitple outputs, you should return an interable (list, generator, etc.)
+Messages are sent to the Processor 1 at a time. If you need to emit mulitple outputs, you should return an iterable (list, generator, etc.)
 
 To use the source you must have AWS credentials configured on your machine. See: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
 

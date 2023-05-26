@@ -6,7 +6,7 @@ AWS SQS support is currenty in prototype mode, and only SQS as a source is suppo
 
 :::
 
-In this walkthrough we will run a BuildFlow pipeline that reads from an AQS SQS queue and writes to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/sqs_walkthrough.py).
+In this walkthrough we will run a BuildFlow application that reads from an AQS SQS queue and writes to a local parquet file. You can find all the code for this walk through [here](https://github.com/launchflow/buildflow/blob/main/buildflow/samples/sqs_walkthrough.py).
 
 ## Getting Started
 
@@ -24,29 +24,29 @@ pip install buildflow
 
 ## Run Pipeline
 
-When running the pipeline the following resources will be created.
+When running the application the following resources will be created.
 
 - SQS queue to send a receive messages from.
 
+The application does the following:
 
-The pipeline does the following:
 1. Listens to messages on the newly created SQS queue.
 2. Write the output to a local parquet file
 
-To run the pipeline:
+To run the application:
 
 ```
 python -m buildflow.samples.sqs_walkthrough --queue_name=buildflow-sqs-walkthrough
 ```
 
-Once this pipeline is running you can use the AWS CLI to publish messages to the queue. First get the queue url by calling `get-queue-url`, then use queue url and the `send-message` command to publish a message to the queue.
+Once this application is running you can use the AWS CLI to publish messages to the queue. First get the queue url by calling `get-queue-url`, then use queue url and the `send-message` command to publish a message to the queue.
 
 ```
 aws sqs get-queue-url --queue-name=buildflow-sqs-walkthrough
 aws sqs send-message --queue-url=$QUEUE_URL --message-body='{"field": 1}'
 ```
 
-Once SQS has sent your message to your pipeline it will write the output to a local parquest file (defaults to: `/tmp/buildflow/local_pubsub.parquet` and can be changed by adding the `file_path` flag when running your pipeline).
+Once SQS has sent your message to your application it will write the output to a local parquest file (defaults to: `/tmp/buildflow/local_pubsub.parquet` and can be changed by adding the `file_path` flag when running your application).
 
 You can read the file using any parquet library. Below is an example
 in python:
@@ -96,13 +96,13 @@ sink = buildflow.FileSink(file_path=args.file_path,
 flow = Flow()
 
 
-@flow.processor(source=source, sink=sink)
+@app.processor(source=source, sink=sink)
 def process(element: Dict[str, Any]):
     return json.loads(element['Body'])
 
 
 # Run our flow.
-flow.run().output()
+flow.run()()
 
 ```
 

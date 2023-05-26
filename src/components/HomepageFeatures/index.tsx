@@ -12,20 +12,30 @@ const FeatureList: FeatureItem[] = [
   {
     title: "Easy",
     Svg: require("@site/static/img/relieved.svg").default,
-    description: <>Easy to use and learn. Get started with 2 lines of code.</>,
+    description: (
+      <>
+        Easy to use and learn. <a href="/docs/intro#quickstart">Get started</a>{" "}
+        with a few lines of code.
+      </>
+    ),
   },
   {
     title: "Fast",
     Svg: require("@site/static/img/lightning.svg").default,
-    description: <>Scalable multiprocessing powered by Ray.</>,
+    description: (
+      <>
+        Scalable multiprocessing powered by{" "}
+        <a href="https://docs.ray.io/en/latest/ray-overview/">Ray</a>.
+      </>
+    ),
   },
   {
     title: "Production Ready",
     Svg: require("@site/static/img/rocket.svg").default,
     description: (
       <>
-        Ready made IO connectors let you focus on processing data instead of
-        reading / writing data.
+        Ready made <a href="/docs/io-connectors/overview">I/O Connectors</a> let
+        you focus on processing data instead of reading / writing data.
       </>
     ),
   },

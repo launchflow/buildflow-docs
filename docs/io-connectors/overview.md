@@ -2,7 +2,7 @@
 
 **IO Connectors** provide effecient I/O between popular cloud services & storage systems.
 
-With all I/O connectors you can either provide an already provisioned resource, or just give us a path to a resource that should be created. If the resource does not exist BuildFlow will create it for you and ensure you have the proper access.
+With all IO Connectors you can either provide an already provisioned resource, or just give us a path to a resource that should be created. If the resource does not exist BuildFlow will create it for you and ensure you have the proper access.
 
 ## Streaming vs Batch Connectors
 
@@ -13,7 +13,7 @@ The Processor's input **_source_** connector determines if the **_sink_** connec
 For Example:
 
 ```python
-@flow.processor(
+@app.processor(
     # PubSub is a streaming source
     source=PubSubSource(...),
     # The BigQuery Streaming API will be used in this case
@@ -24,7 +24,7 @@ def process(payload: Any):
 ```
 
 ```python
-@flow.processor(
+@app.processor(
     # BigQuery is a batch source
     source=BigQuerySink(...),
     # The BigQuery LoadJobs API will be used in this case

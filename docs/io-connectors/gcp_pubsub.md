@@ -2,7 +2,7 @@
 
 **PubSub** refers to Google's Pub/Sub service. It is a **streaming** source connector.
 
-Messages are sent to the processor 1 at a time. If you need to emit mulitple outputs, you should return an interable (list, generator, etc.)
+Messages are sent to the processor 1 at a time. If you need to emit mulitple outputs, you should return an iterable (list, generator, etc.)
 
 ## Source Output Type
 
@@ -41,7 +41,7 @@ class PubSubSink(io.Sink):
 ### PubSub to BigQuery
 
 ```python
-@flow.processor(
+@app.processor(
     source=PubSub(subscription='...'),
     sink=BigQuery(table_id='...'),
 )
@@ -56,7 +56,7 @@ In this example, messages are processed one at a time before writing the content
 ### PubSub to PubSub
 
 ```python
-@flow.processor(
+@app.processor(
     source=PubSub(subscription='...'),
     sink=PubSub(topic='...'),
 )

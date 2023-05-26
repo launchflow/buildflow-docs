@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "BuildFlow",
-  tagline: "easy, fast, and reliable data pipelines",
+  tagline: "easy, fast, and reliable data processing",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
