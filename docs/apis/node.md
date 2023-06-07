@@ -2,14 +2,14 @@
 sidebar_position: 2
 ---
 
-# Compute Nodes
+# Node API
 
-The **ComputeNode** object is the container for your application.
+The **Node** object is the container for your application.
 
 ```python
-from buildflow import ComputeNode
+from buildflow import Node
 
-app = ComputeNode(...)
+app = Node(...)
 
 @app.processor(...)
 def my_processor(element):
@@ -18,21 +18,21 @@ def my_processor(element):
 app.run()
 ```
 
-A ComputeNode can contain multiple [Processors](./processors/overview.md) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/). Multiple ComputeNodes can be deployed together using a [DeploymentGrid](./deployment-grid).
+A Node can contain multiple [Processors](./processors/overview.md) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/). Multiple Nodes can be deployed together using a [DeploymentGrid](./deployment-grid).
 
 ## Create a new app
 
-Creating a ComputeNode object is as simple as:
+Creating a Node object is as simple as:
 
 ```python
-from buildflow import ComputeNode
+from buildflow import Node
 
-app = ComputeNode()
+app = Node()
 ```
 
 ## Attach Processors to your app
 
-Processors can be attached to a ComputeNode with a python decorator like:
+Processors can be attached to a Node with a python decorator like:
 
 ```python
 @app.processor(source=..., sink=...)
@@ -40,13 +40,13 @@ def my_processor(element):
     ...
 ```
 
-The ComputeNode manages the entire lifecycle of your Processor(s).
+The Node manages the entire lifecycle of your Processor(s).
 
 Processors come in two classes: **Streaming** and **Batch**. Your Processor's `source` argument will determine which runtime is used (e.g. PubSubSource will spawn a Streaming runtime). You can learn more in the [Processor Overview](./processors/overview.md).
 
 ## Run your app
 
-Once you have attached your processors you can run them by simply by calling `run()` on the ComputeNode object.
+Once you have attached your processors you can run them by simply by calling `run()` on the Node object.
 
 ```python
 app.run()

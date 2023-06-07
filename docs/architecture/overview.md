@@ -21,11 +21,11 @@ A Processor can be created using either the **processor** decorator, or the **Pr
 ### @processor decorator
 
 ```python
-from buildflow import ComputeNode
+from buildflow import Node
 from buildflow.io import BigQuerySource
 from ray.data import Dataset
 
-app = ComputeNode()
+app = Node()
 
 @app.processor(source=BigQuerySource(query='...'))
 def process_dataset(bigquery_dataset: Dataset):
@@ -37,10 +37,10 @@ app.run()
 ### Processor class
 
 ```python
-from buildflow import ComputeNode, Processor
+from buildflow import Node, Processor
 from buildflow.io import BigQuerySource
 
-app = ComputeNode()
+app = Node()
 
 class MyProcessor(Processor):
 

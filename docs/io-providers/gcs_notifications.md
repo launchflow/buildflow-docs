@@ -49,7 +49,7 @@ input_sub = GCSFileNotifications(
     project_id='gcp-project')
 output_table = buildflow.BigQuerySink(table_id='project.dataset.table')
 
-app = ComputeNode()
+app = Node()
 
 @app.processor(source=input_sub, sink=output_table)
 def process(element: GCSFileEvent):
