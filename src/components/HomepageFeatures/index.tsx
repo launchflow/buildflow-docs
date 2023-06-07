@@ -14,8 +14,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require("@site/static/img/relieved.svg").default,
     description: (
       <>
-        Easy to use and learn. <a href="/docs/intro#quickstart">Get started</a>{" "}
-        with a few lines of code.
+        Easy to use and learn. <a href="/docs#quickstart">Get started</a> with a
+        few lines of code.
       </>
     ),
   },
