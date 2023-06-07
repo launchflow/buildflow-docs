@@ -1,10 +1,10 @@
 ---
-sidebar_position: 2
+sidebar_position: 5
 ---
 
 # Deployment Grid
 
-The **DeploymentGrid** object is responsible for deploying [ComputeNodes](./compute-node).
+The **DeploymentGrid** object is responsible for deploying [Nodes](./apis/node).
 
 ```python
 from buildflow import DeploymentGrid
@@ -21,6 +21,6 @@ grid.run()
 
 ```
 
-A DeploymentGrid can contain multiple [ComputeNodes](./compute-node).
+A DeploymentGrid can contain multiple [Nodes](./apis/node).
 
 ## TODO: Fill out this page once the API is stable

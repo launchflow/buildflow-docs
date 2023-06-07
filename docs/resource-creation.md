@@ -17,7 +17,7 @@ In the below example we are reading from a pubsub topic and writing to a bigquer
 For the sink, BuildFlow will check if the table exists. If it doesn't, BuildFlow will create it with a schema that matches your output's type as defined by python type hints. If it does exist, BuildFlow will ensure your output type matches the table's schema and will validate that you have access to write to the table. You can find more information about schema validation [here](schema-validation).
 
 ```python
-app = ComputeNode()
+app = Node()
 
 input_sub = PubSubSource(
     subscription='projects/myproj/subscriptions/mysub',

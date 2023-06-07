@@ -24,7 +24,7 @@ In the below example we define a dataclass `MySchema` and use type hints to tell
 The below example also highlights how you can use `List` and `Optional` to specify whether your field is repeated or optional, and you can also nest dataclasses for a nested field.
 
 ```python
-app = ComputeNode()
+app = Node()
 
 input_sub = PubSubSource(...)
 output_table = BigQuerySink(...)
