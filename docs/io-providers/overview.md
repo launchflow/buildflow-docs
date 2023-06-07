@@ -36,7 +36,7 @@ def process(payload: Any):
 
 ## All Available Connectors
 
-- [AWS SQS - Streaming Source](./aws_sqs.md)
-- [Google Cloud Pub/Sub - Streaming Source](./gcp_pubsub.md)
-- [Google Cloud Storage Notifications - Streaming Source](./gcs_notifications.md)
-- [Google Cloud BigQuery - Batch Source](./gcp_bigquery.md)
+- [AWS SQS - Streaming Source](io-providers/aws_sqs.md)
+- [Google Cloud Pub/Sub - Streaming Source](io-providers/gcp_pubsub.md)
+- [Google Cloud Storage Notifications - Streaming Source](io-providers/gcs_notifications.md)
+- [Google Cloud BigQuery - Batch Source](io-providers/gcp_bigquery.md)

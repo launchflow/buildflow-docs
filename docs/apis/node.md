@@ -18,7 +18,7 @@ def my_processor(element):
 app.run()
 ```
 
-A Node can contain multiple [Processors](./processors/overview.md) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/). Multiple Nodes can be deployed together using a [DeploymentGrid](./deployment-grid).
+A Node can contain multiple [Processors](./processor) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/). Multiple Nodes can be deployed together using a [DeploymentGrid](./deployment-grid).
 
 ## Create a new app
 
@@ -42,7 +42,7 @@ def my_processor(element):
 
 The Node manages the entire lifecycle of your Processor(s).
 
-Processors come in two classes: **Streaming** and **Batch**. Your Processor's `source` argument will determine which runtime is used (e.g. PubSubSource will spawn a Streaming runtime). You can learn more in the [Processor Overview](./processors/overview.md).
+Processors come in two classes: **Streaming** and **Batch**. Your Processor's `source` argument will determine which runtime is used (e.g. PubSubSource will spawn a Streaming runtime). You can learn more in the [Processor Overview](./processor).
 
 ## Run your app
 

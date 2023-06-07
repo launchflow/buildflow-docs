@@ -14,7 +14,7 @@ Key Features (all provided out-of-the-box):
 - Automatic parallelism / concurrency powered by [Ray](https://github.com/ray-project/ray)
 - [Dynamic autoscaling](autoscaling.md): scale up during high traffic / reduce costs during low traffic
 - Production-grade [I/O Providers](io-providers/overview) for popular cloud services & storage systems
-  - Multi-step I/O Providers for common use cases (e.g. [file upload notifications](io-connectors/gcs_notifications))
+  - Multi-step I/O Providers for common use cases (e.g. [file upload notifications](io-providers/gcs_notifications))
 - [Schema validation](schema-validation) powered by Python dataclasses and type hints
 
 :::note
@@ -43,7 +43,7 @@ app = Node()
 
 # NOTE: A Subscription will automatically be created in the billing project
 source = GCPPubSubSubscription(topic='TODO', billing_project='TODO')
-# NOTE: A BigQuery Table will be automatically created using the  
+# NOTE: A BigQuery Table will be automatically created using the
 sink = BigQuerySink(table_id='TODO')
 
 
@@ -60,8 +60,7 @@ def process_message(pubsub_message):
 app.run()
 ```
 
-For more in-depth tutorials, see our [walkthroughs](category/walkthroughs).
-
+For more in-depth tutorials, see our walkthroughs.
 
 ### Example Usage with Custom Configuration
 
@@ -97,15 +96,15 @@ app = Node(runtime_config=runtime_config, infra_config=infra_config)
 
 # NOTE: A Subscription will automatically be created in the billing project
 source = GCPPubSubSubscription(topic='TODO', billing_project='TODO')
-# NOTE: A BigQuery Table will be automatically created using the  
+# NOTE: A BigQuery Table will be automatically created using the
 sink = BigQuerySink(table_id='TODO')
 
 
 # Step 2. Create a Processor that reads from Google PubSub and writes to BigQuery
 @app.processor(
   source=source,
-  sink=sink, 
-  # Optional: Configure your processor's replica options. In this case, we will run 
+  sink=sink,
+  # Optional: Configure your processor's replica options. In this case, we will run
   # 2 replicas per CPU core, and each replica will run 8 tasks concurrently.
   num_cpus=0.5,
   num_concurrency=8,
@@ -128,7 +127,7 @@ app.run(
 )
 ```
 
-For more in-depth tutorials, see our [walkthroughs](category/walkthroughs).
+For more in-depth tutorials, see our walkthroughs.
 
 ## Windows Users
 

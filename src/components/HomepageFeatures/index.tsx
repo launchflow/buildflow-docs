@@ -34,7 +34,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require("@site/static/img/rocket.svg").default,
     description: (
       <>
-        Ready made <a href="/docs/io-connectors/overview">I/O Connectors</a> let
+        Ready made <a href="/docs/io-providers/overview">I/O Connectors</a> let
         you focus on processing data instead of reading / writing data.
       </>
     ),

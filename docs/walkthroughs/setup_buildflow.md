@@ -10,7 +10,7 @@ There are two components to using LaunchFlow that need to be installed.
 1. VS Code Extension - Installed via the VSCode marketplace
 2. LaunchFlow CLI - Installed via PyPi
 
-### VS Code  Extension
+### VS Code Extension
 
 <a class="button button--lg button--primary" href="vscode:extension/LaunchFlow.launchflow">Install</a>
 
@@ -19,7 +19,6 @@ There are two components to using LaunchFlow that need to be installed.
 ```
 pip install launchflow
 ```
-
 
 ## Sign up for LaunchFlow
 
@@ -54,4 +53,4 @@ launch accounts signup
 
 ## What's next?
 
-Build your first BuildFlow processor and launch your first LaunchFlow Deployment with our [real-time image classification walkthrough](./file-ingestion).
+Build your first BuildFlow processor...
