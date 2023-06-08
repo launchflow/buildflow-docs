@@ -246,6 +246,6 @@ buildflow destroy main:app
 
 ### What's Next?
 
-- [Learn more about BuildFlow Concepts](../user-guides/key-concepts.md)
+- [Learn more about BuildFlow Concepts](../key-concepts)
 - [Use LaunchFlow to iterate directly in VSCode](https://docs.launchflow.com/vscode/overview)
 - [Use LaunchFlow to deploy your pipeline remotely](https://docs.launchflow.com/walkthroughs/file-ingestion#launch-a-launchflow-deployment)
