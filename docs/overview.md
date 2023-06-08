@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Overview
+# What is BuildFlow?
 
 **BuildFlow**, is an open source framework for building large scale systems using Python. All you need to do is describe where your input is coming from and where your output should be written, and BuildFlow handles the rest. **No configuration outside of the code is required**.
 
@@ -10,10 +10,10 @@ sidebar_position: 1
 
 Key Features (all provided out-of-the-box):
 
-- Automatic [resource creation / management](../features/resource-creation) (Infrastructure as Code) powered by [Pulumi](https://github.com/pulumi/pulumi)
-- Automatic [parallelism & concurrency](../features/parallelism.md) powered by [Ray](https://github.com/ray-project/ray)
-- [Dynamic autoscaling](../features/autoscaling.md): scale up during high traffic / reduce costs during low traffic
-- [Schema validation](../features/schema-validation) powered by Python dataclasses and type hints
+- Automatic [resource creation / management](./features/resource-creation) (Infrastructure as Code) powered by [Pulumi](https://github.com/pulumi/pulumi)
+- Automatic [parallelism & concurrency](./features/parallelism.md) powered by [Ray](https://github.com/ray-project/ray)
+- [Dynamic autoscaling](./features/autoscaling.md): scale up during high traffic / reduce costs during low traffic
+- [Schema validation](./features/schema-validation) powered by Python dataclasses and type hints
 
 :::note
 
