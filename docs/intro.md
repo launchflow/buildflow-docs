@@ -8,8 +8,8 @@ sidebar_position: 1
 Build your entire system in minutes using Python
 
 ## What is BuildFlow?
-- [Overview](./what_is_buildflow/overview)
-- [Concepts](./what_is_buildflow/concepts.md)
+- [Overview](./overview.md)
+- [Concepts](./key-concepts.md)
 
 ## Install BuildFlow
 ```bash
@@ -18,7 +18,7 @@ pip install buildflow
 - [Installation Guide](./install.md)
 
 ## Try BuildFlow
-- [Google PubSub Walkthrough](./walkthroughs/pubsub_streaming)
+- [Real-time File Ingestion](./walkthroughs/gcp-realtime-image-classification.md)
 
 ## Need help?
 - [Join the discord](https://discord.gg/fVFfB3mD)
