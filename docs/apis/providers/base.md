@@ -1,42 +1,82 @@
 # Provider API
 
-**IO Providers** provide effecient I/O between popular cloud services & storage systems.
+Providers implement the logic for setting up and interacting with other systems and resources (ResourceTypes). There are multiple types of Providers and each type is responsible for a single task (i.e. a PullProvider only needs to provide a `pull` method). 
 
-With all IO Connectors you can either provide an already provisioned resource, or just give us a path to a resource that should be created. If the resource does not exist BuildFlow will create it for you and ensure you have the proper access.
+### PullProvider
 
-## Streaming vs Batch Connectors
+PullProviders are used to `pull` data from a Source and optionally `ack` completion of work, typically in a streaming runtime.
 
-All connectors can work as **streaming** and **batch** output **_sinks_**.
+Required methods:
+- pull
 
-The Processor's input **_source_** connector determines if the **_sink_** connector should run in streaming or batch mode.
+Optional methods (unlocks more Runtime features):
+- ack
+- backlog
+- pull_converter
 
-For Example:
-
+Example PullProvider:
 ```python
-@app.processor(
-    # PubSub is a streaming source
-    source=PubSubSource(...),
-    # The BigQuery Streaming API will be used in this case
-    sink=BigQuerySink(...),
-)
-def process(payload: Any):
-    return payload
+from buildflow.io.providers import PullProvider, PullResponse, AckInfo
+
+class MyProvider(PullProvider):
+
+    async def pull(self) -> PullResponse:
+        ...
+
+    async def ack(self, to_ack: AckInfo):
+        ...
 ```
 
+### PushProvider
+
+PushProviders are used to `push` data to a Sink.
+
+Required methods:
+- push
+
+Optional methods (unlocks more Runtime features):
+- push_converter
+
+Example PushProvider:
 ```python
-@app.processor(
-    # BigQuery is a batch source
-    source=BigQuerySink(...),
-    # The BigQuery LoadJobs API will be used in this case
-    sink=BigQuerySource(...),
-)
-def process(payload: Any):
-    return payload
+from buildflow.io.providers import PushProvider, PushResponse, BatchType
+
+class MyProvider(PushProvider):
+
+    async def push(self, batch: BatchType) -> PushResponse:
+        ...
 ```
 
-## All Available Connectors
+### PulumiProvider
 
-- [AWS SQS - Streaming Source](io-providers/aws_sqs.md)
-- [Google Cloud Pub/Sub - Streaming Source](io-providers/gcp_pubsub.md)
-- [Google Cloud Storage Notifications - Streaming Source](io-providers/gcs_notifications.md)
-- [Google Cloud BigQuery - Batch Source](io-providers/gcp_bigquery.md)
+PulumiProviders are used to create infrastructure using Pulumi.
+
+Required methods:
+- pulumi
+
+Optional methods (unlocks more Runtime features):
+- push_converter
+
+Example PulumiProvider:
+```python
+from typing import Optional, Type
+from buildflow.io.providers import PulumiProvider, PulumiResources
+from pulumi_gcp import storage
+
+class MyProvider(PulumiProvider):
+
+    def pulumi(self, type_: Optional[Type]) -> PulumiResources:
+        return PulumiResources([storage.Bucket('my-bucket')])
+```
+
+## All Available Providers
+
+### Local
+- [FileProvider](./local/file_provider#fileprovider)
+- [PulsingProvider](./local/pulse_provider#pulsingprovider)
+
+### GCP
+- [StreamingBigQueryProvider](./gcp/gcp_bigquery#streamingbigqueryprovider)
+- [GCPPubSubSubscriptionProvider](./gcp/gcp_pubsub#gcppubsubsubscriptionprovider)
+- [GCPPubSubTopicProvider](./gcp/gcp_pubsub#gcppubsubtopicprovider)
+- [GCSFileStreamProvider](./gcp/gcp_storage#gcsfilestreamprovider)

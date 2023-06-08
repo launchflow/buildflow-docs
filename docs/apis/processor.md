@@ -4,9 +4,9 @@ sidebar_position: 1
 
 # Processor API
 
-The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Connectors](../io-providers/overview.md). Processors come in two different flavors: [streaming](processors/streaming.md) and [batch](processors/batch.md). The main difference between the two is that in batch mode you operate on a [Ray DataSet](https://docs.ray.io/en/latest/data/dataset.html), and in streaming mode you operate on individual elements.
+The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Providers](./providers/base). Processors come in two different flavors: [streaming](processors/streaming.md) and [batch](processors/batch.md). The main difference between the two is that in batch mode you operate on a finite (bounded) set of data, and in streaming mode you operate on an infinite (unbounded) stream of data.
 
-The return type of your process function determines what will be written to your sink. In batch mode you can return a Ray Dataset, python dictionaries, or python dataclasses. In streaming mode you can return python dictionaries or python dataclasses. If you return a python dataclass you can take advantage of BuildFlow's automatic [schema validation](../schema-validation.md).
+The return type of your process function determines what will be written to your sink. In batch mode you can return a Ray Dataset, python dictionaries, or python dataclasses. In streaming mode you can return python dictionaries or python dataclasses. If you return a python dataclass you can take advantage of BuildFlow's automatic [schema validation](../features/schema-validation.md).
 
 :::tip
 

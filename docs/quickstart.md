@@ -4,34 +4,13 @@ sidebar_position: 1
 
 # Quickstart
 
-**BuildFlow**, is an open source framework for building large scale systems using Python. All you need to do is describe where your input is coming from and where your output should be written, and BuildFlow handles the rest. **No configuration outside of the code is required**.
-
-**Source Code**: https://github.com/launchflow/buildflow
-
-Key Features (all provided out-of-the-box):
-
-- Automatic [resource creation / management](resource-creation) (Infrastructure as Code) powered by [Pulumi](https://github.com/pulumi/pulumi)
-- Automatic parallelism / concurrency powered by [Ray](https://github.com/ray-project/ray)
-- [Dynamic autoscaling](autoscaling.md): scale up during high traffic / reduce costs during low traffic
-- Production-grade [I/O Providers](io-providers/overview) for popular cloud services & storage systems
-  - Multi-step I/O Providers for common use cases (e.g. [file upload notifications](io-providers/gcs_notifications))
-- [Schema validation](schema-validation) powered by Python dataclasses and type hints
-
-:::note
-
-**BuildFlow** is currently in beta. The first stable version will be released alongside the [LaunchFlow VSCode Extension](https://www.launchflow.com/) in summer 2023. Please join our [Discord](https://discordapp.com/invite/wz7fjHyrCA) if you have any questions or feedback.
-
-:::
-
-## Quickstart
-
-### Install
+## Install
 
 ```bash
 pip install buildflow
 ```
 
-### Basic Example Usage
+## Basic Example Usage
 
 ```python
 from buildflow import Node
@@ -62,7 +41,7 @@ app.run()
 
 For more in-depth tutorials, see our walkthroughs.
 
-### Example Usage with Custom Configuration
+## Example Usage with Custom Configuration
 
 ```python
 from dataclasses import dataclass
@@ -128,7 +107,3 @@ app.run(
 ```
 
 For more in-depth tutorials, see our walkthroughs.
-
-## Windows Users
-
-Our runtime is built on [Ray](https://ray.io/), where Windows support is currently in beta. See the [Ray docs](https://docs.ray.io/en/latest/ray-overview/installation.html#windows-support) for more info.

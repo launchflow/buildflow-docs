@@ -38,10 +38,23 @@ module.exports = {
       label: "IO Providers",
       items: [
         "apis/providers/base",
-        "apis/providers/gcp_pubsub",
-        "apis/providers/gcp_bigquery",
-        "apis/providers/gcp_storage",
-        "apis/providers/local",
+        {
+          type: "category",
+          label: "gcp",
+          items: [
+            "apis/providers/gcp/gcp_pubsub",
+            "apis/providers/gcp/gcp_bigquery",
+            "apis/providers/gcp/gcp_storage",
+          ],
+        },
+        {
+          type: "category",
+          label: "local",
+          items: [
+            "apis/providers/local/file_provider",
+            "apis/providers/local/pulse_provider",
+          ],
+        },
       ],
     },
     {
@@ -53,6 +66,15 @@ module.exports = {
     "walkthroughs/local_pubsub_streaming",
     "walkthroughs/csv_bigquery_streaming",
     "walkthroughs/aws_sqs_streaming",
+    {
+      type: "html",
+      value: "<hr>Features",
+      className: "sidebar-title",
+    },
+    "features/autoscaling",
+    "features/parallelism",
+    "features/resource-creation",
+    "features/schema-validation",
     {
       type: "html",
       value: "<hr>Architecture",
