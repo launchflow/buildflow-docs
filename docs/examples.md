@@ -2,7 +2,10 @@
 sidebar_position: 1
 ---
 
-# Quickstart
+# Examples
+
+Below are some quick examples of using BuildFlow. If you are just getting started with BuildFlow we recommend starting with our walkthroughs:
+- [GCP Real-Time Image Classification](./walkthroughs/gcp-realtime-image-classification)
 
 ## Install
 
@@ -28,7 +31,7 @@ sink = BigQuerySink(table_id='TODO')
 
 # Step 2. Create a Processor that reads from Google PubSub and writes to BigQuery
 @app.processor(source=source, sink=sink)
-def process_message(pubsub_message):
+async def process_message(pubsub_message):
   # TODO(developer): Implement processing logic
   ...
   # The output is automatically sent to the sink provider
@@ -36,7 +39,8 @@ def process_message(pubsub_message):
 
 
 # Step 3. Start the BuildFlow app's Runtime
-app.run()
+if __name__ == ""__main__"":
+  app.run()
 ```
 
 For more in-depth tutorials, see our walkthroughs.
@@ -88,7 +92,7 @@ sink = BigQuerySink(table_id='TODO')
   num_cpus=0.5,
   num_concurrency=8,
 )
-def process_message(pubsub_message: InputSchema) -> OutputSchema:
+async def process_message(pubsub_message: InputSchema) -> OutputSchema:
   # TODO(developer): Implement processing logic
   ...
   # The output is automatically sent to the sink provider
@@ -104,6 +108,9 @@ app.run(
   apply_infrastructure: bool = True,
   destroy_infrastructure: bool = True,
 )
+
+if __name__ == ""__main__"":
+  app.run()
 ```
 
 For more in-depth tutorials, see our walkthroughs.

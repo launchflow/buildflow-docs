@@ -1,7 +1,16 @@
 ---
 sidebar_position: 2
 ---
-# Concepts
+# Key Concepts
+
+Before getting started with BuildFlow, it's important to understand the core concepts and terminology used throughout the documentation.
+
+- [Node](#nodes): a container type for user-defined Processors.
+- [Processor](#processors): a user-defined function between a Source and Sink.
+- [ResourceType](#resourcetype): Define the input (Source) and output (Sink) of a Processor.
+- Source: a ResourceType that defines how data should be retrieved and sent to your processor.
+- Sink: a ResourceType that defines how data should be sent to your resource from your processor.
+- [Providers](#providers): Providers implement the logic for setting up and interacting with other systems and resources
 
 
 ## Nodes
@@ -42,6 +51,8 @@ class BigQueryTable(ResourceType):
         return BigQueryProvider(table_id=self.table_id)
 ```
 
+BuildFlow provides many `ResourceTypes` out of the box, but you can also create your own for any custom needs. Read more about our Provider API to learn how to define your own `ResourceType` and providers.
+
 ## Providers
 
-Providers implement the logic for setting up and interacting with other systems and resources (ResourceTypes). There are multiple types of Providers and each type is responsible for a single task (i.e. a PullProvider only needs to provide a `pull` method).
+Providers implement the logic for setting up and interacting with other systems and resources (ResourceTypes). There are multiple types of Providers and each type is responsible for a single task (i.e. a PullProvider provides a mechanism for pulling data from a source).

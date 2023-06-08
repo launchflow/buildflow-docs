@@ -14,58 +14,89 @@
 module.exports = {
   mainSidebar: [
     "intro",
-    {
-      type: "category",
-      label: "What is BuildFlow?",
-      items: ["what_is_buildflow/overview", "what_is_buildflow/concepts"],
-    },
+    "overview",
     {
       type: "html",
-      value: "<hr>Get Started",
+      value: "<hr>Programming Guide",
       className: "sidebar-title",
     },
     "install",
-    "quickstart",
-    {
-      type: "html",
-      value: "<hr>API References",
-      className: "sidebar-title",
-    },
-    "apis/processor",
-    "apis/node",
+    "key-concepts",
     {
       type: "category",
-      label: "IO Providers",
+      label: "User Guides",
+      link: {
+        type: 'generated-index',
+      },
       items: [
-        "apis/providers/base",
         {
           type: "category",
-          label: "gcp",
+          label: "Processors",
+          link: {
+            type: 'generated-index',
+          },
           items: [
-            "apis/providers/gcp/gcp_pubsub",
-            "apis/providers/gcp/gcp_bigquery",
-            "apis/providers/gcp/gcp_storage",
+            "user-guides/processors/async-processors",
+            "user-guides/processors/stateful-processors",
+          ],
+        },
+        "user-guides/nodes",
+        "user-guides/resource-management",
+      ],
+    },
+    {
+      type: "category",
+      label: "Resource Types",
+      link: {
+        type: 'generated-index',
+      },
+      items: [
+        {
+          type: "category",
+          label: "Google Cloud Platform",
+          link: {
+            type: 'generated-index',
+          },
+          items: [
+            "resource-types/gcp/gcp_bigquery",
+            "resource-types/gcp/gcp_pubsub",
+            "resource-types/gcp/gcp_storage",
           ],
         },
         {
           type: "category",
-          label: "local",
+          label: "Cloud Agnostic",
+          link: {
+            type: 'generated-index',
+          },
           items: [
-            "apis/providers/local/file_provider",
-            "apis/providers/local/pulse_provider",
+            "resource-types/local/file",
+            "resource-types/local/pulsing",
           ],
         },
       ],
     },
+    "examples",
     {
       type: "html",
       value: "<hr>Walkthroughs",
       className: "sidebar-title",
     },
-    "walkthroughs/pubsub_streaming",
-    "walkthroughs/local_pubsub_streaming",
-    "walkthroughs/csv_bigquery_streaming",
-    "walkthroughs/aws_sqs_streaming",
+    "walkthroughs/gcp-realtime-image-classification",
+    {
+      type: "html",
+      value: "<hr>Reference",
+      className: "sidebar-title",
+    },
+    {
+      type: "category",
+      label: "CLI",
+      items: [
+        "reference/cli/destroy",
+        "reference/cli/plan",
+        "reference/cli/run",
+      ],
+    },
     {
       type: "html",
       value: "<hr>Features",

@@ -4,9 +4,16 @@ sidebar_position: 1
 
 # Processor API
 
-The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Providers](./providers/base). Processors come in two different flavors: [streaming](processors/streaming.md) and [batch](processors/batch.md). The main difference between the two is that in batch mode you operate on a finite (bounded) set of data, and in streaming mode you operate on an infinite (unbounded) stream of data.
+The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between the [IO Providers](./providers/base).
 
-The return type of your process function determines what will be written to your sink. In batch mode you can return a Ray Dataset, python dictionaries, or python dataclasses. In streaming mode you can return python dictionaries or python dataclasses. If you return a python dataclass you can take advantage of BuildFlow's automatic [schema validation](../features/schema-validation.md).
+A processor is composed of:
+- A `source` resource type
+- A `sink` resource type
+- Your processing logic
+
+Your `source` is a `ResourceType` that defines how data should be retrieved and sent to your processor.
+
+Your `sink` is a `ResourceType` that defines how data should be sent to your resource from your processor.
 
 :::tip
 
@@ -22,35 +29,38 @@ A Processor can be created using either the **processor** decorator, or the **Pr
 
 ```python
 from buildflow import Node
-from buildflow.io import BigQuerySource
-from ray.data import Dataset
+from buildflow.io import 
 
 app = Node()
 
-@app.processor(source=BigQuerySource(query='...'))
-def process_dataset(bigquery_dataset: Dataset):
+@app.processor(source=GCPPubSubSubscription(...))
+async def process(...):
     ...
 
-app.run()
+if __name__ =="__main__":
+    app.run()
 ```
 
 ### Processor class
 
 ```python
 from buildflow import Node, Processor
-from buildflow.io import BigQuerySource
+from buildflow.io import GCPPubSubSubscription
 
 app = Node()
 
 class MyProcessor(Processor):
 
     def source(self):
-        return PubSubSource(subscription='...')
+        return GCPPubSubSubscription(...)
 
-    def process(self, message_data: Dict[str, Any]):
+    async def process(self, ...):
         ...
 
-app.run(MyProcessor())()
+app.add_processor(MyProcessor())
+
+if __name__ =="__main__":
+    app.run()
 ```
 
 :::note
@@ -58,6 +68,27 @@ app.run(MyProcessor())()
 The **processor** decorator and the **Processor** class are functionally equivalent. The **processor** decorator is just a convenience wrapper around the **Processor** class.
 
 :::
+
+### Async Processors
+
+:::tip
+
+**TL:DR;** If you are using any libraries that require you to use `await`. You should make your processor async.
+
+:::
+
+You can easily make your processor async by including `async` in your definition. This will run your processor in an asyncio runtime allowing you even more flexibility in your processing logic. Most notably this will allow you to use any async libraries such as [Ray AsyncIO](https://docs.ray.io/en/latest/ray-core/actors/async_api.html).
+
+```python
+
+@ray.remote
+def long_running_task(...):
+  time.sleep(10)
+
+@app.processor(...)
+async def stream_processor(...):
+  return await long_running_task.remote(...)
+```
 
 ## Lifecycle Methods
 
@@ -69,13 +100,13 @@ This **source** method defines the input reference for the processor.
 
 ```python
 import buildflow
-from buildflow.io import PubSubSource
+from buildflow.io import GCPPubSubSubscription
 
 class MyProcessor:
   ...
 
   def source(self) -> buildflow.IO:
-    return PubSubSource(subscription='...')
+    return GCPPubSubSubscription('...')
 
 ```
 
@@ -85,13 +116,13 @@ This **sink** method defines the output reference for the processor.
 
 ```python
 import buildflow
-from buildflow.io import BigQuerySink
+from buildflow.io import BigQueryTable
 
 class MyProcessor:
   ...
 
   def sink() -> buildflow.IO:
-    return BigQuerySink(table_id='...')
+    return BigQueryTable(table_id='...')
 
 ```
 

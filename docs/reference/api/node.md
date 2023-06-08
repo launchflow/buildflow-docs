@@ -18,8 +18,7 @@ def my_processor(element):
 app.run()
 ```
 
-A Node can contain multiple [Processors](./processor) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/). Multiple Nodes can be deployed together using a [DeploymentGrid](./deployment-grid).
-
+A Node can contain multiple [Processors](./processor) and will deploy all Processors to a single [Ray Cluster](https://docs.ray.io/en/latest/cluster/).
 ## Create a new app
 
 Creating a Node object is as simple as:
@@ -32,12 +31,21 @@ app = Node()
 
 ## Attach Processors to your app
 
-Processors can be attached to a Node with a python decorator like:
+Using the procesesor decorator automatically attaches your Processor to your Node.
 
 ```python
 @app.processor(source=..., sink=...)
 def my_processor(element):
     ...
+```
+
+Processor classes can be attached with the `add` method:
+
+```python
+class MyProcessor(Processor)
+    ...
+
+app.add(MyProcessor())
 ```
 
 The Node manages the entire lifecycle of your Processor(s).

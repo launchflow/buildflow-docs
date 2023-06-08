@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Overview
+# What is BuildFlow?
 
 **BuildFlow**, is an open source framework for building large scale systems using Python. All you need to do is describe where your input is coming from and where your output should be written, and BuildFlow handles the rest. **No configuration outside of the code is required**.
 
