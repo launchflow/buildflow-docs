@@ -1,79 +1,57 @@
 import React from "react";
-import clsx from "clsx";
-import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<"svg">>;
-  description: JSX.Element;
+  description: string;
+  learn_more: string;
 };
 
-const FeatureList: FeatureItem[] = [
-  {
-    title: "Easy",
-    Svg: require("@site/static/img/relieved.svg").default,
-    description: (
-      <>
-        Easy to use and learn. <a href="/docs#quickstart">Get started</a> with a
-        few lines of code.
-      </>
-    ),
-  },
-  {
-    title: "Fast",
-    Svg: require("@site/static/img/lightning.svg").default,
-    description: (
-      <>
-        Scalable multiprocessing powered by{" "}
-        <a href="https://docs.ray.io/en/latest/ray-overview/">Ray</a>.
-      </>
-    ),
-  },
-  {
-    title: "Production Ready",
-    Svg: require("@site/static/img/rocket.svg").default,
-    description: (
-      <>
-        Ready made <a href="/docs/io-providers/overview">I/O Connectors</a> let
-        you focus on processing data instead of reading / writing data.
-      </>
-    ),
-  },
-  {
-    title: "Open Source",
-    Svg: require("@site/static/img/lock.svg").default,
-    description: (
-      <>
-        <b>BuildFlow</b> is released under the Apache 2.0 license.
-      </>
-    ),
-  },
-];
 
-function Feature({ title, Svg, description }: FeatureItem) {
+function Feature({ title, description, learn_more }: FeatureItem) {
   return (
-    <div className={clsx("col col--6")}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+    <div className="card">
+      <div className="card__header">
+        <h3>{title}</h3>
       </div>
-      <div className="text--center padding-horiz--md">
-        <h3 className="text-3xl">{title}</h3>
-        <p className="text-xl">{description}</p>
+      <div className="card__body">
+        <p>
+          {description}
+        </p>
+      </div>
+      <div className="card__footer">
+        <a className="button button--secondary button--block" href={learn_more}>Learn More</a>
       </div>
     </div>
   );
 }
 
+
+
 export default function HomepageFeatures(): JSX.Element {
   return (
-    <section className={styles.features}>
-      <div className="container">
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
+    <div className="container features">
+      <div className="row feature-row">
+        <div className="col">
+          {Feature({ title: "Scalable By Default", description: "BuildFlow will automatical scale to whatever your current demands are. This ensures your system can handle any surge in traffic while still be cost effective during low traffic periods.", learn_more: "docs/features/autoscaling" })}
+        </div>
+        <div className="col">
+          {Feature({ title: "Infrastructure From Code", description: "BuildFlow determines what infrastructure and resources your code is using and can create and manage them for your..", learn_more: "docs/features/infrastructure-from-code" })}
+        </div>
+        <div className="col">
+          {Feature({ title: "Async Runtime", description: "BuildFlow runs in an asyncrounous Ray runtime allowing you to easily scale out parallel tasks with Ray or any other async framework.", learn_more: "docs/features/parallelism" })}
         </div>
       </div>
-    </section>
+      <div className="row feature-row">
+        <div className="col">
+          {Feature({ title: "Real-Time File Ingestion", description: "Learn how to use BuildFlow to run images through an image classification model in real-time.", learn_more: "docs/walkthroughs/realtime-image-classification" })}
+        </div>
+        <div className="col">
+          {Feature({ title: "Dead-Letter Queue", description: "Learn how to use BuildFlow to spin up a dead-letter queue to easily handle bad messages without interfering with your produciton pipeline.", learn_more: "docs/walkthroughs/dead-letter-queue" })}
+        </div>
+        <div className="col">
+          {Feature({ title: "LaunchFlow", description: "You can use LaunchFlow to automatically deploy and manage your BuildFlow Nodes and processors.", learn_more: "https://www.launchflow.com" })}
+        </div>
+      </div>
+    </div>
   );
 }

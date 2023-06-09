@@ -32,46 +32,68 @@ module.exports = {
         {
           type: "category",
           label: "Processors",
-          link: {
-            type: 'generated-index',
-          },
+          link: { type: 'doc', id: 'user-guides/processors/overview' },
           items: [
-            "user-guides/processors/async-processors",
             "user-guides/processors/stateful-processors",
-          ],
-        },
-        "user-guides/nodes",
-        "user-guides/resource-management",
-      ],
-    },
-    {
-      type: "category",
-      label: "Resource Types",
-      link: {
-        type: 'generated-index',
-      },
-      items: [
-        {
-          type: "category",
-          label: "Google Cloud Platform",
-          link: {
-            type: 'generated-index',
-          },
-          items: [
-            "resource-types/gcp/gcp_bigquery",
-            "resource-types/gcp/gcp_pubsub",
-            "resource-types/gcp/gcp_storage",
+            "user-guides/processors/async-processors",
+            "user-guides/processors/custom-types",
+            "user-guides/processors/processor-config",
           ],
         },
         {
           type: "category",
-          label: "Cloud Agnostic",
-          link: {
-            type: 'generated-index',
-          },
+          label: "Nodes",
+          link: { type: 'doc', id: 'user-guides/nodes/overview' },
           items: [
-            "resource-types/local/file",
-            "resource-types/local/pulsing",
+            "user-guides/nodes/node-config",
+          ],
+        },
+        {
+          type: "category",
+          label: "Resource Types",
+          link: { type: 'doc', id: 'user-guides/resource-types/overview' },
+          items: [
+            {
+              type: "category",
+              label: "Google Cloud Platform",
+              link: {
+                type: 'generated-index',
+              },
+              items: [
+                "user-guides/resource-types/gcp/gcp_bigquery",
+                "user-guides/resource-types/gcp/gcp_pubsub",
+                "user-guides/resource-types/gcp/gcp_storage",
+              ],
+            },
+            {
+              type: "category",
+              label: "Cloud Agnostic",
+              link: {
+                type: 'generated-index',
+              },
+              items: [
+                "user-guides/resource-types/local/file",
+                "user-guides/resource-types/local/pulsing",
+              ],
+            },
+          ],
+        },
+        {
+          type: "category",
+          label: "Resource Management",
+          link: { type: 'doc', id: 'user-guides/resource-management/overview' },
+          items: [
+            "user-guides/resource-management/resource-creation",
+            "user-guides/resource-management/resource-destruction",
+          ],
+        },
+        {
+          type: "category",
+          label: "Providers",
+          link: { type: 'doc', id: 'user-guides/providers/overview' },
+          items: [
+            "user-guides/providers/custom-providers",
+            "user-guides/providers/provider-types",
           ],
         },
       ],
@@ -82,7 +104,7 @@ module.exports = {
       value: "<hr>Walkthroughs",
       className: "sidebar-title",
     },
-    "walkthroughs/gcp-realtime-image-classification",
+    "walkthroughs/realtime-image-classification",
     {
       type: "html",
       value: "<hr>Reference",
@@ -104,14 +126,16 @@ module.exports = {
     },
     "features/autoscaling",
     "features/parallelism",
-    "features/resource-creation",
+    "features/infrastructure-from-code",
     "features/schema-validation",
     {
       type: "html",
-      value: "<hr>Architecture",
+      value: "<hr>Developers",
       className: "sidebar-title",
     },
-    "architecture/runtime",
-    "architecture/infrastructure",
+    "developers/contribute",
+    "developers/runtime-architecture",
+    "developers/infrastructure-architecture",
+
   ],
 };
