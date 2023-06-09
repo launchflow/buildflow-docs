@@ -65,3 +65,7 @@ a {
 .hero__subtitle {
   color: #ffffff
 }
+
+.navbar__link--active {
+  color: var(--ifm-navbar-link-color)
+}

@@ -37,6 +37,7 @@ module.exports = {
             "user-guides/processors/stateful-processors",
             "user-guides/processors/async-processors",
             "user-guides/processors/custom-types",
+            "user-guides/processors/processor-config",
           ],
         },
         {

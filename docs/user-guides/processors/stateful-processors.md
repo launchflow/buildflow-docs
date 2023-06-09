@@ -19,9 +19,3 @@ class ImageClassificationProcessor(buildflow.Processor):
 
 add.add(ImageClassificationProcessor())
 ```
-
-:::tip
-
-Due to scaling your setup method may be called multiple time as your processor scales up to meet demand.
-
-:::

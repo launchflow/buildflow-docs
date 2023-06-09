@@ -101,6 +101,11 @@ const config = {
             label: "Docs",
           },
           {
+            to: "roadmap",
+            position: "left",
+            label: "Roadmap",
+          },
+          {
             type: "doc",
             position: "left",
             label: "Contribute",
