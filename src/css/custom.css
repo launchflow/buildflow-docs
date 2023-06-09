@@ -42,9 +42,6 @@ a {
   color: #bf8a65;
 }
 
-.features {
-  padding: 1rem 0;
-}
 
 .feature-row {
   padding-top: 20px;
@@ -55,8 +52,11 @@ a {
 }
 
 .hero {
-  background-image: url("/static/img/hero.svg");
+  background-image: url("/static/img/buildflow.svg");
+  background-position: center; 
+  background-repeat: no-repeat;
   background-size: cover;
+  height: calc(80vh - var(--ifm-navbar-height));
 }
 
 .hero__title {

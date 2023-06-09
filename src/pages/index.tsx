@@ -11,7 +11,7 @@ import HomepageFeatures from "../components/HomepageFeatures";
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <div className="hero p-4 flex-col gap-6 justify-evenly md:flex-row md:gap-0 md:p-6">
+    <div className="hero p-4 flex-col justify-evenly md:flex-row md:gap-0 md:p-6">
       <div className="flex flex-col text-center md:text-left ">
         <h1 className="hero__title">BuildFlow</h1>
         <p className="hero__subtitle">
@@ -27,7 +27,7 @@ function HomepageHeader() {
         </div>
       </div>
       <ThemedImage
-        className="rounded-lg max-w-[100%] md:max-w-[44%]"
+        className="rounded-lg max-w-[90vw] md:max-w-[60vw]"
         alt="BuildFlow Code"
         sources={{
           light: useBaseUrl("/img/code.png"),
