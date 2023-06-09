@@ -11,16 +11,23 @@ import HomepageFeatures from "../components/HomepageFeatures";
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <div className="hero hero--primary">
-      <div className="container">
+    <div className="hero p-4 flex-col gap-6 justify-evenly md:flex-row md:gap-0 md:p-6">
+      <div className="flex flex-col text-center md:text-left ">
         <h1 className="hero__title">BuildFlow</h1>
-        <p className="hero__subtitle">build your entire system in minutes using Python</p>
+        <p className="hero__subtitle">
+          Build your entire system in minutes using Python
+        </p>
         <div>
-          <a className="button button--secondary button--lg" href="docs/install">Get Started</a>
+          <a
+            className="button button--secondary button--lg"
+            href="docs/install"
+          >
+            Get Started
+          </a>
         </div>
       </div>
       <ThemedImage
-        className="rounded-lg max-w-[100%]"
+        className="rounded-lg max-w-[100%] md:max-w-[44%]"
         alt="BuildFlow Code"
         sources={{
           light: useBaseUrl("/img/code.png"),
@@ -40,7 +47,6 @@ export default function Home(): JSX.Element {
     >
       <HomepageHeader />
       <HomepageFeatures />
-
     </Layout>
   );
 }
