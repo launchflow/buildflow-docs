@@ -3,7 +3,7 @@
 The **Processor API** is the primary abstraction provided by **BuildFlow**. It contains all of the user's processing logic between resources.
 
 A processor is composed of:
-- A `source` [resource type](../resource-types/overview.)
+- A `source` [resource type](../resource-types/overview)
 - A `sink` [resource type](../resource-types/overview)
 - Your processing logic
 

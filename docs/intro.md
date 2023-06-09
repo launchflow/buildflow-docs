@@ -18,7 +18,7 @@ pip install buildflow
 - [Installation Guide](./install.md)
 
 ## Try BuildFlow
-- [Real-time File Ingestion](./walkthroughs/gcp-realtime-image-classification.md)
+- [Real-time File Ingestion](./walkthroughs/realtime-image-classification)
 
 ## Need help?
 - [Join the discord](https://discord.gg/fVFfB3mD)

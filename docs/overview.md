@@ -10,7 +10,7 @@ sidebar_position: 1
 
 Key Features (all provided out-of-the-box):
 
-- Automatic [resource creation / management](./features/resource-creation) (Infrastructure as Code) powered by [Pulumi](https://github.com/pulumi/pulumi)
+- Automatic [resource creation / management](./features/infrastructure-from-code) (Infrastructure from Code) powered by [Pulumi](https://github.com/pulumi/pulumi)
 - Automatic [parallelism & concurrency](./features/parallelism.md) powered by [Ray](https://github.com/ray-project/ray)
 - [Dynamic autoscaling](./features/autoscaling.md): scale up during high traffic / reduce costs during low traffic
 - [Schema validation](./features/schema-validation) powered by Python dataclasses and type hints
