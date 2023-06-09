@@ -78,22 +78,13 @@ module.exports = {
             },
           ],
         },
-        {
-          type: "category",
-          label: "Resource Management",
-          link: { type: 'doc', id: 'user-guides/resource-management/overview' },
-          items: [
-            "user-guides/resource-management/resource-creation",
-            "user-guides/resource-management/resource-destruction",
-          ],
-        },
+        "user-guides/resource-management/overview",
         {
           type: "category",
           label: "Providers",
           link: { type: 'doc', id: 'user-guides/providers/overview' },
           items: [
-            "user-guides/providers/custom-providers",
-            "user-guides/providers/provider-types",
+            "user-guides/providers/custom-resource-types",
           ],
         },
       ],

@@ -1,7 +1,5 @@
 # Schema Validation
 
-## TODO: Update this
-
 BuildFlow uses python type hints and dataclasses to ensure that that output of your Processor matches the schema defintion of your sink (for supported sinks). This can be useful for catching schema mis-match errors before you launch your application.
 
 ## Supported Types:
@@ -24,8 +22,8 @@ The below example also highlights how you can use `List` and `Optional` to speci
 ```python
 app = Node()
 
-input_sub = PubSubSource(...)
-output_table = BigQuerySink(...)
+input_sub = GCPPubSubSubscription(...)
+output_table = BigQueryTable(...)
 
 @dataclass
 class NestedSchema:
@@ -40,5 +38,5 @@ class MySchema:
 
 @app.processor(source=input_sub, sink=output_table)
 def process(element: Dict[str, Any]) -> MySchema:
-    return element
+    return MySchema(**element)
 ```
