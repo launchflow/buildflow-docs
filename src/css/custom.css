@@ -56,6 +56,7 @@ a {
 
 .hero {
   background-image: url("/static/img/hero.svg");
+  background-size: cover;
 }
 
 .hero__title {
