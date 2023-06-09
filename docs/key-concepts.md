@@ -7,9 +7,8 @@ Before getting started with BuildFlow, it's important to understand the core con
 
 - [Node](#nodes): a container type for user-defined Processors.
 - [Processor](#processors): a user-defined function between a Source and Sink.
-- [ResourceType](#resourcetype): Define the input (Source) and output (Sink) of a Processor.
-- Source: a ResourceType that defines how data should be retrieved and sent to your processor.
-- Sink: a ResourceType that defines how data should be sent to your resource from your processor.
+- [Replica](#replicas): an individual instance of a processor that is reading from a source and writing to a sink. More replicas are added and remove with autoscaling.
+- [ResourceType](#resourcetype): Define the input (Source) and output (Sink) of a Processor. ResourceTypes also integrate with our Infrastructure-as-Code platform allowing them to be easily created and destroyed along with your application.
 - [Providers](#providers): Providers implement the logic for setting up and interacting with other systems and resources
 
 
@@ -37,6 +36,10 @@ def my_processor(payload):
     # TODO(developer): Add processing logic
     return payload
 ```
+
+## Replicas
+
+A replica is an individual instance of a processor that is reading from a source and writing to a sink. As the load of your source changes, BuildFlow will automatically scale the number of replicas to match the load.
 
 ## ResourceType
 
