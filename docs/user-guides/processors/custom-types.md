@@ -49,5 +49,5 @@ class CustomType:
 
 @app.processor(source=ResourceType(...), sink=ResourceType(...))
 async def my_processor(elem: CustomType) -> CustomType:
-    return(OutputType(b=elem.a + 1))
+    return elem
 ```
