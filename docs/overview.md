@@ -21,6 +21,10 @@ Key Features (all provided out-of-the-box):
 
 :::
 
+# Why BuildFlow?
+
+BuildFlow aims to provide a single interface for managing your resources and your compute in a highly scalable environment. In the modern stack developers are often stuck managing their infrastructe directly in the cloud or via an Infrastructure as code platform (terraform / pulumi). Both of these solutions are completely seperate from the code that actually consumes and uses these resources. Developers also need to ensure their compute can scale and is cost effective. BuildFlow is one tool that brings all of these things together. We bring both of these together in one tool with BuildFlow. BuildFlow determines what resources are needed from your code (Infrastructure-from-Code) and provides a highly scalable runtime for your code to run
+
 ## Windows Users
 
 Our runtime is built on [Ray](https://ray.io/), where Windows support is currently in beta. See the [Ray docs](https://docs.ray.io/en/latest/ray-overview/installation.html#windows-support) for more info.
