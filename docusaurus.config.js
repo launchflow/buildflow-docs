@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "BuildFlow",
-  tagline: "easy, fast, and reliable data processing",
+  tagline: "build your entire system in minutes using Python",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -84,9 +84,27 @@ const config = {
         items: [
           {
             type: "doc",
+            position: "left",
+            label: "About",
+            docId: "overview",
+          },
+          {
+            type: "doc",
+            position: "left",
+            label: "Get Started",
+            docId: "install",
+          },
+          {
+            type: "doc",
             docId: "intro",
             position: "left",
             label: "Docs",
+          },
+          {
+            type: "doc",
+            position: "left",
+            label: "Contribute",
+            docId: "developers/contribute",
           },
           // { to: "blog", label: "Blog", position: "left" },
           {
@@ -108,7 +126,7 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Docs",
+                label: "BuildFlow Docs",
                 to: "/docs",
               },
             ],

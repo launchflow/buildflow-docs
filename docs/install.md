@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Install
 
+If you are just getting started with BuildFlow we recommend starting with our walkthroughs:
+- [GCP Real-Time Image Classification](./walkthroughs/gcp-realtime-image-classification)
 
 ## Quick Setup
 

@@ -2,7 +2,7 @@
 
 ## TODO: Update this
 
-BuildFlow uses python type hits and dataclasses to ensure that that output of your Processor matches the schema defintion of your sink (for supported sinks). This can be useful for catching schema mis-match errors before you launch your application.
+BuildFlow uses python type hints and dataclasses to ensure that that output of your Processor matches the schema defintion of your sink (for supported sinks). This can be useful for catching schema mis-match errors before you launch your application.
 
 ## Supported Types:
 

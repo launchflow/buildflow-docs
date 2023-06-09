@@ -1,4 +1,8 @@
-# GCP Real-Time Image Classification
+import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Real-Time Image Classification
 
 In this walkthrough we will watch files as they are uploaded to cloud storage
 and use [ImageAI](https://github.com/OlafenwaMoses/ImageAI)
@@ -7,7 +11,18 @@ to classify what the image contains.
 Before completing the walkthrough ensure you have [installed BuildFlow](../install)
 with all [extra dependencies](../install#extra-dependencies).
 
+<Tabs>
+  <TabItem value="gcp" label="GCP">
+
 All the code for this walkthrough can be found at: https://github.com/launchflow/buildflow-gcp-image-classification
+
+:::tip
+
+In order to run this code you will need to have a GCP project created that you have access to.
+
+Follow the [Google Cloud Walkthrough](https://developers.google.com/workspace/guides/create-project) to create a new one if you need to.
+
+:::
 
 In this walkthrough we will:
 
@@ -243,6 +258,23 @@ To clean up your resources run:
 ```
 buildflow destroy main:app
 ```
+
+  </TabItem>
+  <TabItem value="aws" label="AWS">
+  
+<Admonition type="info">
+    Coming soon!
+</Admonition>
+  
+  </TabItem>
+  <TabItem value="local" label="Local">
+  
+<Admonition type="info">
+    Coming soon!
+</Admonition>
+
+  </TabItem>
+</Tabs>
 
 ### What's Next?
 
