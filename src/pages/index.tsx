@@ -16,7 +16,7 @@ function HomepageHeader() {
         <h1 className="hero__title">BuildFlow</h1>
         <p className="hero__subtitle">build your entire system in minutes using Python</p>
         <div>
-          <button className="button button--secondary button--lg">Get Started</button>
+          <a className="button button--secondary button--lg" href="docs/install">Get Started</a>
         </div>
       </div>
       <ThemedImage
