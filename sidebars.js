@@ -15,6 +15,7 @@ module.exports = {
   mainSidebar: [
     "intro",
     "overview",
+    "faq",
     {
       type: "html",
       value: "<hr>Programming Guide",
