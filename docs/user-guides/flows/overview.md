@@ -1,6 +1,6 @@
 # Flows
 
-A Flow is the entity that is run by BuildFlow, and is the container for any [processors](../processors/overview) you would like to run together.
+A Flow is the entity that is run by BuildFlow, and is the container for any [processors](../pipelines/overview) you would like to run together.
 
 ## Create a new flow
 

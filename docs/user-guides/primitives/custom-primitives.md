@@ -12,9 +12,9 @@ If your primitive is specific to a cloud provider you can extend [GCPPrimitive](
 
 Each primitive may implement any of three methods:
 
-- `source_provider()`: Returns a [SourceProvider](../../reference/api/source-provider) for reading data.
-- `sink_provider()`: Returns a [SinkProvider](../../reference/api/sink-provider) for writing data.
-- `pulumi_provider()`: Returns a [PulumiProvider](../../reference/api/pulumi-provider) for the primitive.
+- `source_provider()`: Returns a [SourceProvider](../../reference/api/provider#source-provider) for reading data.
+- `sink_provider()`: Returns a [SinkProvider](../../reference/api/provider#sink-provider) for writing data.
+- `pulumi_provider()`: Returns a [PulumiProvider](../../reference/api/provider#pulumi-provider) for the primitive.
 
 Each of these methods should return an instance of the provider class that implements the corresponding interface.
 

@@ -4,7 +4,7 @@ BuildFlow helps eliminate operational work by including an (optional) resource c
 
 ## How it works
 
-BuildFlow uses [Pulumi](https://www.pulumi.com) to create and manage resources. Your source and sink primitives define what resources are needed to read and write from. You can use the BuildFlow CLI to easily [create or delete](../user-guides/resource-management/overview) the defined resources.
+BuildFlow uses [Pulumi](https://www.pulumi.com) to create and manage resources. Your source and sink primitives define what resources are needed to read and write from. You can use the BuildFlow CLI to easily [create or delete](../user-guides/primitives/resource-management) the defined resources.
 
 We use python type hints to further determine what your resource should look like. For example, if you specify a dataclass as your output type for an AnalysisTable (such as BigQuery or Snowflake), we will automatically create a BigQuery table with the correct schema.
 

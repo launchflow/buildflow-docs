@@ -21,7 +21,7 @@
 
 <details className="clear">
     <summary mdxType="summary">How does BuildFlow integrate with Ray?</summary>
-    BuildFlow's run time is build on top of ray. This allows your processor to scale to any size and handle any load. It also allows you to take advantage of our <a href="user-guides/processors/async-processors">async run time</a> inside of your processor.
+    BuildFlow's run time is build on top of ray. This allows your processor to scale to any size and handle any load. It also allows you to take advantage of our <a href="user-guides/pipelines/async-processors">async run time</a> inside of your processor.
 
 </details>
 

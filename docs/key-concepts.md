@@ -51,4 +51,4 @@ A replica is an individual instance of a processo. As the load of your source ch
 
 Primitives represent an individual resource that a processor may read or write to. For example, a `BigQueryTable` is a primitive that represents a single BigQuery table. Primitives define how to read from a source, write to a sink, and also how to manage the primitive with pulumi. 
 
-Primitives can be used as inputs (Sources) or outputs (Sinks) for pipelines. A full list of our support primitives can be found in our [primitive docs](/primitives/overview). You can also define your own primitives for reading, writing, and managing custom resources.
+Primitives can be used as inputs (Sources) or outputs (Sinks) for pipelines. A full list of our support primitives can be found in our [primitive docs](./category/primitives). You can also define your own primitives for reading, writing, and managing custom resources.
