@@ -170,8 +170,9 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} BuildFlow`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        additionalLanguages: ["python"],
+        theme: require('prism-react-renderer/themes/vsLight'),
+        darkTheme: require('prism-react-renderer/themes/vsDark'),
       },
     }),
 };
