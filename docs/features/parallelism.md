@@ -11,7 +11,7 @@ def long_task(elem):
     time.sleep(10)
     return elem
 
-@app.processor(source=ResourceType(...), sink=ResourceType(...))
+@app.pipeline(source=ResourceType(...), sink=ResourceType(...))
 def my_processor(elem):
     return await long_task.remote(elem)
 

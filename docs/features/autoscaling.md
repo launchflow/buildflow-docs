@@ -4,9 +4,9 @@ Buildflow provides horizontal autoscaling out of the box. This allows your Proce
 
 Our autoscaling is powered by [Ray](https://www.ray.io) and [Ray clusters](https://docs.ray.io/en/latest/cluster/). When running on a single machine (such as your local computer) the autoscaler will only scale up to use the available CPUs on your machine. When running in a cloud environement, the autoscaler will spin up/down VMs, **no Kubernetes required**!
 
-## Streaming
+## Pipelines
 
-For Streaming runtimes, we have the concept of a `replica`, which represents one process that is pulling data from your streaming source. The autoscaler will scale your Processor based on the size of your source's backlog, the throughput of your application, and the current utilization of your cluster.
+For Streaming runtimes, we have the concept of a `replica`, which represents one process that is pulling data from your streaming source. The autoscaler will scale your Pipeline based on the size of your source's backlog, the throughput of your application, and the current utilization of your cluster.
 
 ### When do we scale up?
 
@@ -24,4 +24,4 @@ To determine if it needs to scale down, the autoscaler will first look to make s
 
 ## Configuring autoscaling
 
-You can get fine grained control of how autoscaling works by configuring either your [processor](../user-guides/processors/processor-config#autoscale-config) or your [node](../user-guides/nodes/node-config).
+You can get fine grained control of how autoscaling works by configuring either your [flow](../user-guides/flows/flow-options#autoscaling).

@@ -140,10 +140,6 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/buildflow",
-              },
-              {
                 label: "Discord",
                 href: "https://discordapp.com/invite/wz7fjHyrCA",
               },

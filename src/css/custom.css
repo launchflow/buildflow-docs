@@ -20,6 +20,7 @@
   --ifm-color-primary-light: #A1CCA5;
   --ifm-color-primary-lighter: #A1CCA5;
   --ifm-color-primary-lightest: #A1CCA5;
+  --ifm-color-info-dark: #A1CCA5;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-font-family-base: "Montserrat", sans-serif;
 }
@@ -35,6 +36,7 @@
   --ifm-color-primary-light: #A1CCA5;
   --ifm-color-primary-lighter: #A1CCA5;
   --ifm-color-primary-lightest: #A1CCA5;
+  --ifm-color-info-dark: #A1CCA5;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
@@ -59,6 +61,7 @@ a {
   height: calc(80vh - var(--ifm-navbar-height));
 }
 
+
 .hero__title {
   color: #ffffff
 }
@@ -73,4 +76,11 @@ a {
 
 .clear {
   background-color: transparent;
+}
+
+.tab-content {
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 25px;
 }

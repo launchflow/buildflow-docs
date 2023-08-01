@@ -21,20 +21,19 @@
 
 <details className="clear">
     <summary mdxType="summary">How does BuildFlow integrate with Ray?</summary>
-    Content
+    BuildFlow's run time is build on top of ray. This allows your processor to scale to any size and handle any load. It also allows you to take advantage of our <a href="user-guides/processors/async-processors">async run time</a> inside of your processor.
 
 </details>
 
 <details className="clear">
-    <summary mdxType="summary">How does handle infrastructure creation / management?</summary>
-    Content
-
+    <summary mdxType="summary">How does BuildFlow handle infrastructure creation / management?</summary>
+    BuildFlow resource orchestration is built on top of <a href="https://www.pulumi.com">Pulumi</a>. BuildFlow is not opinionated about how you manage your Pulumi stack and encourages you to use <a href="https://www.pulumi.com/product/pulumi-cloud/">Pulumi Cloud</a> or any other form of <a href="https://www.pulumi.com/docs/concepts/state/#using-a-self-managed-backend">remote stack storage.</a>
 </details>
 
 
 <details className="clear">
     <summary mdxType="summary">What is the difference between BuildFlow and LaunchFlow?</summary>
-    Content
+    BuildFlow is an open source framework for designing and building your application. LaunchFlow is a serverless platform that allows you to instantly deploy your BuildFlow application to the cloud.
 
 </details>
 
