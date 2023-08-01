@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "BuildFlow",
-  tagline: "build your entire system in minutes using Python",
+  tagline: "Build a distributed system in less than 20 lines of code",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -171,8 +171,8 @@ const config = {
       },
       prism: {
         additionalLanguages: ["python"],
-        theme: require('prism-react-renderer/themes/vsLight'),
-        darkTheme: require('prism-react-renderer/themes/vsDark'),
+        theme: require('prism-react-renderer/themes/oceanicNext'),
+        darkTheme: require('prism-react-renderer/themes/oceanicNext'),
       },
     }),
 };

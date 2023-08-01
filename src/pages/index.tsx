@@ -16,7 +16,7 @@ function HomepageHeader() {
       <div className="flex flex-col text-center md:text-left ">
         <h1 className="hero__title">BuildFlow</h1>
         <p className="hero__subtitle">
-          Create a fully deployable distributed system in less than 20 lines of code.
+          Build a distributed system in less than 20 lines of code.
         </p>
         <div>
           <a

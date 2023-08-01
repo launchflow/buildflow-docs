@@ -2,7 +2,7 @@
 
 A Flow is the entity that is run by BuildFlow, and is the container for any [processors](../pipelines/overview) you would like to run together.
 
-## Create a new flow
+## Create a New Application
 
 A flow is created by instantiating a `Flow` object:
 
@@ -19,7 +19,7 @@ If you use a processor decorator, processors are automatically attached to your 
 ```python
 app = Flow()
 
-@app.piprline(source=..., sink=...)
+@app.pipeline(source=..., sink=...)
 def processor(...):
     ...
 ```
