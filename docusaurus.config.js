@@ -156,6 +156,14 @@ const config = {
                 label: "GitHub",
                 href: "https://github.com/launchflow/buildflow/",
               },
+              {
+                label: "LaunchFlow",
+                href: "https://www.launchflow.com",
+              },
+              {
+                label: "LaunchFlow Docs",
+                href: "https://docs.launchflow.com",
+              },
             ],
           },
         ],
