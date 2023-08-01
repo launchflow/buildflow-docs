@@ -28,7 +28,7 @@ function Feature({ title, description, learn_more }: FeatureItem) {
 
 export default function HomepageFeatures(): JSX.Element {
   return (
-    <div className="flex flex-row justify-center p-6">
+    <div className="flex flex-row justify-center p-6 card-holder">
       <div className="grid grid-cols-1 md:grid-cols-3 max-w-[90vw] md:max-w-[80vw] gap-6">
         <div className="">
           {Feature({ title: "Scalable By Default", description: "BuildFlow will automatical scale to whatever your current demands are. This ensures your system can handle any surge in traffic while still be cost effective during low traffic periods.", learn_more: "docs/features/autoscaling" })}
