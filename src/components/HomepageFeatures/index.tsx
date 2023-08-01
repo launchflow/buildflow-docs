@@ -43,7 +43,7 @@ export default function HomepageFeatures(): JSX.Element {
           {Feature({ title: "Real-Time File Ingestion", description: "Learn how to use BuildFlow to run images through an image classification model in real-time.", learn_more: "docs/walkthroughs/realtime-image-classification" })}
         </div>
         <div className="">
-          {Feature({ title: "Production Ready IO Connectors", description: "Use any of our existing BuildFlow primitives to connect to any resource in any cloud. Including AWS, GCP, Snowflake, and DuckDB", learn_more: "docs/category/primitives" })}
+          {Feature({ title: "Production Ready Connectors", description: "Use any of our existing BuildFlow primitives to connect to any resource in any cloud. Including AWS, GCP, Snowflake, and DuckDB", learn_more: "docs/category/primitives" })}
         </div>
         <div className="">
           {Feature({ title: "LaunchFlow", description: "You can use LaunchFlow to automatically deploy and manage your BuildFlow Nodes and processors.", learn_more: "https://www.launchflow.com" })}
