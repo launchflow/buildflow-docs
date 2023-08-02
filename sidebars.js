@@ -15,6 +15,7 @@ module.exports = {
   mainSidebar: [
     "intro",
     "overview",
+    "faq",
     {
       type: "html",
       value: "<hr>Programming Guide",
@@ -31,60 +32,30 @@ module.exports = {
       items: [
         {
           type: "category",
-          label: "Processors",
-          link: { type: 'doc', id: 'user-guides/processors/overview' },
+          label: "Flows",
+          link: { type: 'doc', id: 'user-guides/flows/overview' },
           items: [
-            "user-guides/processors/stateful-processors",
-            "user-guides/processors/async-processors",
-            "user-guides/processors/custom-types",
-            "user-guides/processors/processor-config",
+            "user-guides/flows/flow-options",
           ],
         },
         {
           type: "category",
-          label: "Nodes",
-          link: { type: 'doc', id: 'user-guides/nodes/overview' },
+          label: "Pipelines",
+          link: { type: 'doc', id: 'user-guides/pipelines/overview' },
           items: [
-            "user-guides/nodes/node-config",
+            "user-guides/pipelines/stateful-pipelines",
+            "user-guides/pipelines/async-pipelines",
+            "user-guides/pipelines/custom-types",
+            "user-guides/pipelines/pipeline-options",
           ],
         },
         {
           type: "category",
-          label: "Resource Types",
-          link: { type: 'doc', id: 'user-guides/resource-types/overview' },
+          label: "Primitives",
+          link: { type: 'doc', id: 'user-guides/primitives/overview' },
           items: [
-            {
-              type: "category",
-              label: "Google Cloud Platform",
-              link: {
-                type: 'generated-index',
-              },
-              items: [
-                "user-guides/resource-types/gcp/gcp_bigquery",
-                "user-guides/resource-types/gcp/gcp_pubsub",
-                "user-guides/resource-types/gcp/gcp_storage",
-              ],
-            },
-            {
-              type: "category",
-              label: "Cloud Agnostic",
-              link: {
-                type: 'generated-index',
-              },
-              items: [
-                "user-guides/resource-types/local/file",
-                "user-guides/resource-types/local/pulsing",
-              ],
-            },
-          ],
-        },
-        "user-guides/resource-management/overview",
-        {
-          type: "category",
-          label: "Providers",
-          link: { type: 'doc', id: 'user-guides/providers/overview' },
-          items: [
-            "user-guides/providers/custom-resource-types",
+            "user-guides/primitives/portable",
+            "user-guides/primitives/custom-primitives",
           ],
         },
       ],
@@ -103,12 +74,83 @@ module.exports = {
     },
     {
       type: "category",
+      label: "Primitives",
+      link: {
+        type: 'generated-index',
+      },
+      items: [
+        {
+          type: "category",
+          label: "Amazon Web Services",
+          link: {
+            type: 'generated-index',
+          },
+          items: [
+            "reference/primitives/aws/s3",
+            "reference/primitives/aws/sqs",
+            "reference/primitives/aws/s3_file_change_stream",
+          ],
+        },
+        {
+          type: "category",
+          label: "Google Cloud Platform",
+          link: {
+            type: 'generated-index',
+          },
+          items: [
+            "reference/primitives/gcp/gcp_bigquery",
+            "reference/primitives/gcp/gcp_pubsub",
+            "reference/primitives/gcp/gcp_storage",
+            "reference/primitives/gcp/gcs_file_change_stream",
+          ],
+        },
+        {
+          type: "category",
+          label: "Local",
+          link: {
+            type: 'generated-index',
+          },
+          items: [
+            "reference/primitives/local/file",
+            "reference/primitives/local/pulse",
+          ],
+        },
+        {
+          type: "category",
+          label: "Portable",
+          link: {
+            type: 'generated-index',
+          },
+          items: [
+            "reference/primitives/portable/queue",
+            "reference/primitives/portable/analysis_table",
+          ],
+        },
+        "reference/primitives/snowflake",
+        "reference/primitives/duckdb",
+      ],
+    },
+    {
+      type: "category",
+      label: "API",
+      link: {
+        type: 'generated-index',
+      },
+      items: [
+        "reference/api/primitive",
+        "reference/api/provider",
+        "reference/api/strategy",
+      ],
+    },
+    {
+      type: "category",
       label: "CLI",
       items: [
-        "reference/cli/destroy",
-        "reference/cli/plan",
         "reference/cli/run",
-      ],
+        "reference/cli/apply",
+        "reference/cli/plan",
+        "reference/cli/destroy",
+      ]
     },
     {
       type: "html",
@@ -118,15 +160,11 @@ module.exports = {
     "features/autoscaling",
     "features/parallelism",
     "features/infrastructure-from-code",
-    "features/schema-validation",
     {
       type: "html",
       value: "<hr>Developers",
       className: "sidebar-title",
     },
     "developers/contribute",
-    "developers/runtime-architecture",
-    "developers/infrastructure-architecture",
-
   ],
 };

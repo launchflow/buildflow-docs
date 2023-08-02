@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "BuildFlow",
-  tagline: "build your entire system in minutes using Python",
+  tagline: "Build a distributed system in less than 20 lines of code",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -140,10 +140,6 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/buildflow",
-              },
-              {
                 label: "Discord",
                 href: "https://discordapp.com/invite/wz7fjHyrCA",
               },
@@ -160,14 +156,23 @@ const config = {
                 label: "GitHub",
                 href: "https://github.com/launchflow/buildflow/",
               },
+              {
+                label: "LaunchFlow",
+                href: "https://www.launchflow.com",
+              },
+              {
+                label: "LaunchFlow Docs",
+                href: "https://docs.launchflow.com",
+              },
             ],
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} BuildFlow`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        additionalLanguages: ["python"],
+        theme: require('prism-react-renderer/themes/oceanicNext'),
+        darkTheme: require('prism-react-renderer/themes/oceanicNext'),
       },
     }),
 };

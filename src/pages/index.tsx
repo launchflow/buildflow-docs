@@ -6,6 +6,7 @@ import ThemedImage from "@theme/ThemedImage";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "../components/HomepageFeatures";
+import CodeBlock from '@theme/CodeBlock';
 
 // blur-[8em]
 function HomepageHeader() {
@@ -15,7 +16,7 @@ function HomepageHeader() {
       <div className="flex flex-col text-center md:text-left ">
         <h1 className="hero__title">BuildFlow</h1>
         <p className="hero__subtitle">
-          Build your entire system in minutes using Python
+          Build a distributed system in less than 20 lines of code.
         </p>
         <div>
           <a
@@ -26,14 +27,26 @@ function HomepageHeader() {
           </a>
         </div>
       </div>
-      <ThemedImage
-        className="rounded-lg max-w-[90vw] md:max-w-[60vw]"
-        alt="BuildFlow Code"
-        sources={{
-          light: useBaseUrl("/img/code.png"),
-          dark: useBaseUrl("/img/code.png"),
-        }}
-      />
+      <CodeBlock
+        className="rounded-lg max-w-[50vw] w-full hero-code hidden md:block"
+        language="py"
+        showLineNumbers>
+        {`
+from typing import Any, Dict
+
+from buildflow import Flow
+from buildflow.io.portable import AnalysisTable, Topic
+
+app = Flow()
+
+@app.pipeline(
+  source=Topic(topic_id="input-topic"),
+  sink=AnalysisTable("output-table"))
+def process(element: Dict[str, Any]):
+    return element
+
+`}
+      </CodeBlock>
     </div>
   );
 }

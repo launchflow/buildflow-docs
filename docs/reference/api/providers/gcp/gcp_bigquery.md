@@ -1,5 +1,0 @@
-# Google BigQuery Providers
-
-## StreamingBigQueryProvider
-
-<!-- TODO: Fill this out (look in _legacy/ for inspiration) -->

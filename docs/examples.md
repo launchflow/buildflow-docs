@@ -2,112 +2,312 @@
 # Examples
 
 Below are some quick examples of using BuildFlow. If you are just getting started with BuildFlow we recommend starting with our walkthroughs:
-- [GCP Real-Time Image Classification](./walkthroughs/realtime-image-classification)
 
-## Install
+- [Real-Time Image Classification](./walkthroughs/realtime-image-classification)
+
+Before running any of the examples ensure you have [installed BuildFlow](./install).
+
+All examples can be run with the following commands:
 
 ```bash
-pip install buildflow
+# Create all resources required by the pipeline
+buildflow apply main:app
+# Run the pipeline
+buildflow run main:app
+# Destroy resources required by the pipeline
+buildflow destroy main:app
 ```
 
-## Basic Example Usage
+## Local Examples
+
+### Local File Change Stream -> DuckDB
 
 ```python
-from buildflow import Node
-from buildflow.io import GCPPubSubSubscription, BigQueryTable
+from buildflow import Flow
 
+from buildflow.io.local import LocalFileChangeStream
+from buildflow.io.duckdb import DuckDBTable
 
-# Step 1. Create a BuildFlow Node (app) and define your input / output(s)
-app = Node()
+# TODO(developer): Point this at the directory you would like to watch.
+DIR_TO_WATCH = TODO
 
-# NOTE: A Subscription will automatically be created in the billing project
-source = GCPPubSubSubscription(topic='TODO', billing_project='TODO')
-# NOTE: A BigQuery Table will be automatically created using the
-sink = BigQuerySink(table_id='TODO')
+app = Flow()
 
-
-# Step 2. Create a Processor that reads from Google PubSub and writes to BigQuery
-@app.processor(source=source, sink=sink)
-async def process_message(pubsub_message):
-  # TODO(developer): Implement processing logic
-  ...
-  # The output is automatically sent to the sink provider
-  return {...}
-
-
-# Step 3. Start the BuildFlow app's Runtime
-if __name__ == ""__main__"":
-  app.run()
+@app.pipeline(
+  source=LocalFileChangeStream(file_path=DIR_TO_WATCH)
+  sink=DuckDB(database="mydb.duckcb", table="mytable")
+)
+def pipeline(elem):
+  return elem
 ```
 
-For more in-depth tutorials, see our walkthroughs.
+## GCP Examples
 
-## Example Usage with Custom Configuration
+### GCP Pub/Sub -> GCS
 
 ```python
-from dataclasses import dataclass
+import dataclasses
+import os
+from datetime import datetime
+from typing import Any, Dict
 
-from buildflow import Node, RuntimeConfig, InfraConfig, SchemaValidation
-from buildflow.io import GCPPubSubSubscription, BigQueryTable
+import buildflow
+from buildflow.io.gcp import GCSBucket, GCPPubSubSubscription
+from buildflow.types.portable import FileFormat
 
+# TODO(developer): Point this at the gcp project where resources should be created.
+gcp_project = TODO
+# TODO(developer): Change this to a unique bucket name to upload your files to.
+bucket_name = TODO
 
-# Optional: Use dataclasses and BuildFlow will perform schema validation checks
-@dataclass
-class InputSchema:
-    field: str
-
-@dataclass
-class OutputSchema:
-    other: int
-
-
-# Optional: Configure the Runtime & Infra submodules for your use case.
-# All BuildFlow configs have class method for common use cases.
-runtime_config = RuntimeConfig.IO_BOUND(autoscale=True)
-# You can also set the values directly
-infra_config = InfraConfig(
-    schema_validation=SchemaValidation.STRICT,
-    require_confirmation=True,
-    log_level="INFO",
-)
-
-# Step 1. Create a BuildFlow Node (app) and define your input / output(s)
-app = Node(runtime_config=runtime_config, infra_config=infra_config)
-
-# NOTE: A Subscription will automatically be created in the billing project
-source = GCPPubSubSubscription(topic='TODO', billing_project='TODO')
-# NOTE: A BigQuery Table will be automatically created using the
-sink = BigQuerySink(table_id='TODO')
+input_source = GCPPubSubSubscription(
+    project_id=gcp_project,
+    subscription_name=main_sub,
+    topic_id="projects/pubsub-public-data/topics/taxirides-realtime"
+).options(managed=True)
+output_bucket = GCSBucket(
+    file_path="taxidata.parquet",
+    file_format=FileFormat.PARQUET,
+    project_id=gcp_project,
+    bucket_name=bucket_name,
+    bucket_region="us-central1"
+).options(managed=True, force_destroy=True)
 
 
-# Step 2. Create a Processor that reads from Google PubSub and writes to BigQuery
-@app.processor(
-  source=source,
-  sink=sink,
-  # Optional: Configure your processor's replica options. In this case, we will run
-  # 2 replicas per CPU core, and each replica will run 8 tasks concurrently.
-  num_cpus=0.5,
-  num_concurrency=8,
-)
-async def process_message(pubsub_message: InputSchema) -> OutputSchema:
-  # TODO(developer): Implement processing logic
-  ...
-  # The output is automatically sent to the sink provider
-  return OutputSchema(...)
+@dataclasses.dataclass
+class TaxiOutput:
+    ride_id: str
+    point_idx: int
+    latitude: float
+    longitude: float
+    timestamp: datetime
+    meter_reading: float
+    meter_increment: float
+    ride_status: str
+    passenger_count: int
 
 
-# Step 3. Start the BuildFlow app's Runtime
-app.run(
-  # Optional: Set infra options for this run. In this case, we will create the
-  # PubSub Subscription and BigQuery Tables on start, and will delete them
-  # once the run is complete. This can be useful for integration tests, or when
-  # trying out new cloud services.
-  apply_infrastructure: bool = True,
-  destroy_infrastructure: bool = True,
-)
+app = buildflow.Flow()
 
-if __name__ == ""__main__"":
-  app.run()
+@app.pipeline(source=input_source, sink=output_bucket)
+def pipeline(element: Dict[str, Any]) -> TaxiOutput:
+    return TaxiOutput(**element)
 ```
 
-For more in-depth tutorials, see our walkthroughs.
+### GCP Pub/Sub -> BigQuery
+
+```python
+import dataclasses
+import os
+from datetime import datetime
+from typing import Any, Dict
+
+import buildflow
+from buildflow.io.gcp import BigQueryTable, GCPPubSubSubscription
+
+# TODO(developer): Point this at the gcp project where resources should be created
+gcp_project = TODO
+
+input_source = GCPPubSubSubscription(
+    project_id=gcp_project,
+    subscription_name=main_sub,
+    topic_id="projects/pubsub-public-data/topics/taxirides-realtime"
+).options(managed=True)
+output_table = BigQueryTable(
+    project_id=gcp_project,
+    dataset_name="buildflow_output"
+    table_name="taxidata"
+).options(managed=True, destroy_protection=False)
+
+
+@dataclasses.dataclass
+class TaxiOutput:
+    ride_id: str
+    point_idx: int
+    latitude: float
+    longitude: float
+    timestamp: datetime
+    meter_reading: float
+    meter_increment: float
+    ride_status: str
+    passenger_count: int
+
+
+app = buildflow.Flow()
+
+@app.pipeline(source=input_source, sink=output_table)
+def pipeline(element: Dict[str, Any]) -> TaxiOutput:
+    return TaxiOutput(**element)
+```
+
+### GCS File Change Stream -> BigQuery
+
+```python
+import dataclasses
+import datetime
+import io
+import json
+import os
+from typing import List
+
+import buildflow
+from buildflow.io.gcp import BigQueryTable, GCSBucket, GCSFileChangeStream
+from buildflow.types.gcp import GCSFileChangeEvent
+
+# TODO(developer): Point this at the gcp project where resources should be created.
+gcp_project = TODO
+# TODO(developer): Change this to a unique bucket name to upload your files to.
+bucket_name = TODO
+
+source = GCSFileChangeStream(
+    gcs_bucket=GCSBucket(
+        project_id=gcp_project,
+        bucket_name=bucket_name,
+        bucket_region="us-central1",
+    ).options(managed=True, force_destroy=True),
+)
+sink = BigQueryTable(
+    project_id=gcp_project,
+    dataset_name="buildflow_output",
+    table_name="buildflow_table",
+).options(managed=True, destroy_protection=False)
+
+
+app = buildflow.Flow()
+
+
+@dataclasses.dataclass
+class Output:
+    value: int
+
+
+# Define our processor.
+@app.pipeline(source=source, sink=sink)
+def process(gcs_file_event: GCSFileChangeEvent) -> Output:
+    json_str = gcs_file_event.blob.decode()
+    return Output(**json.loads(json_str))
+```
+
+## AWS Examples
+
+### AWS SQS -> S3
+
+```python
+import dataclasses
+
+import buildflow
+from buildflow.io.aws import S3Bucket, SQSQueue
+from buildflow.types.portable import FileFormat
+
+# TODO(developer): Change this to a unique bucket name to upload your files to.
+bucket_name = TODO
+
+input_source = SQSQueue(
+    queue_name="input-queue"
+    aws_region="us-east-1"
+).options(managed=True)
+output_bucket = S3Bucket(
+    file_path="output.parquet",
+    file_format=FileFormat.PARQUET,
+    aws_region="us-east-1",
+    bucket_name=bucket_name
+).options(managed=True, force_destroy=True)
+
+
+app = buildflow.Flow()
+
+
+@dataclasses.dataclass
+class Output:
+    value: int
+
+
+@app.pipeline(source=input_source, sink=output_bucket)
+def pipeline(element: Dict[str, Any]) -> Output:
+    return Output(**element)
+```
+
+### AWS SQS -> Snowflake
+
+```python
+import dataclasses
+
+import buildflow
+from buildflow.io.aws import S3Bucket, SQSQueue
+from buildflow.io.snowflake import SnowflakeTable
+
+input_source = SQSQueue(
+    queue_name="input-queue"
+    aws_region="us-east-1").options(managed=True)
+output_table = SnowflakeTable(
+    database="buildflow_db",
+    schema="buildflow_schema",
+    table="my-sf-table",
+    bucket=S3Bucket(
+        aws_region="us-east-1",
+        bucket_name="snowflake-staging"
+    ).options(managed=True, force_destroy=True),
+).options(managed=True, force_destroy=True)
+
+
+app = buildflow.Flow()
+
+
+@dataclasses.dataclass
+class Output:
+    value: int
+
+
+@app.pipeline(source=input_source, sink=output_table)
+def pipeline(element: Dict[str, Any]) -> Output:
+    return Output(**element)
+```
+
+### S3 File Change Stream -> Snowflake
+
+```python
+import dataclasses
+
+import buildflow
+from buildflow.io.aws import S3Bucket, S3FileChangeStream
+from buildflow.io.snowflake import SnowflakeTable
+from buildflow.types.aws import S3ChangeStreamEventType, S3FileChangeEvent
+from buildflow.types.portable import PortableFileChangeEventType
+
+# TODO(developer): Change this to a unique bucket name to upload your files to.
+input_bucket_name = TODO
+
+input_source = S3FileChangeStream(
+    bucket=S3Bucket(
+        aws_region="us-east-1",
+        bucket_name=input_bucket_name
+    ).options(managed=True, force_destroy=True),
+)
+output_table = SnowflakeTable(
+    database="buildflow_db",
+    schema="buildflow_schema",
+    table="my-sf-table",
+    bucket=S3Bucket(
+        aws_region="us-east-1",
+        bucket_name="snowflake-staging").options(managed=True, force_destroy=True),
+).options(managed=True, force_destroy=True)
+
+
+app = buildflow.Flow()
+
+
+@dataclasses.dataclass
+class Output:
+    value: int
+
+
+@app.pipeline(source=input_source, sink=output_table)
+def pipeline(s3_file_event: S3FileChangeEvent) -> Output:
+    if s3_file_event.portable_event_type != PortableFileChangeEventType.CREATED:
+        # skip non-created events
+        # S3 publishes a test notification when it is first created and we want
+        # to ensure that it doesn't fail.
+        return
+    return Output(**element)
+```
+
