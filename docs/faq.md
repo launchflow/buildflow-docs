@@ -9,7 +9,7 @@
 
 <details className="clear">
     <summary mdxType="summary">Why doesn't BuildFlow support [X]?</summary>
-    Content
+    <p>BuildFlow is still in its early stages and we are working hard to add support for more and more use cases. If you have any specific questions or use cases we would love to hear more about it in our <a href="https://discordapp.com/invite/wz7fjHyrCA">discord server</a>! Or feel free to create an <a href="https://github.com/launchflow/buildflow/issues">issue</a> and we can discuss prioritization.</p>
 
 </details>
 
