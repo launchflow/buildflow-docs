@@ -9,7 +9,7 @@ Options:
 - `start-runtime-server`: Whether to start the server for the running application (defaults to `False`).
 - `runtime-server-host`: If `start-runtime-server` is set, this is the host it will run on (defaults to 127.0.0.1)
 - `runtime-server-port`: If `start-runtime-server` is set, this is the port it will run on (defaults to 9653)
-- `run-id`: The run id to use for this run this will be included in any metrics. (defaults to a None)
+- `run-id`: The run id to use for this run this will be included in any metrics. (defaults to None)
 
 Run `buildflow run --help` to see available options:
 
