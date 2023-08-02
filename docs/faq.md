@@ -2,7 +2,7 @@
 
 <details className="clear">
     <summary mdxType="summary">Can BuildFlow really scale to handle any load?</summary>
-    We haven't tested BuildFlow with every possible traffic pattern. But we're confident with the right tuning it should be able to handle the vst majority of use cases. If you have any specific questsion we would love to hear more about you specific use case in our <a href="https://discordapp.com/invite/wz7fjHyrCA">discord server</a>
+    We haven't tested BuildFlow with every possible traffic pattern. But BuildFlow's runtime is built on top of Ray which has been shown to be able to scale to massive workloads. We're confident with the right tuning it should be able to handle the vast majority of use cases. If you have any specific questions or use cases we would love to hear more about it in our <a href="https://discordapp.com/invite/wz7fjHyrCA">discord server</a>!
 
 </details>
 
@@ -14,14 +14,8 @@
 </details>
 
 <details className="clear">
-    <summary mdxType="summary">Why isn't BuidFlow as effecient as system [X]?</summary>
+    <summary mdxType="summary">Is BuildFlow as efficient as [X]?</summary>
     With BuildFlow we have been focused on developer experience and correctness. We want someone to be able to be able to get started with BuildFlow in a matter of minutes without having to worry about the correctness of the underlying runtime. At the same time we chose to build our runtime on top of <a href="https://www.ray.io">Ray</a> which has shown to be one of the most powerfull distributed computing frameworks available. So as we continue to improve BuildFlow you can expect to see it become more and more effecient.
-
-</details>
-
-<details className="clear">
-    <summary mdxType="summary">How does BuildFlow integrate with Ray?</summary>
-    BuildFlow's run time is build on top of ray. This allows your processor to scale to any size and handle any load. It also allows you to take advantage of our <a href="user-guides/pipelines/async-pipelines">async run time</a> inside of your processor.
 
 </details>
 
