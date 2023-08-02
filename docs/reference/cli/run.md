@@ -5,53 +5,34 @@ The plan command will run the current BuildFlow Node.
 Arguments:
 - `app`: The BuildFlow node/app to run.
 
-Options:"
-- `disable-usage-stats`: Disables usage stats being sent to BuildFlow.
-- `apply-infrastructure`: Wheter resources should be applied before running the node.
-- `destroy-infrastructure`: Whether resources should be destroyed after running the node.
-
+Options:
+- `start-runtime-server`: Whether to start the server for the running application (defaults to `False`).
+- `runtime-server-host`: If `start-runtime-server` is set, this is the host it will run on (defaults to 127.0.0.1)
+- `runtime-server-port`: If `start-runtime-server` is set, this is the port it will run on (defaults to 9653)
+- `run-id`: The run id to use for this run this will be included in any metrics. (defaults to a None)
 
 Run `buildflow run --help` to see available options:
 
 ```
-buildflow run --help
-                                                                                             
- Usage: buildflow run [OPTIONS] APP                                                          
-                                                                                             
- Run a buildflow node.                                                                       
-                                                                                             
-╭─ Arguments ───────────────────────────────────────────────────────────────────────────────╮
-│ *    app      TEXT  The node app to run [default: None] [required]                        │
-╰───────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Options ─────────────────────────────────────────────────────────────────────────────────╮
-│ --disable-usage-stats       --no-disable-usage-sta…             Disable buildflow usage   │
-│                                                                 stats                     │
-│                                                                 [default:                 │
-│                                                                 no-disable-usage-stats]   │
-│ --apply-infrastructure      --no-apply-infrastruct…             Whether resources should  │
-│                                                                 be created                │
-│                                                                 [default:                 │
-│                                                                 no-apply-infrastructure]  │
-│ --destroy-infrastructure    --no-destroy-infrastru…             Whether resources should  │
-│                                                                 be destroyed.             │
-│                                                                 [default:                 │
-│                                                                 no-destroy-infrastructur… │
-│ --include-monitor           --no-include-monitor                Whether to include a      │
-│                                                                 monitor for the running   │
-│                                                                 node.                     │
-│                                                                 [default:                 │
-│                                                                 no-include-monitor]       │
-│ --montior-host                                         TEXT     The monitor host.         │
-│                                                                 [default: 127.0.0.1]      │
-│ --monitor-port                                         INTEGER  The monitor port.         │
-│                                                                 [default: 9653]           │
-│ --app-dir                                              TEXT     The directory to look for │
-│                                                                 the app in, by adding     │
-│                                                                 this to `sys.path` we     │
-│                                                                 default to looking in the │
-│                                                                 directory.                │
-│ --help                                                          Show this message and     │
-│                                                                 exit.                     │
-╰───────────────────────────────────────────────────────────────────────────────────────────╯
+$ buildflow run --help
+Usage: buildflow run [OPTIONS] APP
 
+  Run a buildflow flow.
+
+Arguments:
+  APP  The flow app to run  [required]
+
+Options:
+  --start-runtime-server / --no-start-runtime-server
+                                  Whether to start the server for the running
+                                  application.  [default: no-start-runtime-server]
+  --runtime-server-host TEXT      The host to use for the flow server.
+                                  [default: 127.0.0.1]
+  --runtime-server-port INTEGER   The port to use for the flow server.
+                                  [default: 9653]
+  --run-id TEXT                   The run id to use for this run.
+  --app-dir TEXT                  The directory to look for the app in, by
+                                  adding this to `sys.path` we default to
+                                  looking in the directory.
+  --help                          Show this message and exit.
 ```

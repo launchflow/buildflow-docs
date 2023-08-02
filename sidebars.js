@@ -143,6 +143,16 @@ module.exports = {
       ],
     },
     {
+      type: "category",
+      label: "CLI",
+      items: [
+        "reference/cli/run",
+        "reference/cli/apply",
+        "reference/cli/plan",
+        "reference/cli/destroy",
+      ]
+    },
+    {
       type: "html",
       value: "<hr>Features",
       className: "sidebar-title",
