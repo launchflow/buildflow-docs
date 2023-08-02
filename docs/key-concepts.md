@@ -12,9 +12,9 @@ Before getting started with BuildFlow, it's important to understand the core con
 - [Primitives](#primitives): a resource that a processor may read from, write to, or manage
 
 
-## [Flows](./user-guides/flows/overview)
+## Flows
 
-The Flow class is the entrypoint into the BuildFlow Framework. They acts as a container type for user-defined Processors and are responsible for orchestrating the Processors across the Runtime and Infrastructure submodules.
+The [Flow](./user-guides/flows/overview) class is the entrypoint into the BuildFlow Framework. They acts as a container type for user-defined Processors and are responsible for orchestrating the Processors across the Runtime and Infrastructure submodules.
 
 TLDR; Flows act as a container type for a user's application:
 ```python
@@ -32,8 +32,8 @@ At a high-level, Processors are a user-defined function that are individually sc
 - HTTP Endpoints
 - WebSockets
 
-### [Pipelines](./user-guides/pipelines/overview)
-A `pipeline` is a specifc type of processor intended for real-time data processing. Pipelines read from an unbounded source such as (Kafka, AWS SQS, or GCP Pub/Sub) and outputs to a Sink. They are attached to a Flow by using the `@app.pipeline` decorator.
+### Pipelines
+A [`pipeline`](./user-guides/pipelines/overview) is a specifc type of processor intended for real-time data processing. Pipelines read from an unbounded source such as (Kafka, AWS SQS, or GCP Pub/Sub) and outputs to a Sink. They are attached to a Flow by using the `@app.pipeline` decorator.
 
 ```python
 # Creates a Processor and adds it to the app (Node class)
