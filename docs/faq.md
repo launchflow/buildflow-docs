@@ -30,30 +30,3 @@
     BuildFlow is an open source framework for designing and building your application. LaunchFlow is a serverless platform that allows you to instantly deploy your BuildFlow application to the cloud.
 
 </details>
-
-
-
-
-<!-- <Details className="clear">
-    <summary mdxType="summary">Why isn't BuidFlow as effecient as system [X]?</summary>
-
-    CONTENT
-</Details>
-
-<Details className="clear">
-    <summary mdxType="summary">How does BuildFlow integrate with Ray?</summary>
-
-    CONTENT
-</Details>
-
-<Details className="clear">
-    <summary mdxType="summary">How does BuildFlow integrate with Pulumi?</summary>
-
-    CONTENT
-</Details>
-
-<Details className="clear">
-    <summary mdxType="summary">What is the difference between BuildFlow and LaunchFlow?</summary>
-
-    TODO
-</Details> -->
