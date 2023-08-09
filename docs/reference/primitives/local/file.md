@@ -1,8 +1,8 @@
 # File
 
-`File` is a sink primitive that can be used to write data to a file. To create a `File` provide the 
-- `file_path`: path of the file to write to
-- `file_format`: format of the file 
+`File` is a sink primitive that can be used to write data to a file. The sink primitive takes in a file path and will create one unique file per replica. To create a `File` provide the 
+- `file_path` **required**: the base path of the file to write to. We will take this path and generate a unique file path for each replica in the following format: `{file_path}-{uuid}.{extension}` 
+- `file_format` **required**: format of the file 
     - The supported formats are:
         - JSON
         - CSV
