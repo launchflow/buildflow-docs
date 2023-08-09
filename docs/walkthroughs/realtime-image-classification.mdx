@@ -26,7 +26,7 @@ Follow the [Google Cloud Walkthrough](https://developers.google.com/workspace/gu
     
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-<p>All the code for this walkthrough can be found on <a href="https://github.com/launchflow/buildflow-gcp-image-classification">github</a></p>
+<p>All the code for this walkthrough can be found on <a href="https://github.com/launchflow/buildflow-aws-image-classification">github</a></p>
 <Admonition type="tip">
 
 In order to run this code you will need to have a AWS and Snowflake account created that you have access to.
@@ -153,13 +153,33 @@ GCP_SERVICE_ACCOUNT_INFO = TODO
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<p>The following environment variables need to be set:
+<ul>
+    <li><b>INPUT_BUCKET</b>: the bucket files will be uploaded/downloaded from</li>
+    <li><b>SNOWFLAKE_BUCKET_NAME</b>: the bucket our output will be staged at before writing to snowflake</li>
+    <li><b>SNOWFLAKE_ACCOUNT</b>: the snowflake account for where to upload data to</li>
+    <li><b>SNOWFLAKE_USER</b>: the snowflake username to authenticate as</li>
+    <li><b>SNOWFLAKE_PRIVATE_KEY_FILE</b>: the private key file to user for authnetication with snowflake, <a href="https://docs.snowflake.com/en/user-guide/key-pair-auth">follow these steps to create one.</a></li>
+    <li><b>AWS_ACCESS_KEY_ID</b>: AWS access key ID. this is required for snowflake to be able to read from the bucket</li>
+    <li><b>AWS_SECRET_ACCESS_KEY</b>: AWS secret access key for an AWS IAM user. this is required for snowflake to be able to read from the bucket</li>
+</ul>
+</p>
+<CodeBlock language="python">
+{`INPUT_BUCKET_NAME=TODO
+SNOWFLAKE_BUCKET_NAME=TODO
+SNOWFLAKE_ACCOUNT=TODO
+SNOWFLAKE_USER=TODO
+SNOWFLAKE_PRIVATE_KEY_FILE=TODO
+AWS_ACCESS_KEY_ID=TODO
+AWS_SECRET_ACCESS_KEY=TODO
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-<p>You can set <code>INPUT_BUCKET_NAME</code> to the folder you wish to listen to new files in. By default this points to a folder in the repository directory.</p>
+<p>You can set <code>INPUT_FOLDER_NAME</code> to the folder you wish to listen to new files in. By default this points to a folder in the repository directory.</p>
 
 <CodeBlock language="python">
-{`INPUT_BUCKET_NAME=image_folder
+{`INPUT_FOLDER_NAME=image_folder
 `}
 </CodeBlock>
     </TabItem>
@@ -198,7 +218,24 @@ dotenv.load_dotenv()
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<CodeBlock language="python">
+{`import dataclasses
+import datetime
+import os
+import tempfile
+from typing import List
+ 
+import dotenv
+from imageai.Classification import ImageClassification
+ 
+from buildflow import Flow, FlowOptions
+from buildflow.io.aws import S3FileChangeStream, S3Bucket
+from buildflow.io.snowflake import SnowflakeTable, read_private_key_file
+from buildflow.types.aws import S3FileChangeEvent, S3ChangeStreamEventType
+ 
+dotenv.load_dotenv()
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
 <CodeBlock language="python">
@@ -258,7 +295,17 @@ Here we load in any custom service account credentials that were provided.
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<p>
+Here we load in the credentials that were provided.
+</p>
+<CodeBlock language="python">
+{`app = Flow(
+    flow_options=FlowOptions(
+        aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+    )
+)
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
 <p>
@@ -290,7 +337,6 @@ Our source is <a href="../reference/primitives/gcp/gcs_file_change_stream">GCSFi
         gcs_bucket=GCSBucket(
             project_id=GCP_PROJECT_NAME,
             bucket_name=BUCKET_NAME,
-            bucket_region="us-central1",
         ).options(managed=True, force_destroy=True),
     ),
     sink=BigQueryTable(
@@ -304,7 +350,32 @@ class ImageClassificationProcessor:
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<p>
+Our source is <a href="../reference/primitives/aws/s3_file_change_stream">S3FileChangeStream</a> and our sink is a <a href="../reference/primitives/snowflake">SnowflakeTable</a>.
+</p>
+<CodeBlock language="python">
+{`@app.pipeline(
+    source=S3FileChangeStream(
+        s3_bucket=S3Bucket(
+            bucket_name=INPUT_BUCKET_NAME,
+            aws_region="us-east-1",
+        ).options(managed=True, force_destroy=True),
+    ),
+    sink=SnowflakeTable(
+        database="buildflow-walkthrough",
+        schema="buildflow-schema",
+        table="image_classification",
+        account=SNOWFLAKE_ACCOUNT,
+        user=SNOWFLAKE_USER,
+        private_key=read_private_key_file(SNOWFLAKE_PRIVATE_KEY_FILE),
+        bucket=S3Bucket(
+            bucket_name=SNOWFLAKE_BUCKET_NAME,
+            aws_region="us-east-1",
+        ).options(managed=True, force_destroy=True),
+    ).options(managed=True),
+)
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
 <p>
@@ -448,7 +519,7 @@ python image_upload.py --bucket=BUCKET_NAME --project=GCP_PROJECT
 <Admonition type="tip">
 <p>By default this uploads a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
 
-<p>Also if you updated the dataset or table you wrote to you can provide <code>--dataset-name</code> and <code>--table-name</code> to point the script at a different table.</p>
+<p>Also if you updated the dataset or table you wrote to, you can provide <code>--dataset-name</code> and <code>--table-name</code> to point the script at a different table.</p>
 
 </Admonition>
     </TabItem>
@@ -464,7 +535,7 @@ python image_upload.py
 <Admonition type="tip">
 <p>By default this copies a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
 
-<p>Also if you updated the folder, duckdb database, or table wrote to you can provide them with <code>--image-folder</code>, <code>--duckdb-database</code>, and <code>--duckdb-table</code>.</p>
+<p>Also if you updated the folder, duckdb database, or table you wrote to, you can provide them with <code>--image-folder</code>, <code>--duckdb-database</code>, and <code>--duckdb-table</code>.</p>
 
 </Admonition>
     </TabItem>
