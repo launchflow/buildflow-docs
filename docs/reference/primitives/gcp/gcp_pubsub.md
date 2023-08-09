@@ -53,33 +53,14 @@ GCPPubSubTopic(...).options(managed=True)
 `GCPPubSubSubscription` is a source primitive that can be used to read data from a Pub/Sub subscription. To create a `GCPPubSubSubscription` provide:
 
  - `project_id` **required**: gcp project where the subscription exists
- - `topic_id` **required**: topic id to subscripe to in the form `projects/GCP_PROJECT/topics/TOPIC_NAME`
  - `subscription_name` **required**: name of the subscription
- - `include_attributes`: Whether or not attributes should be included in the return type. If this is set to `True` your pipeline will receive a `PubsubMessage` class containing the raw message and attributes. Defaults to `False`.
 
-
-Default:
 ```python
 
 from buildflow.io.gcp import GCPPubSubSubscription
 
-@app.pipeline(source=GCPPubSubSubscription(project_id="project", topic_id="projects/project/topics/topic", subscription_name="my-subscription"), sink=...)
+@app.pipeline(source=GCPPubSubSubscription(project_id="project", subscription_name="my-subscription"), sink=...)
 def process(elem: MyType):
-    ...
-```
-
-With attributes:
-```python
-
-from buildflow.io.gcp import GCPPubSubSubscription
-from buildflow.io.gcp import PubsubMessage
-
-@app.pipeline(source=GCPPubSubSubscription(
-    project_id="project",
-    topic_id="projects/project/topics/topic", 
-    subscription_name="my-subscription",
-    include_attributes=True), sink=...)
-def process(elem: PubsubMessage):
     ...
 ```
 
@@ -110,7 +91,10 @@ If you are using BuildFlow's built in resource creation/management you can use t
 
 You can provide the following options to control resource management of the Pub/Sub topic:
 - `managed`: Whether or not the topic is managed by BuildFlow. Defaults to `False`.
+- `topic`: The [GCPPubSubTopic](./gcp_pubsub#gcp-pubsub-topic) of the topic you want to subscribe to this will be used when creating the subscription if it is managed.
+- `include_attributes`: Whether or not attributes should be included in the return type. If this is set to `True` your pipeline will receive a `PubsubMessage` class containing the raw message and attributes. Defaults to `False`.
+
 
 ```python
-GCPPubSubSubscription(...).options(managed=True)
+GCPPubSubSubscription(...).options(managed=True, topic=GCPPubSubTopic(...), include_attributes=True)
 ```

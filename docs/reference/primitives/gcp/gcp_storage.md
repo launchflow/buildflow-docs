@@ -6,7 +6,6 @@ Description of the primitive. Folowed by arguments:
 
 - `project_id` **required**: The project ID where the GCS bucket lives
 - `bucket_name` **required**: The name of the bucket
-- `bucket_region` **required**: The region the bucket exists in
 - `file_path` **required**: The file path to write to
 - `file_format` **required**: The file format to write valid options are: JSON, CSV, and PARQUET
 
@@ -18,7 +17,6 @@ from buildflow.io.gcp import GCSBucket
 @app.pipeline(source=..., sink=GCSBucket(
     project_id="project",
     bucket_name="bucket",
-    bucket_region="us-central1",
     file_path="path/to/file_in_bucket",
     file_format="PARQUET")
 )
@@ -55,7 +53,9 @@ You can provide the following options to control resource management of the GCS 
 
 - `managed`: Whether or not the topic is managed by BuildFlow. Defaults to `False`.
 - `force_destroy`: If true destroy will fail if the bucket contains objects. Defaults to `False`.
+- `bucket_region`: The region to create the bucket it.
+
 
 ```python
-primitive = GCSBucket(...).options(managed=True, force_destroy=True)
+primitive = GCSBucket(...).options(managed=True, force_destroy=True, bucket_region="US")
 ```

@@ -445,7 +445,39 @@ The returned object will then be written to our output table.
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<CodeBlock language="python">
+{`    def process(
+        self,
+        file_event: S3FileChangeEvent,
+    ) -> ImageClassificationRow:
+        if file_event.event_type not in S3ChangeStreamEventType.create_event_types():
+            # s3/sqs publishes a test notification when the notification is first created
+            # we ignore that
+            return
+        with tempfile.TemporaryDirectory() as td:
+            if not os.path.exists(file_event.file_path):
+                # Check if the path exists first, if we're running locally
+                # we don't need to download and write the file.
+                file_path = os.path.join(td, file_event.file_path)
+                with open(file_path, "wb") as f:
+                    f.write(file_event.blob)
+            else:
+                file_path = file_event.file_path
+            predictions, probabilities = self.prediction.classifyImage(
+                file_path, result_count=5
+            )
+        classifications = []
+        for predicition, probability in zip(predictions, probabilities):
+            classifications.append(Classification(predicition, probability))
+        row = ImageClassificationRow(
+            image_name=file_event.file_path,
+            upload=datetime.datetime.utcnow().isoformat(),
+            classifications=classifications,
+        )
+        print(row)
+        return row
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
 <CodeBlock language="python">
@@ -485,7 +517,17 @@ Before you can run your processor locally you will need to create all the resour
 </ul>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<ul>
+    <li>S3 Bucket for uploading images</li>
+    <li>SQS Queue</li>
+    <li>S3 Notifications</li>
+    <li>SQS Queue Policy</li>
+    <li>Snowflake Database</li>
+    <li>Snowflake Schema</li>
+    <li>Snowflake Table</li>
+    <li>Snowflake Stage</li>
+    <li>Snowflake Pipe</li>
+</ul>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
 You can skip this step for local since no resources need to be created.
@@ -519,15 +561,26 @@ python image_upload.py --bucket=BUCKET_NAME --project=GCP_PROJECT
 <Admonition type="tip">
 <p>By default this uploads a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
 
-<p>Also if you updated the dataset or table you wrote to, you can provide <code>--dataset-name</code> and <code>--table-name</code> to point the script at a different table.</p>
+<p>If you updated the dataset or table you wrote to, you can provide the <code>--dataset-name</code> or <code>--table-name</code> flags to point the script at a different table.</p>
 
 </Admonition>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<p>Once the pipeline is up and running you can run the provided script to upload images to the bucket and see output in Snowflake.
+Make sure to replace <code>BUCKET_NAME</code> with the name of the bucket.</p>
+
+<CodeBlock language="bash">
+python image_upload.py --bucket=BUCKET_NAME
+</CodeBlock>
+<Admonition type="tip">
+<p>By default this uploads a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
+
+<p>If you updated the database, schema, or table you wrote to, you can provide <code>--database</code>, <code>--schema</code>, or <code>--table</code> flags to point the script at a different table.</p>
+
+</Admonition>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-<p>Once the pipeline is up and running you can run the provided script to cp images to the directory you are watching and have them written to your local DuckDB database.</p>
+<p>Once the pipeline is up and running you can run the provided script to copy images to the directory you are watching and have them written to your local DuckDB database.</p>
 
 <CodeBlock language="bash">
 python image_upload.py
@@ -535,7 +588,7 @@ python image_upload.py
 <Admonition type="tip">
 <p>By default this copies a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
 
-<p>Also if you updated the folder, duckdb database, or table you wrote to, you can provide them with <code>--image-folder</code>, <code>--duckdb-database</code>, and <code>--duckdb-table</code>.</p>
+<p>Also if you updated the folder, duckdb database, or table you wrote to, you can provide them with <code>--image-folder</code>, <code>--duckdb-database</code>, or <code>--duckdb-table</code> flags.</p>
 
 </Admonition>
     </TabItem>

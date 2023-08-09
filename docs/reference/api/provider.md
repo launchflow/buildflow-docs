@@ -20,10 +20,13 @@ class SinkProvider(ProviderAPI):
 
 ```python
 class PulumiProvider(ProviderAPI):
-    def pulumi_resources(
-        self, type_: Optional[Type], depends_on: List[PulumiResource] = []
-    ) -> List[PulumiResource]:
-        raise NotImplementedError("pulumi_resources not implemented for Provider")
+    def pulumi_resource(
+        self,
+        type_: Optional[Type],
+        credentials: CredentialType,
+        opts: pulumi.ResourceOptions,
+    ) -> pulumi.ComponentResource:
+        raise NotImplementedError("pulumi not implemented for Provider")
 ```
 
 #### Empty Pulumi Provider
