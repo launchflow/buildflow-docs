@@ -62,15 +62,18 @@ bucket_name = TODO
 
 input_source = GCPPubSubSubscription(
     project_id=gcp_project,
-    subscription_name=main_sub,
-    topic_id="projects/pubsub-public-data/topics/taxirides-realtime"
-).options(managed=True)
+    subscription_name="taxi_rides",
+).options(
+    managed=True,
+    topic=GCPPubSubTopic(
+        project_id="pubsub-public-data", topic_name="taxirides-realtime"
+    ),
+)
 output_bucket = GCSBucket(
     file_path="taxidata.parquet",
     file_format=FileFormat.PARQUET,
     project_id=gcp_project,
     bucket_name=bucket_name,
-    bucket_region="us-central1"
 ).options(managed=True, force_destroy=True)
 
 
@@ -110,9 +113,13 @@ gcp_project = TODO
 
 input_source = GCPPubSubSubscription(
     project_id=gcp_project,
-    subscription_name=main_sub,
-    topic_id="projects/pubsub-public-data/topics/taxirides-realtime"
-).options(managed=True)
+    subscription_name="taxi_rides",
+).options(
+    managed=True,
+    topic=GCPPubSubTopic(
+        project_id="pubsub-public-data", topic_name="taxirides-realtime"
+    ),
+)
 output_table = BigQueryTable(
     project_id=gcp_project,
     dataset_name="buildflow_output"
@@ -163,8 +170,7 @@ source = GCSFileChangeStream(
     gcs_bucket=GCSBucket(
         project_id=gcp_project,
         bucket_name=bucket_name,
-        bucket_region="us-central1",
-    ).options(managed=True, force_destroy=True),
+    ).options(managed=True, force_destroy=True, bucket_region="US"),
 )
 sink = BigQueryTable(
     project_id=gcp_project,
@@ -236,21 +242,43 @@ import buildflow
 from buildflow.io.aws import S3Bucket, SQSQueue
 from buildflow.io.snowflake import SnowflakeTable
 
+
+# TODO(developer): fill these in
+SNOWFLAKE_BUCKET_NAME = TODO
+SNOWFLAKE_ACCOUNT = TODO
+SNOWFLAKE_USER = TODO
+# NOTE: This private key file needs to be in your workscape application directory
+# to have it uploaded to LaunchFlow correctly.
+# See: https://docs.snowflake.com/en/user-guide/key-pair-auth
+SNOWFLAKE_PRIVATE_KEY_FILE = TODO
+# NOTE: These are required so Snowflake can access the S3 bucket
+AWS_ACCESS_KEY_ID = TODO
+AWS_SECRET_ACCESS_KEY = TODO
+
+
 input_source = SQSQueue(
     queue_name="input-queue"
-    aws_region="us-east-1").options(managed=True)
-output_table = SnowflakeTable(
-    database="buildflow_db",
-    schema="buildflow_schema",
-    table="my-sf-table",
-    bucket=S3Bucket(
+    aws_region="us-east-1"
+).options(managed=True)
+output_table=SnowflakeTable(
+    database="buildflow-walkthrough",
+    schema="buildflow-schema",
+    table="sf-table",
+    account=SNOWFLAKE_ACCOUNT,
+    user=SNOWFLAKE_USER,
+    private_key_file=read_private_key_file(SNOWFLAKE_PRIVATE_KEY_FILE),
+    s3_bucket=S3Bucket(
+        bucket_name=SNOWFLAKE_BUCKET_NAME,
         aws_region="us-east-1",
-        bucket_name="snowflake-staging"
     ).options(managed=True, force_destroy=True),
-).options(managed=True, force_destroy=True)
+).options(managed=True, database_managed=True, schema_managed=True),
 
 
-app = buildflow.Flow()
+app = Flow(
+    flow_options=FlowOptions(
+        aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+    )
+)
 
 
 @dataclasses.dataclass
@@ -274,23 +302,37 @@ from buildflow.io.snowflake import SnowflakeTable
 from buildflow.types.aws import S3ChangeStreamEventType, S3FileChangeEvent
 from buildflow.types.portable import PortableFileChangeEventType
 
-# TODO(developer): Change this to a unique bucket name to upload your files to.
-input_bucket_name = TODO
+# TODO(developer): fill these in
+SNOWFLAKE_BUCKET_NAME = TODO
+SNOWFLAKE_ACCOUNT = TODO
+SNOWFLAKE_USER = TODO
+# NOTE: This private key file needs to be in your workscape application directory
+# to have it uploaded to LaunchFlow correctly.
+# See: https://docs.snowflake.com/en/user-guide/key-pair-auth
+SNOWFLAKE_PRIVATE_KEY_FILE = TODO
+# NOTE: These are required so Snowflake can access the S3 bucket
+AWS_ACCESS_KEY_ID = TODO
+AWS_SECRET_ACCESS_KEY = TODO
 
-input_source = S3FileChangeStream(
-    bucket=S3Bucket(
+
+input_source=S3FileChangeStream(
+    s3_bucket=S3Bucket(
+        bucket_name=INPUT_BUCKET_NAME,
         aws_region="us-east-1",
-        bucket_name=input_bucket_name
     ).options(managed=True, force_destroy=True),
 )
-output_table = SnowflakeTable(
-    database="buildflow_db",
-    schema="buildflow_schema",
-    table="my-sf-table",
-    bucket=S3Bucket(
+output_table=SnowflakeTable(
+    database="buildflow-walkthrough",
+    schema="buildflow-schema",
+    table="sf-table",
+    account=SNOWFLAKE_ACCOUNT,
+    user=SNOWFLAKE_USER,
+    private_key_file=read_private_key_file(SNOWFLAKE_PRIVATE_KEY_FILE),
+    s3_bucket=S3Bucket(
+        bucket_name=SNOWFLAKE_BUCKET_NAME,
         aws_region="us-east-1",
-        bucket_name="snowflake-staging").options(managed=True, force_destroy=True),
-).options(managed=True, force_destroy=True)
+    ).options(managed=True, force_destroy=True),
+).options(managed=True, database_managed=True, schema_managed=True),
 
 
 app = buildflow.Flow()
@@ -308,6 +350,6 @@ def pipeline(s3_file_event: S3FileChangeEvent) -> Output:
         # S3 publishes a test notification when it is first created and we want
         # to ensure that it doesn't fail.
         return
-    return Output(**element)
+    return Output(**json.loads(s3_file_event.blob.decode()))
 ```
 

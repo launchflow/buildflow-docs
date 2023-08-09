@@ -11,7 +11,7 @@
 ```python
 from buildflow.io.local import File
 
-@app.pipeline(source=File(file_path="path.csv", file_format="csv"), sink=...)
+@app.pipeline(source=..., sink=File(file_path="path.csv", file_format="csv"))
 def process(elem: MyType):
     ...
 ```

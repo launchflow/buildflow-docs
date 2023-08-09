@@ -46,9 +46,11 @@ If you are using BuildFlow's built in resource creation/management you can use t
 
 You can provide the following options to control resource management of the BigQuery table:
 - `managed`: Whether or not the topic is managed by BuildFlow. Defaults to `False`.
-- `dataset_managed`: Whether or not the dataset should be included in resource management / creation. Defaults to `True`.
+- `include_dataset`: Whether or not the dataset should be included in resource management / creation. Defaults to `True`.
 - `destroy_projection`: Whether or not the dataset should be destroyed when the `buildflow destroy` is run. Defaults to `False`.
+- `batch_size`: The number of rows to batch together in one write request to BigQuery. Defaults to 10,000. If you produce more than rows than `batch_size` the rows will be split in to multiple requests where the number of requests equals: `len(rows) / batch_size`.
+
 
 ```python
-BigQueryTable(...).options(managed=True, destroy_projection=True, dataset_managed=True)
+BigQueryTable(...).options(managed=True, include_dataset=True, dataset_managed=True, batch_size=100_000)
 ```

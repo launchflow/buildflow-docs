@@ -14,23 +14,23 @@ Each primitive may implement any of three methods:
 
 - `source_provider()`: Returns a [SourceProvider](../../reference/api/provider#source-provider) for reading data.
 - `sink_provider()`: Returns a [SinkProvider](../../reference/api/provider#sink-provider) for writing data.
-- `pulumi_provider()`: Returns a [PulumiProvider](../../reference/api/provider#pulumi-provider) for the primitive.
+- `_pulumi_provider()`: Returns a [PulumiProvider](../../reference/api/provider#pulumi-provider) for the primitive.
+
+
+:::note
+
+You are implementing the **private** **_pulumi_provider** method. Not the public version.
+
+:::
+
 
 Each of these methods should return an instance of the provider class that implements the corresponding interface.
 
 :::tip
 
-You only need to implement the methods that you need. If your primitive only supports reading data you only need to implement the `source_provider()` method, or if your primitive only supports writing data you only need to implement the `sink_provider` method.
+You only need to implement the methods that you need. If your primitive only supports reading data you only need to implement the `source_provider()` method, or if your primitive only supports writing data you only need to implement the `sink_provider` method. Similarly if your provider does not support pulumi you do not need to implement the `_pulumi_provider` method.
 
 :::
-
-
-:::tip
-
-If you do not need / want your primitive to be pulumi managed you can simply return an [`EmptyPulumiProvider`](../../reference/api/provider#empty-pulumi-provider).
-
-:::
-
 
 
 Example:
@@ -47,7 +47,7 @@ class CustomPrimitive(GCPPrimitive):
     def sink_provider(self):
         return CustomPrimitiveProvider(input_field1=self.input_field1, input_field2=self.input_field2)
 
-    def pulumi_provider(self):
+    def _pulumi_provider(self):
         return CustomPrimitiveProvider(input_field1=self.input_field1, input_field2=self.input_field2)
 
 ```
@@ -109,29 +109,51 @@ The `sink` method receives a [credentials object](../../reference/api/credential
 
 ### Pulumi Provider
 
-The pulumi provider should implement the `pulumi_resources` method which returns a list of [PulumiResources](../../reference/api/pulumi-resources) that define what resources to create/manage/destroy in pulumi. If your primitive does not need to be managed by pulumi, feel free to return an empty list.
+The pulumi provider should implement the `pulumi_resource` method which returns a single [pulumi.ComponentResource](https://www.pulumi.com/docs/concepts/resources/components/) that defines what resources to create/manage/destroy in pulumi.
 
-The `pulumi_resources` method takes in an optional `type_` argument which is either the output type the pipeline will be sending to the primitive if it is a sink, or it is the input type the pipeline expects to receive from the primitive if it is a source. This can be used to determine the expected schema of any resources that need to be created in pulumi.
+The `pulumi_resource` method takes in an optional `type_` argument which is either the output type the pipeline will be sending to the primitive if it is a sink, or it is the input type the pipeline expects to receive from the primitive if it is a source. This can be used to determine the expected schema of any resources that need to be created in pulumi (e.g. the schema of a BigQuery table).
 
-The `pulumi_resources` method also takes in an optional `depends_on` argument which is a list of [PulumiResources](../../reference/api/pulumi-resources) that need to be created before any pulumi resources created by this provider.
+The `pulumi_resource` method also receives a [credentials object](../../reference/api/credentials) that is specific to the cloud (or empty if the primitive is not cloud specific). What credentials a provider is given depends on the `PrimitiveType` determined by your `Primitive` implementation.
 
-The `pulumi_resources` method also receives a [credentials object](../../reference/api/credentials) that is specific to the cloud (or empty if the primitive is not cloud specific). What credentials a provider is given depends on the `PrimitiveType` determined by your `Primitive` implementation.
-The 
+Finally the `pulumi_resource` methods receives a `opts` object of type `pulumi.ResourceOptions` which can should be passed in to your `ComponentResource` super constructor.
 
 Example:
 
 ```python
 
+class CustomResource(pulumi.ComponentResource):
+
+    def __init__(self, opts: pulumi.ResourceOptions = None):
+        super().__init__(
+            "buildflow:custom_resource:CustomResource",
+            "buildflow-a-unique-id",
+            None,
+            opts,
+        )
+
+        outputs = {}
+
+        self.resource = pulumi.SomeResource(
+            resource_name="a-unuque-name",
+            opts=pulumi.ResourceOptions(parent=self),
+        )
+
+        outputs["custom.resource.id"] = self.resource.id
+        # TIP: This will help the LaunchFlow VSCode extension automatically display useful urls.
+        outputs["buildflow.cloud_console.url"] = "TODO"
+
+        self.register_outputs(outputs)
+
 class CustomPrimitiveProvider(SourceProvider, PulumiProvider, SinkProvider):
     ...
 
-    def pulumi_resources(
+    def pulumi_resource(
         self,
         type_: Optional[Type],
         credentials: Union[AWSCredentials, GCPCredentials],
-        depends_on: List[PulumiResource] = [],
-    ) -> List[PulumiResource]:
-        return []
+        opts: pulumi.ResourceOptions,
+    ) -> pulumi.ComponentResource:
+        return CustomResource(opts=opts)
     ...
 
 ```

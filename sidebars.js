@@ -112,6 +112,7 @@ module.exports = {
           },
           items: [
             "reference/primitives/local/file",
+            "reference/primitives/local/file_change_stream",
             "reference/primitives/local/pulse",
           ],
         },

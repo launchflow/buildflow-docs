@@ -15,7 +15,7 @@ with all [extra dependencies](../install#extra-dependencies).
 
 <Tabs groupId="cloud-types">
     <TabItem value="gcp" label="GCP" className="tab-content">
-<p>All the code for this walkthrough can be found at: https://github.com/launchflow/buildflow-gcp-image-classification</p>
+<p>All the code for this walkthrough can be found on <a href="https://github.com/launchflow/buildflow-gcp-image-classification">github</a></p>
 <Admonition type="tip">
 
 In order to run this code you will need to have a GCP project created that you have access to.
@@ -26,10 +26,19 @@ Follow the [Google Cloud Walkthrough](https://developers.google.com/workspace/gu
     
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<p>All the code for this walkthrough can be found on <a href="https://github.com/launchflow/buildflow-aws-image-classification">github</a></p>
+<Admonition type="tip">
+
+In order to run this code you will need to have a AWS and Snowflake account created that you have access to.
+
+Follow the [AWS Walkthrough](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html) to create a new one if you need to.
+
+You can signup for a Snowflake trial account [here](https://docs.snowflake.com/en/user-guide/admin-trial-account#signing-up-for-a-trial-account).
+
+</Admonition>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-Coming soon!
+<p>All the code for this walkthrough can be found on <a href="https://github.com/launchflow/buildflow-local-image-classification">github</a></p>
     </TabItem>
 </Tabs>
 
@@ -51,10 +60,18 @@ cd buildflow-gcp-image-classification
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<CodeBlock language="bash">
+{`git clone git@github.com:launchflow/buildflow-aws-image-classification.git 
+cd buildflow-aws-image-classification
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-Coming soon!
+<CodeBlock language="bash">
+{`git clone git@github.com:launchflow/buildflow-local-image-classification.git 
+cd buildflow-local-image-classification
+`}
+</CodeBlock>
     </TabItem>
 </Tabs>
 
@@ -105,6 +122,71 @@ Overall our BuildFlow processor will:
 - run them through an image classification model
 - finally write the output to an analysis table
 
+#### Set Environment Variables
+
+Before we walkthrough the code there are a couple environment variables you will need to set to ensure the pipeline points at your resources.
+
+We use a `.env` file to store these variables. A template `.env.template` is provided in the repository. Copy this file to `.env` and fill in the values.
+
+```bash
+cp .env.template .env
+```
+
+<Tabs groupId="cloud-types">
+    <TabItem value="gcp" label="GCP" className="tab-content">
+
+<p>You can set <code>GCP_PROJECT</code> to the GCP project you plan to use.
+<code>BUCKET_NAME</code> can be any unique string. BuildFlow will handle creating and resources and 
+setting up all the wiring to ensure your pipeline can listen to file uploads to this bucket and GCP project.</p>
+
+<Admonition type="tip">
+<p><code>GCP_SERVICE_ACCOUNT_INFO</code> can be removed if you do not wish to provide custom credentials. If removed we will fall back to the <a href="https://cloud.google.com/docs/authentication/application-default-credentials">default credentials</a> in your environment.</p>
+</Admonition>
+
+<CodeBlock language="python">
+{`GCP_PROJECT_NAME = TODO
+BUCKET_NAME = TODO
+# NOTE: This only needs to be set if you would like to provide custom credentials
+# Otherwise it can be deleted.
+GCP_SERVICE_ACCOUNT_INFO = TODO
+`}
+</CodeBlock>
+    </TabItem>
+    <TabItem value="aws" label="AWS" className="tab-content">
+<p>The following environment variables need to be set:
+<ul>
+    <li><b>INPUT_BUCKET</b>: the bucket files will be uploaded/downloaded from</li>
+    <li><b>SNOWFLAKE_BUCKET_NAME</b>: the bucket our output will be staged at before writing to snowflake</li>
+    <li><b>SNOWFLAKE_ACCOUNT</b>: the snowflake account for where to upload data to</li>
+    <li><b>SNOWFLAKE_USER</b>: the snowflake username to authenticate as</li>
+    <li><b>SNOWFLAKE_PRIVATE_KEY_FILE</b>: the private key file to user for authnetication with snowflake, <a href="https://docs.snowflake.com/en/user-guide/key-pair-auth">follow these steps to create one.</a></li>
+    <li><b>AWS_ACCESS_KEY_ID</b>: AWS access key ID. this is required for snowflake to be able to read from the bucket</li>
+    <li><b>AWS_SECRET_ACCESS_KEY</b>: AWS secret access key for an AWS IAM user. this is required for snowflake to be able to read from the bucket</li>
+</ul>
+</p>
+<CodeBlock language="python">
+{`INPUT_BUCKET_NAME=TODO
+SNOWFLAKE_BUCKET_NAME=TODO
+SNOWFLAKE_ACCOUNT=TODO
+SNOWFLAKE_USER=TODO
+SNOWFLAKE_PRIVATE_KEY_FILE=TODO
+AWS_ACCESS_KEY_ID=TODO
+AWS_SECRET_ACCESS_KEY=TODO
+`}
+</CodeBlock>
+    </TabItem>
+    <TabItem value="local" label="Local" className="tab-content">
+<p>You can set <code>INPUT_FOLDER_NAME</code> to the folder you wish to listen to new files in. By default this points to a folder in the repository directory.</p>
+
+<CodeBlock language="python">
+{`INPUT_FOLDER_NAME=image_folder
+`}
+</CodeBlock>
+    </TabItem>
+</Tabs>
+
+
+
 #### Repository Structure
 
 - **main.py** - this is our main python file which contains all of our logic
@@ -113,7 +195,7 @@ Overall our BuildFlow processor will:
 
 #### Code
 
-First we import all necessary modules.
+First we import all necessary modules, and ensure our environment variables from our `.env` file are loaded.
 
 <Tabs groupId="cloud-types">
     <TabItem value="gcp" label="GCP" className="tab-content">
@@ -121,34 +203,58 @@ First we import all necessary modules.
 {`import dataclasses
 import datetime
 import os
-import pandas as pd
 import tempfile
 from typing import List
  
+import dotenv
+from imageai.Classification import ImageClassification
+ 
 import buildflow
 from buildflow.io.gcp import GCSFileChangeStream, BigQueryTable, GCSBucket
-from imageai.Classification import ImageClassification
-`}
-</CodeBlock>
-
-<p>Then we define some constants for which GCP project to use and what the name of
-the bucket should be. You can set `GCP_PROJECT` to the GCP project you plan to use.
-'BUCKET_NAME' can be any unique string. BuildFlow will handle creating and resources and 
-setting up all the wiring to ensure your pipeline can listen to file uploads to this bucket.</p>
-
-
-<CodeBlock language="python">
-{`# TODO(developer): fill these in.
-GCP_PROJECT = TODO
-BUCKET_NAME = TODO
+from buildflow.types.gcp import GCSFileChangeEvent
+ 
+dotenv.load_dotenv()
 `}
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<CodeBlock language="python">
+{`import dataclasses
+import datetime
+import os
+import tempfile
+from typing import List
+ 
+import dotenv
+from imageai.Classification import ImageClassification
+ 
+from buildflow import Flow, FlowOptions
+from buildflow.io.aws import S3FileChangeStream, S3Bucket
+from buildflow.io.snowflake import SnowflakeTable, read_private_key_file
+from buildflow.types.aws import S3FileChangeEvent, S3ChangeStreamEventType
+ 
+dotenv.load_dotenv()
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-Coming soon!
+<CodeBlock language="python">
+{`import dataclasses
+import datetime
+import os
+from typing import List
+ 
+import dotenv
+from imageai.Classification import ImageClassification
+ 
+from buildflow import Flow, FlowOptions
+from buildflow.io.local import LocalFileChangeStream
+from buildflow.io.duckdb import DuckDBTable
+from buildflow.types.local import LocalFileChangeEvent
+ 
+dotenv.load_dotenv()
+`}
+</CodeBlock>
     </TabItem>
 </Tabs>
 
@@ -178,15 +284,45 @@ class ImageClassificationRow:
 
 Now we create our Flow which is a container for our pipeline. We can add as many pipelines as we like, but will only use one for this walkthrough.
 
-```python
-app = Flow()
-```
+<Tabs groupId="cloud-types">
+    <TabItem value="gcp" label="GCP" className="tab-content">
+<p>
+Here we load in any custom service account credentials that were provided.
+</p>
+<CodeBlock language="python">
+{`app = Flow(FlowOptions(gcp_service_account_info=os.getenv("GCP_SERVICE_ACCOUNT_INFO")))
+`}
+</CodeBlock>
+    </TabItem>
+    <TabItem value="aws" label="AWS" className="tab-content">
+<p>
+Here we load in the credentials that were provided.
+</p>
+<CodeBlock language="python">
+{`app = Flow(
+    flow_options=FlowOptions(
+        aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+    )
+)
+`}
+</CodeBlock>
+    </TabItem>
+    <TabItem value="local" label="Local" className="tab-content">
+<p>
+Our source is <a href="../reference/primitives/local/file_change_stream">LocalFileChangeStream</a> and our sink is a <a href="../reference/primitives/duckdb">DuckDBTable</a>.
+</p>
+<CodeBlock language="python">
+{`app = Flow()
+`}
+</CodeBlock>
+    </TabItem>
+</Tabs>
 
 Then we define our BuildFlow pipeline, our source, and our sink. Here we are saying we want to receive file notifications for this bucket and output
 them to our configured analysis table.
 :::tip
 
-We use our decorter on a class because we want to be able to setup state for our model.
+We use a decorter on a class because we want to be able to setup state for our model.
 
 :::
 
@@ -201,7 +337,6 @@ Our source is <a href="../reference/primitives/gcp/gcs_file_change_stream">GCSFi
         gcs_bucket=GCSBucket(
             project_id=GCP_PROJECT_NAME,
             bucket_name=BUCKET_NAME,
-            bucket_region="us-central1",
         ).options(managed=True, force_destroy=True),
     ),
     sink=BigQueryTable(
@@ -215,10 +350,44 @@ class ImageClassificationProcessor:
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<p>
+Our source is <a href="../reference/primitives/aws/s3_file_change_stream">S3FileChangeStream</a> and our sink is a <a href="../reference/primitives/snowflake">SnowflakeTable</a>.
+</p>
+<CodeBlock language="python">
+{`@app.pipeline(
+    source=S3FileChangeStream(
+        s3_bucket=S3Bucket(
+            bucket_name=INPUT_BUCKET_NAME,
+            aws_region="us-east-1",
+        ).options(managed=True, force_destroy=True),
+    ),
+    sink=SnowflakeTable(
+        database="buildflow-walkthrough",
+        schema="buildflow-schema",
+        table="image_classification",
+        account=SNOWFLAKE_ACCOUNT,
+        user=SNOWFLAKE_USER,
+        private_key=read_private_key_file(SNOWFLAKE_PRIVATE_KEY_FILE),
+        bucket=S3Bucket(
+            bucket_name=SNOWFLAKE_BUCKET_NAME,
+            aws_region="us-east-1",
+        ).options(managed=True, force_destroy=True),
+    ).options(managed=True),
+)
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-Coming soon!
+<p>
+Our source is <a href="../reference/primitives/local/file_change_stream">LocalFileChangeStream</a> and our sink is a <a href="../reference/primitives/duckdb">DuckDBTable</a>.
+</p>
+<CodeBlock language="python">
+{`@app.pipeline(
+    source=LocalFileChangeStream(file_path="./image_folder"),
+    sink=DuckDBTable(database="buildflow.duckdb", table="image_classification"),
+)
+`}
+</CodeBlock>
     </TabItem>
 </Tabs>
 
@@ -251,30 +420,86 @@ The returned object will then be written to our output table.
     <TabItem value="gcp" label="GCP" className="tab-content">
 <CodeBlock language="python">
 {`    def process(
-        self, gcs_file_event: buildflow.io.GCSFileEvent
+        self,
+        file_event: GCSFileChangeEvent,
     ) -> ImageClassificationRow:
         with tempfile.TemporaryDirectory() as td:
-            file_path = os.path.join(td, gcs_file_event.metadata['objectId'])
-            with open(file_path,'wb') as f:
-                f.write(gcs_file_event.blob)
+            file_path = os.path.join(td, file_event.file_path)
+            # Download the bytes to a local file that can be sent through the model
+            with open(file_path, "wb") as f:
+                f.write(file_event.blob)
             predictions, probabilities = self.prediction.classifyImage(
-                file_path, result_count=5)
+                file_path, result_count=5
+            )
         classifications = []
         for predicition, probability in zip(predictions, probabilities):
             classifications.append(Classification(predicition, probability))
-        return ImageClassificationRow(
-            image_name=gcs_file_event.metadata['objectId'],
-            upload=pd.Timestamp(gcs_file_event.metadata['eventTime']),
+        row = ImageClassificationRow(
+            image_name=file_event.file_path,
+            upload=datetime.datetime.utcnow().isoformat(),
             classifications=classifications,
         )
+        print(row)
+        return row
 `}
 </CodeBlock>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<CodeBlock language="python">
+{`    def process(
+        self,
+        file_event: S3FileChangeEvent,
+    ) -> ImageClassificationRow:
+        if file_event.event_type not in S3ChangeStreamEventType.create_event_types():
+            # s3/sqs publishes a test notification when the notification is first created
+            # we ignore that
+            return
+        with tempfile.TemporaryDirectory() as td:
+            if not os.path.exists(file_event.file_path):
+                # Check if the path exists first, if we're running locally
+                # we don't need to download and write the file.
+                file_path = os.path.join(td, file_event.file_path)
+                with open(file_path, "wb") as f:
+                    f.write(file_event.blob)
+            else:
+                file_path = file_event.file_path
+            predictions, probabilities = self.prediction.classifyImage(
+                file_path, result_count=5
+            )
+        classifications = []
+        for predicition, probability in zip(predictions, probabilities):
+            classifications.append(Classification(predicition, probability))
+        row = ImageClassificationRow(
+            image_name=file_event.file_path,
+            upload=datetime.datetime.utcnow().isoformat(),
+            classifications=classifications,
+        )
+        print(row)
+        return row
+`}
+</CodeBlock>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-Coming soon!
+<CodeBlock language="python">
+{`    def process(
+        self,
+        file_event: LocalFileChangeEvent,
+    ) -> ImageClassificationRow:
+        predictions, probabilities = self.prediction.classifyImage(
+            file_event.file_path, result_count=5
+        )
+        classifications = []
+        for predicition, probability in zip(predictions, probabilities):
+            classifications.append(Classification(predicition, probability))
+        row = ImageClassificationRow(
+            image_name=file_event.file_path,
+            upload=datetime.datetime.utcnow().isoformat(),
+            classifications=classifications,
+        )
+        print(row)
+        return row
+`}
+</CodeBlock>
     </TabItem>
 </Tabs>
 
@@ -292,10 +517,20 @@ Before you can run your processor locally you will need to create all the resour
 </ul>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<ul>
+    <li>S3 Bucket for uploading images</li>
+    <li>SQS Queue</li>
+    <li>S3 Notifications</li>
+    <li>SQS Queue Policy</li>
+    <li>Snowflake Database</li>
+    <li>Snowflake Schema</li>
+    <li>Snowflake Table</li>
+    <li>Snowflake Stage</li>
+    <li>Snowflake Pipe</li>
+</ul>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-Coming soon!
+You can skip this step for local since no resources need to be created.
     </TabItem>
 </Tabs>
 
@@ -326,15 +561,36 @@ python image_upload.py --bucket=BUCKET_NAME --project=GCP_PROJECT
 <Admonition type="tip">
 <p>By default this uploads a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
 
-<p>Also if you updated the dataset or table you wrote to you can provide <code>--dataset-name</code> and <code>--table-name</code> to point the script at a different table.</p>
+<p>If you updated the dataset or table you wrote to, you can provide the <code>--dataset-name</code> or <code>--table-name</code> flags to point the script at a different table.</p>
 
 </Admonition>
     </TabItem>
     <TabItem value="aws" label="AWS" className="tab-content">
-Coming soon!
+<p>Once the pipeline is up and running you can run the provided script to upload images to the bucket and see output in Snowflake.
+Make sure to replace <code>BUCKET_NAME</code> with the name of the bucket.</p>
+
+<CodeBlock language="bash">
+python image_upload.py --bucket=BUCKET_NAME
+</CodeBlock>
+<Admonition type="tip">
+<p>By default this uploads a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
+
+<p>If you updated the database, schema, or table you wrote to, you can provide <code>--database</code>, <code>--schema</code>, or <code>--table</code> flags to point the script at a different table.</p>
+
+</Admonition>
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
-Coming soon!
+<p>Once the pipeline is up and running you can run the provided script to copy images to the directory you are watching and have them written to your local DuckDB database.</p>
+
+<CodeBlock language="bash">
+python image_upload.py
+</CodeBlock>
+<Admonition type="tip">
+<p>By default this copies a photo of one of our contributors dogs. If you want to upload your own photo you can use the <code>--image</code> flag to specify a path to your own image.</p>
+
+<p>Also if you updated the folder, duckdb database, or table you wrote to, you can provide them with <code>--image-folder</code>, <code>--duckdb-database</code>, or <code>--duckdb-table</code> flags.</p>
+
+</Admonition>
     </TabItem>
 </Tabs>
 

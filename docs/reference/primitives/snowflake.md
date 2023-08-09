@@ -5,24 +5,22 @@
 - `table` **required**: The name of the snowflake table
 - `database` **required**: The name of the database the table exists in
 - `schema` **required**: The name of the schema the table exists in
-- `bucket` ***required**: Either a [S3Bucket](aws/s3) or [GCSBucket](gcp/gcp_storage) that the data will be staged in before writing to Snowflake.
+- `bucket` ***required**: A [S3Bucket](aws/s3)  that the data will be staged in before writing to Snowflake.
 - `snow_pipe`: The name of the Snowflake pipe to use to load the data. If you are using BuildFlow to managed your resources you can leave this out and one will be created for you when you run `buildflow apply main:app`.
 - `snowflake_stage`: The name of the Snowflake stage to use to load the data. If you are using BuildFlow to managed your resources you can leave this out and one will be created for you when you run `buildflow apply main:app`.
 
-Snowflake authentication:
 
 :::note
 
-Must provide one of: (oauth_token), (user and password), or (user and private_key)
+Support for GCS buckets is [coming soon](https://github.com/launchflow/buildflow/issues/250).
 
 :::
 
+Snowflake authentication:
+
 - `account`: The name of the Snowflake account to use
 - `user`: The name of the Snowflake user to use to authenticate as 
-- `password`: The password of the snowflake user
 - `private_key`: The private key to use for authentication
-- `private_key_passphrase`: The passphrase for the private key
-- `oauth_token`: The OAuth token to use for authentication
 
 ```python
 from buildflow.io.snowflake import SnowflakeTable
@@ -35,9 +33,15 @@ from buildflow.io.aws import S3Bucket
         schema="schema",
         bucket=S3Bucket(bucket_name="bucket").options(managed=True),
         user="...",
-        password="..."))
+        private_key="..."))
     ...
 ```
+
+:::tip
+
+Utilities exist for reading in a private key file [here](https://github.com/launchflow/buildflow/blob/main/buildflow/io/snowflake/utils.py).
+
+:::
 
 ## Types
 
@@ -62,12 +66,12 @@ async def my_processor(elem: int) -> CustomType:
 
 If you are using BuildFlow's built in resource creation/management you can use the `SnowflakeTable` primitive to create a all required resources for you. The following resources will be created:
 
-- Snowflake Table: A snowflake table with a table schema matching your output type
-- Snowflake Database: A snowflake database to hold the table (only if `database_managed` option is True)
-- Snowflake Schema: A snowflake schema to hold the table (only if `schema_managed` option is True)
-- S3|GCS Bucket: If the `managed` option on the provided bucket is set to True
-- Snowflake Stage: A snowflake stage to load the data from the bucket if the `snowflake_stage` option is not provided
-- Snowflake Pipe: A snowflake pipe to load the data from the stage if the `snowflake_pipe` option is not provided
+- *Snowflake Table*: A snowflake table with a table schema matching your output type
+- *Snowflake Database*: A snowflake database to hold the table (only if `database_managed` option is True)
+- *Snowflake Schema*: A snowflake schema to hold the table (only if `schema_managed` option is True)
+- *S3 Bucket*: If the `managed` option on the provided bucket is set to True
+- *Snowflake Stage*: A snowflake stage to load the data from the bucket if the `snowflake_stage` option is not provided
+- *Snowflake Pipe*: A snowflake pipe to load the data from the stage if the `snowflake_pipe` option is not provided
 
 ## Configuration Options
 
