@@ -1,12 +1,12 @@
 # Google Cloud Storage
 
-`GCSBucket` is a sink primitive that can be used to write various files to a GCS bucket. To create a `GCSBucket` provide:
+`GCSBucket` is a sink primitive that can be used to write various files to a GCS bucket.  The sink primitive takes in a file path and will create one unique file per replica. To create a `GCSBucket` provide:
 
 Description of the primitive. Folowed by arguments:
 
 - `project_id` **required**: The project ID where the GCS bucket lives
 - `bucket_name` **required**: The name of the bucket
-- `file_path` **required**: The file path to write to
+- `file_path` **required**:: the base path of the file to write to. We will take this path and generate a unique file path for each replica in the following format: `{file_path}-{uuid}.{extension}`
 - `file_format` **required**: The file format to write valid options are: JSON, CSV, and PARQUET
 
 Example usage:
