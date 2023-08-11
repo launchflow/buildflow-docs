@@ -209,7 +209,7 @@ from typing import List
 import dotenv
 from imageai.Classification import ImageClassification
  
-import buildflow
+from buildflow import Flow, FlowOptions
 from buildflow.io.gcp import GCSFileChangeStream, BigQueryTable, GCSBucket
 from buildflow.types.gcp import GCSFileChangeEvent
  
@@ -264,7 +264,7 @@ a new table.
 
 :::tip
 
-You can even nest dataclasses to get a nested structure in your BigQuery table.
+You can even nest dataclasses to get a nested structure in your table.
 
 :::
 
@@ -312,7 +312,6 @@ Here we load in the credentials that were provided.
     </TabItem>
     <TabItem value="local" label="Local" className="tab-content">
 <p>
-Our source is <a href="../reference/primitives/local/file_change_stream">LocalFileChangeStream</a> and our sink is a <a href="../reference/primitives/duckdb">DuckDBTable</a>.
 </p>
 <CodeBlock language="python">
 {`app = Flow()
