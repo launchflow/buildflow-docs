@@ -290,7 +290,10 @@ Now we create our Flow which is a container for our pipeline. We can add as many
 Here we load in any custom service account credentials that were provided.
 </p>
 <CodeBlock language="python">
-{`app = Flow(FlowOptions(gcp_service_account_info=os.getenv("GCP_SERVICE_ACCOUNT_INFO")))
+{`app = Flow(
+    flow_options=FlowOptions(gcp_service_account_info=os.getenv("GCP_SERVICE_ACCOUNT_INFO")
+    )
+)
 `}
 </CodeBlock>
     </TabItem>
