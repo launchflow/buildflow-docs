@@ -128,6 +128,15 @@ Overall our BuildFlow processor will:
 - run them through an image classification model
 - finally write the output to an analysis table
 
+#### Repository Structure
+
+- **main.py** - this is our main python file which contains all of our logic
+- **requirements.txt** - defines all of the requirements for our code
+- **mobilenet_v2-b0353104.pth** - the image classification model we will send the images through
+- **.env.template** - template file that can be copied to `.env` and filled in with your values
+- **image_upload.py** - script for "uploading" images to trigger processing
+- **founders_dog.jpg** - example image of one of our founders dogs
+
 #### Set Environment Variables
 
 Before we walkthrough the code there are a couple environment variables you will need to set to ensure the pipeline points at your resources.
@@ -190,17 +199,6 @@ AWS_SECRET_ACCESS_KEY=TODO
 </CodeBlock>
     </TabItem>
 </Tabs>
-
-
-
-#### Repository Structure
-
-- **main.py** - this is our main python file which contains all of our logic
-- **requirements.txt** - defines all of the requirements for our code
-- **mobilenet_v2-b0353104.pth** - the image classification model we will send the images through
-- **.env.template** - template file that can be copied to `.env` and filled in with your values
-- **image_upload.py** - script for "uploading" images to trigger processing
-- **founders_dog.jpg** - example image of one of our founders dogs
 
 #### Code
 
