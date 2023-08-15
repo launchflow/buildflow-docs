@@ -5,6 +5,12 @@ import CodeBlock from '@theme/CodeBlock';
 
 # Real-Time Image Classification
 
+:::tip
+
+You can follow the same walkthrough using VS Code and LaunchFlow cloud [here](https://docs.launchflow.com/walkthroughs/file-ingestion).
+
+:::
+
 
 In this walkthrough we will watch files as they are uploaded to cloud storage
 and use [ImageAI](https://github.com/OlafenwaMoses/ImageAI)
@@ -191,7 +197,10 @@ AWS_SECRET_ACCESS_KEY=TODO
 
 - **main.py** - this is our main python file which contains all of our logic
 - **requirements.txt** - defines all of the requirements for our code
-- **resnet50-19c8e357.pth** - the image classification model we will send the images through
+- **mobilenet_v2-b0353104.pth** - the image classification model we will send the images through
+- **.env.template** - template file that can be copied to `.env` and filled in with your values
+- **image_upload.py** - script for "uploading" images to trigger processing
+- **founders_dog.jpg** - example image of one of our founders dogs
 
 #### Code
 
@@ -401,9 +410,10 @@ This ensures we are only loading our model once for the lifetime of a replica.
     def setup(self):
         self.execution_path = os.path.dirname(os.path.realpath(__file__))
         self.prediction = ImageClassification()
-        self.prediction.setModelTypeAsResNet50()
+        self.prediction.setModelTypeAsMobileNetV2()
         self.prediction.setModelPath(
-            os.path.join(self.execution_path, "resnet50-19c8e357.pth"))
+            os.path.join(self.execution_path, "mobilenet_v2-b0353104.pth")
+        )
         self.prediction.loadModel()
 ```
 
