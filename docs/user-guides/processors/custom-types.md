@@ -1,6 +1,6 @@
 # Custom Types
 
-BuildFlow supports using custom types for both the input and your output of the pipeline. If you are receiving or writing a JSON payload you can simply use a `dataclass` to get automatic serialization and deserialization.
+BuildFlow supports using custom types for both the input and your output of the processor. If you are receiving or writing a JSON payload you can simply use a `dataclass` to get automatic serialization and deserialization.
 
 For outputs this feature is what powers our schema validation, type checking, and resource creation. When you specify the output type of your pipeline we can automatically create the resource for you, and perform checks to ensure that the data you are sending is valid.
 
@@ -23,6 +23,18 @@ async def my_pipeline(elem: InputType) -> OutputType:
 If you do not provide a type hint you for the input will receive the raw data from the source. For more info on what this is see the [Primitives](../../category/primitives) section for the specific source and sink you are using. If you do not provide a type hint for the output you will get no runtime checks to verify it is compatible with your source.
 
 :::
+
+## For Pipelines
+
+For pipelines the input type defines what data time is coming from your sink, and the output type defines what will be written to your sink.
+
+## For Collectors
+
+For collectors the input type defines the JSON payload that is expected from the HTTP request. The output type defines what will be written to your sink.
+
+## For Endpoints
+
+For endpoints the input type defines the JSON payload that is expected from the HTTPrequest. The output type defines the JSON payload that will be sent back in the response.
 
 ## What if a dataclass isn't enough?
 
