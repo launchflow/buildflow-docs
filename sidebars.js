@@ -40,13 +40,37 @@ module.exports = {
         },
         {
           type: "category",
+          label: "Processors",
+          link: { type: 'doc', id: 'user-guides/processors/overview' },
+          items: [
+            "user-guides/processors/stateful-processors",
+            "user-guides/processors/async-processors",
+            "user-guides/processors/custom-types",
+            "user-guides/processors/auto-scaling-options",
+          ],
+        },
+        {
+          type: "category",
           label: "Pipelines",
           link: { type: 'doc', id: 'user-guides/pipelines/overview' },
           items: [
-            "user-guides/pipelines/stateful-pipelines",
-            "user-guides/pipelines/async-pipelines",
-            "user-guides/pipelines/custom-types",
             "user-guides/pipelines/pipeline-options",
+          ],
+        },
+        {
+          type: "category",
+          label: "Collectors",
+          link: { type: 'doc', id: 'user-guides/collectors/overview' },
+          items: [
+            "user-guides/collectors/collector-options",
+          ],
+        },
+        {
+          type: "category",
+          label: "Endpoints",
+          link: { type: 'doc', id: 'user-guides/endpoints/overview' },
+          items: [
+            "user-guides/endpoints/endpoint-options",
           ],
         },
         {

@@ -1,6 +1,13 @@
-# Stateful Pipelines
+# Stateful Processors
 
-Sometimes you need to keep some kind of state between elements your pipeline is processing. Such as keeping network connections open or loading a model. This can be accomplished by attaching your process to a class instead of a function.
+Sometimes you need to keep some kind of state between elements your processor is processing. Such as keeping network connections open or loading a model. This can be accomplished by attaching your process to a class instead of a function.
+
+
+:::tip
+
+You can use a stateful process for any of our supported processors (pipelines, collectors, and endpoints).
+
+:::
 
 If attaching to a class you will need to implement three lifecycle methods:
 

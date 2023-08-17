@@ -2,7 +2,7 @@
 
 
 
-The **Pipeline** is the primary abstraction provided by **BuildFlow** for creating a real-time pipeline. It contains all of the user's processing logic between a source and a sink.
+The **Pipeline** is the pattern provided by **BuildFlow** for creating a real-time pipeline. It contains all of the user's processing logic between a source and a sink.
 
 A pipeline is composed of:
 - A `source` [primitive](../primitives/overview)
