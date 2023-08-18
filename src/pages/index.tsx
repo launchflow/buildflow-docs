@@ -1,12 +1,9 @@
 import React from "react";
-import Link from "@docusaurus/Link";
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
-import ThemedImage from "@theme/ThemedImage";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import CodeBlock from "@theme/CodeBlock";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "../components/HomepageFeatures";
-import CodeBlock from '@theme/CodeBlock';
 
 // blur-[8em]
 function HomepageHeader() {
@@ -30,7 +27,8 @@ function HomepageHeader() {
       <CodeBlock
         className="rounded-lg max-w-[50vw] w-full hero-code hidden md:block"
         language="py"
-        showLineNumbers>
+        showLineNumbers
+      >
         {`
 from typing import Any, Dict
 
