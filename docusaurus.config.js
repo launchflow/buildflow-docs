@@ -74,7 +74,20 @@ const config = {
         respectPrefersColorScheme: true,
       },
       // Replace with your project's social card
-      image: "img/docusaurus-social-card.jpg",
+      image: "img/hammer.png",
+      metadatas: [
+        { property: "og:title", content: "BuildFlow" },
+        {
+          property: "og:description",
+          content: "Build a distributed system in less than 20 lines of code",
+        },
+        {
+          property: "og:image",
+          content: "https://www.buildflow.dev/img/hammer.png",
+        },
+        { property: "og:url", content: "https://www.buildflow.dev" },
+        { property: "og:site_name", content: "BuildFlow" },
+      ],
       navbar: {
         title: "BuildFlow",
         logo: {
@@ -171,8 +184,8 @@ const config = {
       },
       prism: {
         additionalLanguages: ["python"],
-        theme: require('prism-react-renderer/themes/oceanicNext'),
-        darkTheme: require('prism-react-renderer/themes/oceanicNext'),
+        theme: require("prism-react-renderer/themes/oceanicNext"),
+        darkTheme: require("prism-react-renderer/themes/oceanicNext"),
       },
     }),
 };
