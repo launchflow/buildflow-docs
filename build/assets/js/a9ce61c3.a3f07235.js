@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbuildflow_docs=self.webpackChunkbuildflow_docs||[]).push([[9445],{8601:e=>{e.exports=JSON.parse('{"title":"API","slug":"/category/api","permalink":"/docs/category/api","navigation":{"previous":{"title":"DuckDB","permalink":"/docs/reference/primitives/duckdb"},"next":{"title":"Primitive","permalink":"/docs/reference/api/primitive"}}}')}}]);

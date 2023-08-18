@@ -33,7 +33,7 @@ const config = {
   },
 
   plugins: [
-    ["@gracefullight/docusaurus-plugin-vercel-analytics"],
+    "@gracefullight/docusaurus-plugin-vercel-analytics",
     async function myPlugin(context, options) {
       return {
         name: "docusaurus-tailwindcss",
@@ -76,7 +76,7 @@ const config = {
       },
       // Replace with your project's social card
       image: "img/hammer.png",
-      metadatas: [
+      metadata: [
         { property: "og:title", content: "BuildFlow" },
         {
           property: "og:description",
