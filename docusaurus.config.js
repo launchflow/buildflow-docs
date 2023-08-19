@@ -77,17 +77,17 @@ const config = {
       // Replace with your project's social card
       image: "img/hammer.png",
       metadata: [
-        { property: "og:title", content: "BuildFlow" },
+        { property: "title", content: "BuildFlow" },
         {
-          property: "og:description",
+          property: "description",
           content: "Build a distributed system in less than 20 lines of code",
         },
         {
-          property: "og:image",
+          property: "image",
           content: "https://www.buildflow.dev/img/hammer.png",
         },
-        { property: "og:url", content: "https://www.buildflow.dev" },
-        { property: "og:site_name", content: "BuildFlow" },
+        { property: "url", content: "https://www.buildflow.dev" },
+        { property: "site_name", content: "BuildFlow" },
       ],
       navbar: {
         title: "BuildFlow",
